@@ -4,6 +4,7 @@
 #include <allegro5/allegro5.h>
 #include <stdbool.h>
 #include "player.h"
+#include "recursos.h"
 
 // definição do esqueleto do jogo
 typedef struct {
@@ -12,6 +13,7 @@ typedef struct {
     ALLEGRO_EVENT_QUEUE* queue;
     bool running;
     bool redraw;
+    Sprite* guerreiro;
 } Game;
 
 //verifica se o jogo pode ser iniciado
