@@ -93,6 +93,7 @@ void game_loop(Game* game) {
             //limpa a tela primeiro
             al_clear_to_color(al_map_rgb(0, 0, 0));
             desenha_sprite(game->guerreiro);
+            atualizar_sprite(game->guerreiro, key);
             //desenha o jogador
             player_draw(&player);
             //troca os displays para não travar ao redesenhar
