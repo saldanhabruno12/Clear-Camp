@@ -1,7 +1,7 @@
 #include "recursos.h"
 #include <stdlib.h>
 
-Sprite* criar_sprite(const char* caminho, int num_frames) {
+Sprite* criar_sprite(const char* caminho, int num_frames, int display_width, int display_height, int height_sprite) {
 	Sprite* guerreiro = malloc(sizeof(Sprite));
 	if (!guerreiro) return NULL;
 
@@ -27,23 +27,27 @@ Sprite* criar_sprite(const char* caminho, int num_frames) {
 			guerreiro->frame_largura,
 			guerreiro->frame_altura);
 	}
-	guerreiro->x = 1280 / 2;
-	guerreiro->y = 670;
+	guerreiro->x = display_width / 2;
+	guerreiro->y = display_height - height_sprite;
 
 	return guerreiro;
 }
 
-void atualizar_sprite(Sprite* guerreiro, unsigned char key[]) {
+void atualizar_sprite(Sprite* guerreiro, unsigned char key[], int display_width, int display_height, int height_sprite) {
 	if (key[ALLEGRO_KEY_D] || key[ALLEGRO_KEY_RIGHT]) {
 		guerreiro->x += 2;
+		guerreiro->cont++;
+		guerreiro->flip = 0;
 	}
 	if (key[ALLEGRO_KEY_A] || key[ALLEGRO_KEY_LEFT]) {
 		guerreiro->x -= 2;
+		guerreiro->cont++;
+		guerreiro->flip = ALLEGRO_FLIP_HORIZONTAL;
 	}
 
 	//se o personagem estiver no chão
-	if (guerreiro->y >= 670) {
-		guerreiro->y = 670;
+	if (guerreiro->y >= display_height - height_sprite) {
+		guerreiro->y = display_height - height_sprite;
 		guerreiro->vel_y = 0;
 		guerreiro->no_chao = true;
 	}
@@ -60,14 +64,21 @@ void atualizar_sprite(Sprite* guerreiro, unsigned char key[]) {
 	guerreiro->y += guerreiro->vel_y;
 	
 	
-	guerreiro->cont++;
+	
 	if (guerreiro->cont % 10 == 0) {
 		guerreiro->frame_atual = (guerreiro->frame_atual + 1) % guerreiro->num_frames;
 	}
 }
 
-void desenha_sprite(Sprite* guerreiro) {
-	al_draw_bitmap(guerreiro->frames[guerreiro->frame_atual], guerreiro->x, guerreiro->y, 0);
+void desenha_sprite(Sprite* guerreiro, int dx, int dy, int flip) {
+	if (!guerreiro) return;
+
+	int sx = guerreiro->frame_atual * guerreiro->frame_largura;
+	int sy = guerreiro->frame_atual;
+	float dw = guerreiro->frame_largura * 2;
+	float dh = guerreiro->frame_altura * 2;
+
+	al_draw_scaled_bitmap(guerreiro->sheet, sx, sy, guerreiro->frame_largura, guerreiro->frame_altura, guerreiro->x, guerreiro->y, dw, dh, flip);
 }
 
 void destruir_sprite(Sprite* sprite) {

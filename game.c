@@ -41,7 +41,7 @@ void game_loop(Game* game) {
     //posição inicial player
     player_init(&player, 1280 / 2, 700);
 
-    game->guerreiro = criar_sprite("images/guerreiro.png", 2);
+    game->guerreiro = criar_sprite("images/guerreiro.png", 2, 1280, 720, 51*2);
 
     //define array com todas teclas existentes
     unsigned char key[ALLEGRO_KEY_MAX];
@@ -92,8 +92,8 @@ void game_loop(Game* game) {
         if (game->redraw && al_is_event_queue_empty(game->queue)) {
             //limpa a tela primeiro
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            desenha_sprite(game->guerreiro);
-            atualizar_sprite(game->guerreiro, key);
+            desenha_sprite(game->guerreiro, 1280/2, 500, game->guerreiro->flip);
+            atualizar_sprite(game->guerreiro, key, 1280, 720, 51*2);
             //desenha o jogador
             player_draw(&player);
             //troca os displays para não travar ao redesenhar

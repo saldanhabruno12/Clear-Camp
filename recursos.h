@@ -13,13 +13,14 @@ typedef struct {
 	int frame_altura;
 	int x, y;
 	int vel_y;
+	int flip;
 	bool no_chao;
 	int cont;
 }Sprite;
 
-Sprite* criar_sprite(const char* caminho, int num_frames);
-void atualizar_sprite(Sprite* guerreiro, unsigned char key[]);
-void desenha_sprite(Sprite* guerreiro);
+Sprite* criar_sprite(const char* caminho, int num_frames, int display_width, int display_height, int height_sprite);
+void atualizar_sprite(Sprite* guerreiro, unsigned char key[], int display_width, int display_height, int height_sprite);
+void desenha_sprite(Sprite* guerreiro, int dx, int dy, int flip);
 void destruir_sprite(Sprite* sprite);
 
 
