@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include "player.h"
 #include "recursos.h"
+#include "cenario.h"
 
-// definição do esqueleto do jogo
 typedef struct {
     ALLEGRO_DISPLAY* display;
     ALLEGRO_TIMER* timer;
@@ -14,13 +14,12 @@ typedef struct {
     bool running;
     bool redraw;
     Sprite* guerreiro;
+    ALLEGRO_BITMAP* cenario;
 } Game;
 
-//verifica se o jogo pode ser iniciado
 bool game_init(Game* game);
-//loops de eventos de acordo com a interação do usuário
+
 void game_loop(Game* game);
-//finalizar execução (fechar o jogo)
 void game_shutdown(Game* game);
 
 #endif

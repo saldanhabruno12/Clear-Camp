@@ -33,6 +33,7 @@ void player_update(Player* p, unsigned char key[]) {
     //posição vertical e gravidade de queda
     p->vel_y += 1;
     p->y += p->vel_y;
+
 }
 
 //desenha jogador nas posições definidas e na cor desejada
