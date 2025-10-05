@@ -3,6 +3,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdbool.h>
 #include <allegro5/allegro_image.h>
+#include <stdio.h>
 
 int main() {
 
@@ -36,12 +37,12 @@ int main() {
 
     ALLEGRO_BITMAP* fundo = al_load_bitmap("mapa_grecia.png");
     if (!fundo) {
-        printf("Erro ao carregar imagem\n");
+        printf("Erro ao carregar imagem! Verifique se 'mapa_grecia.png' está na mesma pasta do executável.\n");
+        system("pause"); // pausa para você ver a mensagem antes de fechar
         al_destroy_event_queue(fila);
         al_destroy_display(display);
         return -1;
     }
-
     // Tamanho original da imagem
     int img_largura = al_get_bitmap_width(fundo);
     int img_altura = al_get_bitmap_height(fundo);
