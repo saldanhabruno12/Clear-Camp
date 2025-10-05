@@ -3,36 +3,97 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <string.h>
+#include <stdio.h>
+#include <allegro5/allegro5.h>
+#include <stdbool.h>
+#include <allegro5/allegro_image.h>
 
 bool game_init(Game* game) {
-    //se alguma inicialização não funcionar, o jogo não inicia
-    if (!al_init()) return false;
-    if (!al_install_keyboard()) return false;
-    if (!al_init_primitives_addon()) return false;
-    if (!al_init_font_addon()) return false;
-    if (!al_init_image_addon()) return false;
+    if (!al_init()) {
+        printf("Erro ao inicializar Allegro\n");
+        return -1;
+    }
 
-    //ponteiro que recebe o tamanho do display, fps, fila vazia
-    game->display = al_create_display(1280, 720);
-    game->timer = al_create_timer(1.0 / 60.0);
-    game->queue = al_create_event_queue();
+    if (!al_init_image_addon()) {
+        printf("Erro ao inicializar addon de imagens\n");
+        return -1;
+    }
 
+    if (!al_install_keyboard()) {
+        printf("Erro ao inicializar teclado\n");
+        return -1;
+    }
 
+    int tela_largura = 800;
+    int tela_altura = 600;
+    ALLEGRO_DISPLAY* display = al_create_display(tela_largura, tela_altura);
+    if (!display) {
+        printf("Erro ao criar display\n");
+        return -1;
+    }
+    al_set_window_title(display, "Jogo");
 
-    if (!game->display || !game->timer || !game->queue) return false;
+    ALLEGRO_EVENT_QUEUE* fila = al_create_event_queue();
+    if (!fila) {
+        al_destroy_display(display);
+        return -1;
+    }
 
-    //registro dos eventos na fila em ordem
-    al_register_event_source(game->queue, al_get_display_event_source(game->display));
-    al_register_event_source(game->queue, al_get_keyboard_event_source());
-    al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
+    // Registrar eventos
+    al_register_event_source(fila, al_get_display_event_source(display));
+    al_register_event_source(fila, al_get_keyboard_event_source());
 
-    //informações acima sem problema, o jogo pode rodar
-    game->running = true;
-    game->redraw = true;
+    ALLEGRO_BITMAP* fundo = al_load_bitmap("mapa_grecia.png");
+    if (!fundo) {
+        printf("Erro ao carregar imagem\n");
+        al_destroy_event_queue(fila);
+        al_destroy_display(display);
+        return -1;
+    }
 
-    al_start_timer(game->timer);
+    // Dimensões da imagem
+    int img_largura = al_get_bitmap_width(fundo);
+    int img_altura = al_get_bitmap_height(fundo);
 
-    return true;
+    float escala_x = (float)tela_largura / img_largura;
+    float escala_y = (float)tela_altura / img_altura;
+    float escala_final = (escala_x < escala_y) ? escala_x : escala_y;
+
+    int nova_largura = img_largura * escala_final;
+    int nova_altura = img_altura * escala_final;
+
+    int pos_x = (tela_largura - nova_largura) / 2;
+    int pos_y = (tela_altura - nova_altura) / 2;
+
+    bool rodando = true;
+
+    while (rodando) {
+        // desenhar a tela
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_scaled_bitmap(fundo,
+            0, 0, img_largura, img_altura,
+            pos_x, pos_y, nova_largura, nova_altura,
+            0);
+        al_flip_display();
+
+        ALLEGRO_EVENT evento;
+        al_wait_for_event(fila, &evento);
+
+        if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            rodando = false;
+        }
+        else if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+            if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                rodando = false;
+            }
+        }
+    }
+
+    al_destroy_bitmap(fundo);
+    al_destroy_event_queue(fila);
+    al_destroy_display(display);
+
+    return 0;
 }
 
 void game_loop(Game* game) {

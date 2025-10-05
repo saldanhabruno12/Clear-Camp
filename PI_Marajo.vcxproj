@@ -150,6 +150,8 @@
     <ClInclude Include="recursos.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
+    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
     <Image Include="images\guerreiro.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
