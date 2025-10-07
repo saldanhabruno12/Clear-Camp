@@ -28,7 +28,7 @@ Sprite* criar_sprite(const char* caminho, int num_frames, int display_width, int
 			guerreiro->frame_altura);
 	}
 	guerreiro->x = display_width / 2;
-	guerreiro->y = display_height - height_sprite;
+	guerreiro->y = display_height - height_sprite * 2;
 
 	return guerreiro;
 }
@@ -46,8 +46,8 @@ void atualizar_sprite(Sprite* guerreiro, unsigned char key[], int display_width,
 	}
 
 	//se o personagem estiver no chão
-	if (guerreiro->y >= display_height - height_sprite) {
-		guerreiro->y = display_height - height_sprite;
+	if (guerreiro->y >= display_height - height_sprite * 2) {
+		guerreiro->y = display_height - height_sprite * 2;
 		guerreiro->vel_y = 0;
 		guerreiro->no_chao = true;
 	}

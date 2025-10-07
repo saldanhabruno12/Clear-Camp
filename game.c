@@ -37,11 +37,12 @@ bool game_init(Game* game) {
 
 void game_loop(Game* game) {
     //define player
-    Player player;
+    //Player player;
     //posição inicial player
-    player_init(&player, 1280 / 2, 700);
+    //player_init(&player, 1280 / 2, 700);
 
-    game->guerreiro = criar_sprite("images/guerreiro.png", 2, 1280, 720, 51*2);
+    game->cavaleiro = criar_sprite_multiplas_acoes(1280,720, 84);
+    game->guerreiro = criar_sprite("images/guerreiro.png", 2, 1280, 720, 51);
 
     //define array com todas teclas existentes
     unsigned char key[ALLEGRO_KEY_MAX];
@@ -58,8 +59,9 @@ void game_loop(Game* game) {
             //se o tipo do evento for timer...
         case ALLEGRO_EVENT_TIMER:
             //atualize a tecla que foi pressionada
-            player_update(&player, key);
+            
             //atualizar_sprite(game->guerreiro, unsigned char key[]);
+            atualizar_sprite_cavaleiro(game->cavaleiro, key, 1280, 720, 84);
 
             //reseta flag seen das teclas
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -93,9 +95,12 @@ void game_loop(Game* game) {
             //limpa a tela primeiro
             al_clear_to_color(al_map_rgb(0, 0, 0));
             desenha_sprite(game->guerreiro, 1280/2, 500, game->guerreiro->flip);
-            atualizar_sprite(game->guerreiro, key, 1280, 720, 51*2);
+            desenhar_sprite(game->cavaleiro);//cavaleiro
+            atualizar_sprite(game->guerreiro, key, 1280, 720, 54);
             //desenha o jogador
-            player_draw(&player);
+
+            //player_draw(&player);
+            
             //troca os displays para não travar ao redesenhar
             al_flip_display();
             game->redraw = false;
@@ -110,5 +115,5 @@ void game_shutdown(Game* game) {
     al_destroy_display(game->display);
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
-    
+    destruir_sprite_cavaleiro(game->cavaleiro);
 }

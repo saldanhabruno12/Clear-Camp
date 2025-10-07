@@ -14,6 +14,7 @@ typedef struct {
     bool running;
     bool redraw;
     Sprite* guerreiro;
+    Sprite_cavaleiro* cavaleiro;
 } Game;
 
 //verifica se o jogo pode ser iniciado
