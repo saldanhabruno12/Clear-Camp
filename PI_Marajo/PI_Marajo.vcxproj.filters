@@ -13,21 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="images">
-      <UniqueIdentifier>{94c5d8e1-913a-455f-8d39-05ff9a4d9fda}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PI_Marajo.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="game.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="player.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="recursos.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,24 +23,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="game.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="recursos.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="images\guerreiro.png">
-      <Filter>images</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png">
+    <Image Include="..\..\..\..\..\..\Luan\mapa__esparta.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png">
+    <Image Include="..\..\..\..\..\..\Luan\mapa_grecia.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>

@@ -161,6 +161,7 @@ void atualizar_sprite_cavaleiro(Sprite_cavaleiro* sprite, unsigned char key[], i
             mudar_acao(sprite, PARADO); // Volta para parado após o ataque
         }
     }
+
 }
 
 void desenhar_sprite(Sprite_cavaleiro* sprite) {
