@@ -29,6 +29,7 @@ bool game_init(Game* game) {
     game->redraw = true;
 
     // carregar cenario
+    game->mapa_atual = 1;
     game->cenario = carregar_cenario("mapa_grecia.png");
     
  
@@ -62,6 +63,14 @@ void game_loop(Game* game) {
             //atualize a tecla que foi pressionada
             //atualizar_sprite(game->guerreiro, unsigned char key[]);
             atualizar_sprite_cavaleiro(game->cavaleiro, key, 1280, 720, 84);
+
+            if (game->cavaleiro->x > 1280) {
+                trocar_mapa(game, 1);
+            }
+
+            if (game->cavaleiro->x < -50) {
+                trocar_mapa(game, -1);
+            }
 
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -118,6 +127,48 @@ void game_shutdown(Game* game) {
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
     destruir_sprite_cavaleiro(game->cavaleiro);
+}
+
+void trocar_mapa(Game* game, int direcao) {
+    const char* mapas[] = {
+        "mapa_grecia.png",
+        "mapa__esparta.png",
+        "mapa_acampamento.png",
+        "mapa_porto.png",
+        "mapa_castelo.png"
+
+    };
+    const int total_mapas = sizeof(mapas) / sizeof(mapas[0]);
+
+    game->mapa_atual += direcao;
+
+    if (game->mapa_atual < 0)
+        game->mapa_atual = 0;
+    if (game->mapa_atual >= total_mapas)
+        game->mapa_atual = total_mapas - 1;
+
+    // Destrói o cenário atual
+    if (game->cenario) {
+        destruir_cenario(game->cenario);
+        game->cenario = NULL;
+    }
+
+    // Carrega o novo mapa pelo nome
+    const char* caminho = mapas[game->mapa_atual];
+    game->cenario = carregar_cenario(caminho);
+
+    if (!game->cenario) {
+        printf("Erro ao carregar %s\n", caminho);
+    }
+    else {
+        printf("Mapa carregado: %s\n", caminho);
+    }
+
+    // Reposiciona o cavaleiro
+    if (direcao > 0)
+        game->cavaleiro->x = 0;
+    else
+        game->cavaleiro->x = 1280 - 100;
 }
 
 

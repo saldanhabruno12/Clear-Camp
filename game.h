@@ -16,11 +16,14 @@ typedef struct {
     Sprite* guerreiro;
     Sprite_cavaleiro* cavaleiro;
     ALLEGRO_BITMAP* cenario;
+    int mapa_atual;
 } Game;
 
 bool game_init(Game* game);
 
 void game_loop(Game* game);
 void game_shutdown(Game* game);
+
+void trocar_mapa(Game* game, int direcao);
 
 #endif

@@ -155,6 +155,9 @@
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
     <Image Include="images\guerreiro.png" />
+    <Image Include="images\mapa_acampamento.png" />
+    <Image Include="mapa_castelo.png" />
+    <Image Include="mapa_porto.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

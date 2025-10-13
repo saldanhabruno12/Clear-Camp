@@ -30,6 +30,9 @@
     <ClCompile Include="recursos.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="cenario.c">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -44,6 +47,9 @@
     <ClInclude Include="recursos.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="cenario.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\guerreiro.png">
@@ -53,6 +59,15 @@
       <Filter>Arquivos de Recurso</Filter>
     </Image>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="images\mapa_acampamento.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="mapa_castelo.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="mapa_porto.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>
