@@ -3,6 +3,8 @@
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
 
+
+
 ALLEGRO_BITMAP* carregar_cenario(const char* caminho) {
     ALLEGRO_BITMAP* mapa = al_load_bitmap(caminho);
     if (!mapa) {

@@ -15,9 +15,12 @@ bool game_init(Game* game) {
     if (!al_init_font_addon()) return false;
     if (!al_init_image_addon()) return false;
 
-    game->display = al_create_display(1280, 720);
+    game->display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     game->timer = al_create_timer(1.0 / 60.0);
     game->queue = al_create_event_queue();
+    game->estado_game = MENU;
+    game->cenario = al_load_bitmap("images/menu.jpeg");
+    game->fonte_menu = al_create_builtin_font();
 
     if (!game->display || !game->timer || !game->queue) return false;
 
@@ -29,22 +32,54 @@ bool game_init(Game* game) {
     game->redraw = true;
 
     // carregar cenario
-    game->cenario = carregar_cenario("mapa_grecia.png");
-    
+ 
  
 
     al_start_timer(game->timer);
     return true;
+}
+void mudanca_estado(Game* game, Estado_game estado_game) {
+    game->estado_game = estado_game;
+}
+void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
+    switch (game->estado_game) {
+        case MENU:
+            if (key[ALLEGRO_KEY_ENTER]) {
+                mudar_cenario(game, "images/mapa_grecia.png");
+                mudanca_estado(game, JOGANDO);
+            }
+            break;
+        case JOGANDO:
+            if (key[ALLEGRO_KEY_ESCAPE]) {
+                mudar_cenario(game, "images/menu.jpeg");
+                mudanca_estado(game, MENU);
+            }
+            break;
+    }
+}
+
+void mudar_cenario(Game* game, const char* caminho) {
+    if (game->cenario) {
+        al_destroy_bitmap(game->cenario);
+    }
+    game->cenario = al_load_bitmap(caminho);
+    if (!game->cenario)
+        printf("Erro ao carregar novo cenario: %s\n", caminho);
+}
+
+void desenhar_menu(Game* game, int largura, int altura) {
+    desenhar_cenario(game->cenario, largura, altura);
+    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200, ALLEGRO_ALIGN_CENTER, "PRESSIONE ENTER PARA INICIAR");
 }
 
 void game_loop(Game* game) {
     //define player
     //Player player;
     //posição inicial player
-    //player_init(&player, 1280 / 2, 700);
+    //player_init(&player, SCREEN_WIDTH / 2, 700);
 
-    game->cavaleiro = criar_sprite_multiplas_acoes(1280,720, 84);
-    game->guerreiro = criar_sprite("images/guerreiro.png", 2, 1280, 720, 51);
+    game->cavaleiro = criar_sprite_multiplas_acoes(SCREEN_WIDTH,SCREEN_HEIGHT, 84);
+    game->guerreiro = criar_sprite("images/guerreiro.png", 2, SCREEN_WIDTH, SCREEN_HEIGHT, 51);
 
     //define array com todas teclas existentes
 
@@ -58,11 +93,19 @@ void game_loop(Game* game) {
 
         switch (event.type) {
         case ALLEGRO_EVENT_TIMER:
+            check_input(game, key, event);
 
             //atualize a tecla que foi pressionada
             //atualizar_sprite(game->guerreiro, unsigned char key[]);
-            atualizar_sprite_cavaleiro(game->cavaleiro, key, 1280, 720, 84);
-
+            switch (game->estado_game) {
+                case MENU: 
+                    
+                    break;
+                case JOGANDO:
+                    atualizar_sprite_cavaleiro(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+                    atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
+                    break;
+            }
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
                 key[i] &= ~KEY_SEEN;
@@ -72,8 +115,9 @@ void game_loop(Game* game) {
 
         case ALLEGRO_EVENT_KEY_DOWN:
             key[event.keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            if (key[ALLEGRO_KEY_ESCAPE] && game->estado_game == MENU) {
                 game->running = false;
+            }
             break;
 
         case ALLEGRO_EVENT_KEY_UP:
@@ -87,10 +131,16 @@ void game_loop(Game* game) {
 
         if (game->redraw && al_is_event_queue_empty(game->queue)) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            desenhar_cenario(game->cenario, 1280, 720);
-            desenha_sprite(game->guerreiro, 1280/2, 500, game->guerreiro->flip);
-            desenhar_sprite(game->cavaleiro);//cavaleiro
-            atualizar_sprite(game->guerreiro, key, 1280, 720, 54);
+            switch (game->estado_game) {
+                case MENU:
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    break;
+                case JOGANDO:
+                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenha_sprite(game->guerreiro, SCREEN_WIDTH/2, 500, game->guerreiro->flip);
+                    desenhar_sprite(game->cavaleiro);//cavaleiro
+                    break;
+            }
             //desenha o jogador
 
             //player_draw(&player);

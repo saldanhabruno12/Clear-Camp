@@ -12,12 +12,12 @@ Sprite_cavaleiro* criar_sprite_multiplas_acoes(int display_width, int display_he
 		cavaleiro->animacoes[i] = NULL;
 	}
 
-	cavaleiro->animacoes[ANDANDO] = criar_animacao("images/cavaleiro_caminhar.png", 8);
-	cavaleiro->animacoes[CORRENDO] = criar_animacao("images/cavaleiro_corrida.png", 8);
-	cavaleiro->animacoes[PULANDO] = criar_animacao("images/cavaleiro_pulo.png", 5);
-	cavaleiro->animacoes[ATACANDO] = criar_animacao("images/cavaleiro_ataque1.png", 6);
-	cavaleiro->animacoes[MORRENDO] = criar_animacao("images/cavaleiro_morte.png", 12);
-	cavaleiro->animacoes[PARADO] = criar_animacao("images/cavaleiro_parado.png", 7);
+	cavaleiro->animacoes[ANDANDO] = criar_animacao("images/cavaleiro/caminhar.png", 8);
+	cavaleiro->animacoes[CORRENDO] = criar_animacao("images/cavaleiro/corrida.png", 8);
+	cavaleiro->animacoes[PULANDO] = criar_animacao("images/cavaleiro/pulo.png", 5);
+	cavaleiro->animacoes[ATACANDO] = criar_animacao("images/cavaleiro/ataque1.png", 6);
+	cavaleiro->animacoes[MORRENDO] = criar_animacao("images/cavaleiro/morte.png", 12);
+	cavaleiro->animacoes[PARADO] = criar_animacao("images/cavaleiro/parado.png", 7);
 
 	for (int i = 0; i < NUM_ACOES; i++) {
 		if (!cavaleiro->animacoes[i]) {

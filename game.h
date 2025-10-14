@@ -2,12 +2,17 @@
 #define GAME_H
 
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
 #include <stdbool.h>
 #include "player.h"
 #include "recursos.h"
 #include "cenario.h"
+#include "estado.h"
 
-typedef struct {
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
+
+typedef struct Game{
     ALLEGRO_DISPLAY* display;
     ALLEGRO_TIMER* timer;
     ALLEGRO_EVENT_QUEUE* queue;
@@ -16,11 +21,16 @@ typedef struct {
     Sprite* guerreiro;
     Sprite_cavaleiro* cavaleiro;
     ALLEGRO_BITMAP* cenario;
+    Estado_game estado_game;
+    ALLEGRO_FONT* fonte_menu;
 } Game;
 
 bool game_init(Game* game);
 
+void mudanca_estado(Game* game, Estado_game estado_game);
 void game_loop(Game* game);
 void game_shutdown(Game* game);
+void mudar_cenario(Game* game, const char* caminho);
+
 
 #endif
