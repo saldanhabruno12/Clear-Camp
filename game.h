@@ -3,6 +3,7 @@
 
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <stdbool.h>
 #include "player.h"
 #include "recursos.h"
@@ -23,6 +24,7 @@ typedef struct Game{
     ALLEGRO_BITMAP* cenario;
     Estado_game estado_game;
     ALLEGRO_FONT* fonte_menu;
+    int mapa_atual;
 } Game;
 
 bool game_init(Game* game);
@@ -32,5 +34,7 @@ void game_loop(Game* game);
 void game_shutdown(Game* game);
 void mudar_cenario(Game* game, const char* caminho);
 
+
+void trocar_mapa(Game* game, int direcao);
 
 #endif

@@ -7,6 +7,7 @@
 #include <allegro5/allegro5.h>
 #include <stdbool.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_ttf.h>
 
 bool game_init(Game* game) {
     if (!al_init()) return false;
@@ -14,13 +15,14 @@ bool game_init(Game* game) {
     if (!al_init_primitives_addon()) return false;
     if (!al_init_font_addon()) return false;
     if (!al_init_image_addon()) return false;
+    if (!al_init_ttf_addon()) return false;
 
     game->display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     game->timer = al_create_timer(1.0 / 60.0);
     game->queue = al_create_event_queue();
     game->estado_game = MENU;
     game->cenario = al_load_bitmap("images/menu.jpeg");
-    game->fonte_menu = al_create_builtin_font();
+    game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
 
     if (!game->display || !game->timer || !game->queue) return false;
 
@@ -32,7 +34,9 @@ bool game_init(Game* game) {
     game->redraw = true;
 
     // carregar cenario
- 
+
+    game->mapa_atual = 1;
+   
  
 
     al_start_timer(game->timer);
@@ -69,8 +73,16 @@ void mudar_cenario(Game* game, const char* caminho) {
 
 void desenhar_menu(Game* game, int largura, int altura) {
     desenhar_cenario(game->cenario, largura, altura);
+    if (!game->fonte_menu) {
+        printf("Erro ao carregar fonte");
+        return -1;
+    }
     al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200, ALLEGRO_ALIGN_CENTER, "PRESSIONE ENTER PARA INICIAR");
+
 }
+
+   
+
 
 void game_loop(Game* game) {
     //define player
@@ -104,6 +116,8 @@ void game_loop(Game* game) {
                 case JOGANDO:
                     atualizar_sprite_cavaleiro(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
                     atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
+                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
                     break;
             }
 
@@ -141,15 +155,6 @@ void game_loop(Game* game) {
                     desenhar_sprite(game->cavaleiro);//cavaleiro
                     break;
             }
-            //desenha o jogador
-
-            //player_draw(&player);
-            
-            //troca os displays para não travar ao redesenhar
-
-            // desenha fundo
-
-            // desenha objetos
             
             al_flip_display();
             game->redraw = false;
@@ -168,6 +173,48 @@ void game_shutdown(Game* game) {
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
     destruir_sprite_cavaleiro(game->cavaleiro);
+}
+
+void trocar_mapa(Game* game, int direcao) {
+    const char* mapas[] = {
+        "mapa_grecia.png",
+        "mapa__esparta.png",
+        "mapa_acampamento.png",
+        "mapa_porto.png",
+        "mapa_castelo.png"
+
+    };
+    const int total_mapas = sizeof(mapas) / sizeof(mapas[0]);
+
+    game->mapa_atual += direcao;
+
+    if (game->mapa_atual < 0)
+        game->mapa_atual = 0;
+    if (game->mapa_atual >= total_mapas)
+        game->mapa_atual = total_mapas - 1;
+
+    // Destrói o cenário atual
+    if (game->cenario) {
+        destruir_cenario(game->cenario);
+        game->cenario = NULL;
+    }
+
+    // Carrega o novo mapa pelo nome
+    const char* caminho = mapas[game->mapa_atual];
+    game->cenario = carregar_cenario(caminho);
+
+    if (!game->cenario) {
+        printf("Erro ao carregar %s\n", caminho);
+    }
+    else {
+        printf("Mapa carregado: %s\n", caminho);
+    }
+
+    // Reposiciona o cavaleiro
+    if (direcao > 0)
+        game->cavaleiro->x = 0;
+    else
+        game->cavaleiro->x = 1280 - 100;
 }
 
 

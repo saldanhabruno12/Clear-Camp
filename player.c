@@ -115,12 +115,6 @@ void atualizar_sprite_cavaleiro(Sprite_cavaleiro* sprite, unsigned char key[], i
         mudar_acao(sprite, PARADO);
     }
 
-    // Física e limites da tela
-    if (sprite->x < 0) sprite->x = 0;
-    if (sprite->x > display_width - sprite->animacoes[sprite->acao_atual]->frame_largura * 2) {
-        sprite->x = display_width - sprite->animacoes[sprite->acao_atual]->frame_largura * 2;
-    }
-
     // Gravidade e colisão com o chão
     sprite->vel_y += 1;
     sprite->y += sprite->vel_y;
