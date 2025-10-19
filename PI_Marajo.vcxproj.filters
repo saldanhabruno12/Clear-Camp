@@ -1,80 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Arquivos de Origem">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Arquivos de Cabeçalho">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Arquivos de Recurso">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="images">
-      <UniqueIdentifier>{94c5d8e1-913a-455f-8d39-05ff9a4d9fda}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="cenario.c" />
+    <ClCompile Include="game.c" />
+    <ClCompile Include="PI_Marajo.c" />
+    <ClCompile Include="player.c" />
+    <ClCompile Include="recursos.c" />
+    <ClCompile Include="entidade.c" />
+    <ClCompile Include="personagens.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PI_Marajo.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="game.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="player.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="recursos.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="cenario.c">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
+    <ClInclude Include="cenario.h" />
+    <ClInclude Include="estado.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="recursos.h" />
+    <ClInclude Include="entidade.h" />
+    <ClInclude Include="personagens.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
+    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
+    <Image Include="images\guerreiro.png" />
+    <Image Include="images\mapa_acampamento.png" />
+    <Image Include="mapa_castelo.png" />
+    <Image Include="mapa_porto.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="game.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="recursos.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="cenario.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="estado.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-=======
->>>>>>> origin/cenario
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="images\guerreiro.png">
-      <Filter>images</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="images\mapa_acampamento.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="mapa_castelo.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
-    <Image Include="mapa_porto.png">
-      <Filter>Arquivos de Recurso</Filter>
-    </Image>
   </ItemGroup>
 </Project>

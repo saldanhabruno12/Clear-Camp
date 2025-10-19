@@ -15,9 +15,9 @@ Sprite_cavaleiro* criar_sprite_multiplas_acoes(int display_width, int display_he
 	cavaleiro->animacoes[ANDANDO] = criar_animacao("images/cavaleiro/caminhar.png", 8);
 	cavaleiro->animacoes[CORRENDO] = criar_animacao("images/cavaleiro/corrida.png", 8);
 	cavaleiro->animacoes[PULANDO] = criar_animacao("images/cavaleiro/pulo.png", 5);
-	cavaleiro->animacoes[ATACANDO] = criar_animacao("images/cavaleiro/ataque1.png", 6);
-	cavaleiro->animacoes[MORRENDO] = criar_animacao("images/cavaleiro/morte.png", 12);
-	cavaleiro->animacoes[PARADO] = criar_animacao("images/cavaleiro/parado.png", 7);
+    cavaleiro->animacoes[ATACANDO] = criar_animacao("images/cavaleiro/ataque1.png", 6);
+    cavaleiro->animacoes[MORRENDO] = criar_animacao("images/cavaleiro/morte.png", 12);
+    cavaleiro->animacoes[PARADO] = criar_animacao("images/cavaleiro/parado.png", 7);
 
 	for (int i = 0; i < NUM_ACOES; i++) {
 		if (!cavaleiro->animacoes[i]) {
@@ -101,7 +101,7 @@ void atualizar_sprite_cavaleiro(Sprite_cavaleiro* sprite, unsigned char key[], i
         mudar_acao(sprite, ATACANDO);
     }
     // Pulo
-    else if (key[ALLEGRO_KEY_W] && sprite->no_chao) {
+    else if (key[ALLEGRO_KEY_W] && sprite->no_chao || key[ALLEGRO_KEY_UP] && sprite->no_chao) {
         sprite->vel_y = -15;
         sprite->no_chao = false;
         mudar_acao(sprite, PULANDO);
