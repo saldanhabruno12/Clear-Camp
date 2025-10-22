@@ -5,5 +5,7 @@
 
 extern DadosAnimacoes cavaleiro;
 
+extern DadosAnimacoes boss;
+
 #endif
 

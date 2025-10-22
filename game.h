@@ -5,7 +5,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <stdbool.h>
-//#include "player.h"
 #include "recursos.h"
 #include "cenario.h"
 #include "estado.h"
@@ -22,12 +21,12 @@ typedef struct Game{
     bool running;
     bool redraw;
     Sprite* guerreiro;
-    //Sprite_cavaleiro* cavaleiro;
     ALLEGRO_BITMAP* cenario;
     Estado_game estado_game;
     ALLEGRO_FONT* fonte_menu;
     int mapa_atual;
     Entidade* cavaleiro;
+    Entidade* boss;
 } Game;
 
 bool game_init(Game* game);

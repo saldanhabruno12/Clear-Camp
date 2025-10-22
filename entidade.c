@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static Animacao* criar_animacao(const char* caminho, int num_frames);
+static Animacao* criar_animacao(const char* caminho, int linhas, int colunas);
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
 
-Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem) {
+Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
 	Entidade* entidade = malloc(sizeof(Entidade));
 	if (!entidade) return NULL;
 
@@ -17,7 +17,7 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 
 	for (int i = 0; i < NUM_ACOES; i++) {
 		if (dados.caminhos[i]) {
-			entidade->animacoes[i] = criar_animacao(dados.caminhos[i], dados.frames[i]);
+			entidade->animacoes[i] = criar_animacao(dados.caminhos[i], dados.linhas[i], dados.colunas[i]);
 			if (!entidade->animacoes[i]) {
 				printf("Falha ao carregar animação %d\n", i);
 				destruir_entidade(entidade);
@@ -29,17 +29,17 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 	entidade->acao_atual = PARADO;
 	entidade->frame_atual = 0;
 	entidade->cont = 0;
-	entidade->x = display_width / 2;
+	entidade->x = pos_x;
 	entidade->y = display_height - altura_personagem * 2;
 	entidade->vel_x = 0;
 	entidade->vel_y = 0;
 	entidade->no_chao = true;
-	entidade->flip = 0;
+	entidade->flip = flip;
 
 	return entidade;
 }
 
-static Animacao* criar_animacao(const char* caminho, int num_frames) {
+static Animacao* criar_animacao(const char* caminho, int linhas, int colunas) {
 	Animacao* anima = malloc(sizeof(Animacao));
 	if (!anima) return NULL;
 
@@ -50,14 +50,17 @@ static Animacao* criar_animacao(const char* caminho, int num_frames) {
 		return NULL;
 	}
 
-	anima->num_frames = num_frames;
-	anima->frame_largura = al_get_bitmap_width(anima->sheet) / num_frames;
-	anima->frame_altura = al_get_bitmap_height(anima->sheet);
-	anima->frames = malloc(sizeof(ALLEGRO_BITMAP*) * num_frames);
+	anima->num_frames = colunas * linhas;
+	anima->frame_largura = al_get_bitmap_width(anima->sheet) / colunas;
+	anima->frame_altura = al_get_bitmap_height(anima->sheet) / linhas;
+	anima->frames = malloc(sizeof(ALLEGRO_BITMAP*) * anima->num_frames);
 
-	for (int i = 0; i < num_frames; i++) {
+	for (int i = 0; i < anima->num_frames; i++) {
+		int coluna = i % colunas;
+		int linha = i / colunas;
+
 		anima->frames[i] = al_create_sub_bitmap(anima->sheet,
-			i * anima->frame_largura, 0,
+			coluna * anima->frame_largura, linha * anima->frame_altura,
 			anima->frame_largura, anima->frame_altura);
 	}
 

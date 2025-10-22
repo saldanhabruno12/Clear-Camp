@@ -90,7 +90,8 @@ void game_loop(Game* game) {
     //posição inicial player
     //player_init(&player, SCREEN_WIDTH / 2, 700);
 
-    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
+    game->boss = criar_entidade(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
     game->guerreiro = criar_sprite("images/guerreiro.png", 2, SCREEN_WIDTH, SCREEN_HEIGHT, 51);
 
     //define array com todas teclas existentes
@@ -114,6 +115,7 @@ void game_loop(Game* game) {
                     
                     break;
                 case JOGANDO:
+                    atualizar_entidade(game->boss, key, SCREEN_WIDTH, SCREEN_HEIGHT, 64);
                     atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
                     atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
@@ -153,6 +155,7 @@ void game_loop(Game* game) {
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenha_sprite(game->guerreiro, SCREEN_WIDTH/2, 500, game->guerreiro->flip);
                     desenhar_entidade(game->cavaleiro, 2);//cavaleiro
+                    desenhar_entidade(game->boss, 2);
                     break;
             }
             
@@ -173,6 +176,7 @@ void game_shutdown(Game* game) {
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
     destruir_entidade(game->cavaleiro);
+    destruir_entidade(game->boss);
 }
 
 void trocar_mapa(Game* game, int direcao) {
@@ -211,8 +215,11 @@ void trocar_mapa(Game* game, int direcao) {
     }
 
     // Reposiciona o cavaleiro
-    if (direcao > 0)
+    if (direcao > 0) {
         game->cavaleiro->x = 0;
+        game->boss->x = 0;
+        game->guerreiro->x = 0;
+    }
     else
         game->cavaleiro->x = 1280 - 100;
 }

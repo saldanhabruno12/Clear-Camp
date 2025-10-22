@@ -39,10 +39,12 @@ typedef struct {
 
 typedef struct {
 	const char* caminhos[NUM_ACOES];
+	int linhas[NUM_ACOES];
+	int colunas[NUM_ACOES];
 	int frames[NUM_ACOES];
 } DadosAnimacoes;
 
-Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem);
+Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
 void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_width, int display_height, int altura_personagem);
 void desenhar_entidade(Entidade* entidade, int escalonamento);
 void destruir_entidade(Entidade* entidade);
