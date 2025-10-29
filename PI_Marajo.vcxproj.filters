@@ -8,6 +8,7 @@
     <ClCompile Include="recursos.c" />
     <ClCompile Include="entidade.c" />
     <ClCompile Include="personagens.c" />
+    <ClCompile Include="inimigo.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cenario.h" />
@@ -17,6 +18,7 @@
     <ClInclude Include="recursos.h" />
     <ClInclude Include="entidade.h" />
     <ClInclude Include="personagens.h" />
+    <ClInclude Include="inimigo.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />

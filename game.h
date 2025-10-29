@@ -10,6 +10,7 @@
 #include "estado.h"
 #include "entidade.h"
 #include "personagens.h"
+#include "inimigo.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -26,7 +27,7 @@ typedef struct Game{
     ALLEGRO_FONT* fonte_menu;
     int mapa_atual;
     Entidade* cavaleiro;
-    Entidade* boss;
+    Inimigo* boss;
 } Game;
 
 bool game_init(Game* game);
