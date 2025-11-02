@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ato1.c" />
     <ClCompile Include="cenario.c" />
     <ClCompile Include="entidade.c" />
     <ClCompile Include="game.c" />
@@ -143,11 +144,13 @@
     <ClCompile Include="PI_Marajo.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="recursos.c" />
+    <ClCompile Include="ui.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ato1.h" />
     <ClInclude Include="cenario.h" />
     <ClInclude Include="entidade.h" />
     <ClInclude Include="estado.h" />
@@ -155,10 +158,12 @@
     <ClInclude Include="personagens.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="recursos.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
+    <Image Include="..\..\..\Downloads\caixa_de_dialogo.png" />
     <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />

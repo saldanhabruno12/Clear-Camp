@@ -24,6 +24,8 @@ typedef struct Game{
     ALLEGRO_BITMAP* cenario;
     Estado_game estado_game;
     ALLEGRO_FONT* fonte_menu;
+    ALLEGRO_BITMAP* pergaminho;
+    ALLEGRO_FONT* fonte_dialogo;
     int mapa_atual;
     Entidade* cavaleiro;
     Entidade* boss;
@@ -35,8 +37,7 @@ void mudanca_estado(Game* game, Estado_game estado_game);
 void game_loop(Game* game);
 void game_shutdown(Game* game);
 void mudar_cenario(Game* game, const char* caminho);
-
-
 void trocar_mapa(Game* game, int direcao);
+void desenhar_dialogo(Game* game);
 
 #endif

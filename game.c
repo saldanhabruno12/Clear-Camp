@@ -24,6 +24,15 @@ bool game_init(Game* game) {
     game->cenario = al_load_bitmap("images/menu.jpeg");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
 
+    game->pergaminho = al_load_bitmap("caixa_de_dialogo.png");
+    game->fonte_dialogo = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 32, 0);
+
+    if (!game->pergaminho || !game->fonte_dialogo) {
+        printf("Erro ao carregar recursos de diálogo.\n");
+        return false;
+    }
+
+
     if (!game->display || !game->timer || !game->queue) return false;
 
     al_register_event_source(game->queue, al_get_display_event_source(game->display));
@@ -47,18 +56,25 @@ void mudanca_estado(Game* game, Estado_game estado_game) {
 }
 void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
     switch (game->estado_game) {
-        case MENU:
-            if (key[ALLEGRO_KEY_ENTER]) {
-                mudar_cenario(game, "images/mapa_grecia.png");
-                mudanca_estado(game, JOGANDO);
-            }
-            break;
-        case JOGANDO:
-            if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu.jpeg");
-                mudanca_estado(game, MENU);
-            }
-            break;
+    case MENU:
+        if (key[ALLEGRO_KEY_ENTER]) {
+            mudanca_estado(game, DIALOGO); // entra no diálogo
+        }
+        break;
+
+    case DIALOGO:
+        if (key[ALLEGRO_KEY_ENTER]) {
+            mudar_cenario(game, "images/mapa_grecia.png");
+            mudanca_estado(game, JOGANDO); // sai do diálogo e começa o jogo
+        }
+        break;
+
+    case JOGANDO:
+        if (key[ALLEGRO_KEY_ESCAPE]) {
+            mudar_cenario(game, "images/menu.jpeg");
+            mudanca_estado(game, MENU);
+        }
+        break;
     }
 }
 
@@ -81,21 +97,33 @@ void desenhar_menu(Game* game, int largura, int altura) {
 
 }
 
-   
+void desenhar_dialogo(Game* game) {
+    static bool iniciou = false;
+    static int ato_atual = 1;
+
+    if (!iniciou) {
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+
+        if (ato_atual == 1)
+            iniciar_ato1(game->fonte_dialogo, game->pergaminho);
+       
+
+        iniciou = true;
+    }
+
+    al_draw_text(game->fonte_dialogo, al_map_rgb(255, 255, 255),
+        SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100,
+        ALLEGRO_ALIGN_CENTER, "Pressione ENTER para continuar");
+}
 
 
 void game_loop(Game* game) {
-    //define player
-    //Player player;
-    //posição inicial player
-    //player_init(&player, SCREEN_WIDTH / 2, 700);
-
+    // Inicializa entidades e sprites
     game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
     game->boss = criar_entidade(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
     game->guerreiro = criar_sprite("images/guerreiro.png", 2, SCREEN_WIDTH, SCREEN_HEIGHT, 51);
 
-    //define array com todas teclas existentes
-
+    // Array de teclas
     unsigned char key[ALLEGRO_KEY_MAX];
     memset(key, 0, sizeof(key));
 
@@ -108,19 +136,22 @@ void game_loop(Game* game) {
         case ALLEGRO_EVENT_TIMER:
             check_input(game, key, event);
 
-            //atualize a tecla que foi pressionada
-            //atualizar_sprite(game->guerreiro, unsigned char key[]);
             switch (game->estado_game) {
-                case MENU: 
-                    
-                    break;
-                case JOGANDO:
-                    atualizar_entidade(game->boss, key, SCREEN_WIDTH, SCREEN_HEIGHT, 64);
-                    atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
-                    atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
-                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
-                    break;
+            case MENU:
+                // Pode adicionar alguma animação no menu futuramente
+                break;
+
+            case DIALOGO:
+                // Aqui você pode adicionar algo opcional, tipo animação de texto
+                break;
+
+            case JOGANDO:
+                atualizar_entidade(game->boss, key, SCREEN_WIDTH, SCREEN_HEIGHT, 64);
+                atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+                atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
+                if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+                break;
             }
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -131,9 +162,29 @@ void game_loop(Game* game) {
 
         case ALLEGRO_EVENT_KEY_DOWN:
             key[event.keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-            if (key[ALLEGRO_KEY_ESCAPE] && game->estado_game == MENU) {
+
+            // ESC fecha o jogo no menu
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == MENU) {
                 game->running = false;
             }
+
+            // ENTER no MENU ? vai para o diálogo
+            else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == MENU) {
+                mudanca_estado(game, DIALOGO);
+            }
+
+            // ENTER no DIALOGO ? começa o jogo
+            else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == DIALOGO) {
+                mudar_cenario(game, "images/mapa_grecia.png");
+                mudanca_estado(game, JOGANDO);
+            }
+
+            // ESC no jogo ? volta ao menu
+            else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == JOGANDO) {
+                mudar_cenario(game, "images/menu.jpeg");
+                mudanca_estado(game, MENU);
+            }
+
             break;
 
         case ALLEGRO_EVENT_KEY_UP:
@@ -145,25 +196,34 @@ void game_loop(Game* game) {
             break;
         }
 
+        // --- DESENHO ---
         if (game->redraw && al_is_event_queue_empty(game->queue)) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
+
             switch (game->estado_game) {
-                case MENU:
-                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    break;
-                case JOGANDO:
-                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    desenha_sprite(game->guerreiro, SCREEN_WIDTH/2, 500, game->guerreiro->flip);
-                    desenhar_entidade(game->cavaleiro, 2);//cavaleiro
-                    desenhar_entidade(game->boss, 2);
-                    break;
+            case MENU:
+                desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                break;
+
+            case DIALOGO:
+                // ?? Aqui o pergaminho e texto aparecem
+                desenhar_dialogo(game);
+                break;
+
+            case JOGANDO:
+                desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                desenha_sprite(game->guerreiro, SCREEN_WIDTH / 2, 500, game->guerreiro->flip);
+                desenhar_entidade(game->cavaleiro, 2);
+                desenhar_entidade(game->boss, 2);
+                break;
             }
-            
+
             al_flip_display();
             game->redraw = false;
         }
     }
 }
+
 
 void game_shutdown(Game* game) {
     if (game->guerreiro) {
@@ -172,6 +232,8 @@ void game_shutdown(Game* game) {
     if (game->cenario) {
         destruir_cenario(game->cenario);
     }
+    if (game->pergaminho) al_destroy_bitmap(game->pergaminho);
+    if (game->fonte_dialogo) al_destroy_font(game->fonte_dialogo);
     al_destroy_display(game->display);
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
