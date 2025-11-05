@@ -154,8 +154,7 @@ void destruir_entidade(Entidade* entidade) {
 	if (!entidade) return;
 	for (int i = 0; i < NUM_ACOES; i++) {
 		if (entidade->animacoes[i]) {
-			for (int j = 0; j < entidade->animacoes[i]->num_frames; j++)
-				al_destroy_bitmap(entidade->animacoes[i]->frames[j]);
+			for (int j = 0; j < entidade->animacoes[i]->num_frames; j++) al_destroy_bitmap(entidade->animacoes[i]->frames[j]);
 			free(entidade->animacoes[i]->frames);
 			al_destroy_bitmap(entidade->animacoes[i]->sheet);
 			free(entidade->animacoes[i]);

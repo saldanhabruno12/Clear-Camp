@@ -16,7 +16,7 @@ typedef enum {
 
 typedef struct {
 	EstadoBot estado;
-	Entidade infos;
+	Entidade* infos;
 	int direcao;
 	int tempo_estado;
 } Inimigo;
