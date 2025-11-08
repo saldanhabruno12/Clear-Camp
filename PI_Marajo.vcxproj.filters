@@ -32,6 +32,7 @@
     <Image Include="mapa_castelo.png" />
     <Image Include="mapa_porto.png" />
     <Image Include="..\..\..\Downloads\caixa_de_dialogo.png" />
+    <Image Include="..\..\..\Downloads\dialogo_ato1.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

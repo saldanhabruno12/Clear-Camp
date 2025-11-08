@@ -10,6 +10,7 @@
 #include "estado.h"
 #include "entidade.h"
 #include "personagens.h"
+#include "ato1.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -27,8 +28,10 @@ typedef struct Game{
     ALLEGRO_BITMAP* pergaminho;
     ALLEGRO_FONT* fonte_dialogo;
     int mapa_atual;
+    bool aguardando_enter;
     Entidade* cavaleiro;
     Entidade* boss;
+    Ato1 etapa;
 } Game;
 
 bool game_init(Game* game);
@@ -38,6 +41,6 @@ void game_loop(Game* game);
 void game_shutdown(Game* game);
 void mudar_cenario(Game* game, const char* caminho);
 void trocar_mapa(Game* game, int direcao);
-void desenhar_dialogo(Game* game);
+void desenhar_dialogo(Game* game, EtapaAto1 etapa);
 
 #endif

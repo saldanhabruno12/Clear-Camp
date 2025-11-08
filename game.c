@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
+#include "ato1.h"
 
 bool game_init(Game* game) {
     if (!al_init()) return false;
@@ -20,11 +21,14 @@ bool game_init(Game* game) {
     game->display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     game->timer = al_create_timer(1.0 / 60.0);
     game->queue = al_create_event_queue();
+	game->etapa.etapa_atual = ETAPA_0;
+
     game->estado_game = MENU;
     game->cenario = al_load_bitmap("images/menu.jpeg");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
 
-    game->pergaminho = al_load_bitmap("caixa_de_dialogo.png");
+    
+    game->pergaminho = al_load_bitmap("dialogo_ato1.png");
     game->fonte_dialogo = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 32, 0);
 
     if (!game->pergaminho || !game->fonte_dialogo) {
@@ -57,17 +61,12 @@ void mudanca_estado(Game* game, Estado_game estado_game) {
 void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
     switch (game->estado_game) {
     case MENU:
-        if (key[ALLEGRO_KEY_ENTER]) {
-            mudanca_estado(game, DIALOGO); // entra no diálogo
-        }
-        break;
+        
+      
 
     case DIALOGO:
-        if (key[ALLEGRO_KEY_ENTER]) {
-            mudar_cenario(game, "images/mapa_grecia.png");
-            mudanca_estado(game, JOGANDO); // sai do diálogo e começa o jogo
-        }
-        break;
+       
+        
 
     case JOGANDO:
         if (key[ALLEGRO_KEY_ESCAPE]) {
@@ -100,21 +99,39 @@ void desenhar_menu(Game* game, int largura, int altura) {
 void desenhar_dialogo(Game* game) {
     static bool iniciou = false;
     static int ato_atual = 1;
+    static bool dialogo_concluido = false;
 
-    if (!iniciou) {
-        al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
 
-        if (ato_atual == 1)
-            iniciar_ato1(game->fonte_dialogo, game->pergaminho);
-       
+    float perg_larg = al_get_bitmap_width(game->pergaminho);
+    float perg_alt = al_get_bitmap_height(game->pergaminho);
 
-        iniciou = true;
+    // desenha o pergaminho ocupando a tela inteira
+    al_draw_scaled_bitmap(
+        game->pergaminho,
+        0, 0, perg_larg, perg_alt,  // origem (imagem original)
+        0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,  // destino (preencher a tela)
+        0
+    );
+
+    switch (ato_atual) {
+    case 1:
+        iniciar_ato1(game->fonte_dialogo, game->etapa.etapa_atual);
+        break;
+    default:
+        
+        break;
     }
 
+    // Texto de instrução
     al_draw_text(game->fonte_dialogo, al_map_rgb(255, 255, 255),
-        SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100,
+        SCREEN_WIDTH / 2, SCREEN_HEIGHT - 40,
         ALLEGRO_ALIGN_CENTER, "Pressione ENTER para continuar");
+
+    al_flip_display();
+
 }
+
 
 
 void game_loop(Game* game) {
@@ -138,11 +155,11 @@ void game_loop(Game* game) {
 
             switch (game->estado_game) {
             case MENU:
-                // Pode adicionar alguma animação no menu futuramente
+             
                 break;
 
             case DIALOGO:
-                // Aqui você pode adicionar algo opcional, tipo animação de texto
+               
                 break;
 
             case JOGANDO:
@@ -163,6 +180,19 @@ void game_loop(Game* game) {
         case ALLEGRO_EVENT_KEY_DOWN:
             key[event.keyboard.keycode] = KEY_SEEN | KEY_DOWN;
 
+            if(game->estado_game == DIALOGO) { 
+                if(event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                    // Avança para o próximo ato ou conclui o diálogo
+                    if (game->etapa.etapa_atual == ETAPA_0) {
+                        game->etapa.etapa_atual = ETAPA_1;
+                    } else {
+                        // Diálogo concluído, muda para o estado JOGANDO
+                        mudar_cenario(game, "images/mapa_grecia.png");
+                        mudanca_estado(game, JOGANDO);
+                    }
+				}
+            }
+
             // ESC fecha o jogo no menu
             if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == MENU) {
                 game->running = false;
@@ -171,12 +201,6 @@ void game_loop(Game* game) {
             // ENTER no MENU ? vai para o diálogo
             else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == MENU) {
                 mudanca_estado(game, DIALOGO);
-            }
-
-            // ENTER no DIALOGO ? começa o jogo
-            else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == DIALOGO) {
-                mudar_cenario(game, "images/mapa_grecia.png");
-                mudanca_estado(game, JOGANDO);
             }
 
             // ESC no jogo ? volta ao menu
@@ -206,7 +230,6 @@ void game_loop(Game* game) {
                 break;
 
             case DIALOGO:
-                // ?? Aqui o pergaminho e texto aparecem
                 desenhar_dialogo(game);
                 break;
 

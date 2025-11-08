@@ -164,6 +164,7 @@
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
     <Image Include="..\..\..\Downloads\caixa_de_dialogo.png" />
+    <Image Include="..\..\..\Downloads\dialogo_ato1.png" />
     <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />
