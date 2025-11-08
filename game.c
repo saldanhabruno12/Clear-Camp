@@ -92,7 +92,7 @@ void game_loop(Game* game) {
 
     game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
     game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
-    game->guerreiro = criar_sprite("images/guerreiro.png", 2, SCREEN_WIDTH, SCREEN_HEIGHT, 51);
+
 
     //define array com todas teclas existentes
 
@@ -109,7 +109,6 @@ void game_loop(Game* game) {
             check_input(game, key, event);
 
             //atualize a tecla que foi pressionada
-            //atualizar_sprite(game->guerreiro, unsigned char key[]);
             switch (game->estado_game) {
                 case MENU: 
                     
@@ -117,7 +116,6 @@ void game_loop(Game* game) {
                 case JOGANDO:
                     atualizar_inimigo(game->boss, game->cavaleiro);
                     atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
-                    atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
                     break;
@@ -153,7 +151,6 @@ void game_loop(Game* game) {
                     break;
                 case JOGANDO:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    desenha_sprite(game->guerreiro, SCREEN_WIDTH/2, 500, game->guerreiro->flip);
                     desenhar_entidade(game->cavaleiro, 2);//cavaleiro
                     desenhar_inimigo(game->boss, 2.5);
                     break;
@@ -166,9 +163,6 @@ void game_loop(Game* game) {
 }
 
 void game_shutdown(Game* game) {
-    if (game->guerreiro) {
-        destruir_sprite(game->guerreiro);
-    }
     if (game->cenario) {
         destruir_cenario(game->cenario);
     }
@@ -176,7 +170,7 @@ void game_shutdown(Game* game) {
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
     destruir_entidade(game->cavaleiro);
-    destruir_entidade(game->boss);
+    destruir_inimigo(game->boss);
 }
 
 void trocar_mapa(Game* game, int direcao) {
@@ -218,7 +212,6 @@ void trocar_mapa(Game* game, int direcao) {
     if (direcao > 0) {
         game->cavaleiro->x = 0;
         //game->boss->x = 0;
-        game->guerreiro->x = 0;
     }
     else
         game->cavaleiro->x = 1280 - 100;

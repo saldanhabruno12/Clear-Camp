@@ -1,6 +1,7 @@
 #include "inimigo.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
 static float distancia(Inimigo* inimigo, Entidade* jogador);
@@ -17,7 +18,6 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 	inimigo->tempo_estado++;
-
 	switch (inimigo->estado) {
 	case ESTADO_AGUARDANDO:
 		mudar_acao(inimigo->infos, PARADO);
@@ -49,21 +49,22 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 			inimigo->infos->flip = !inimigo->infos->flip;
 		}
 
-
-		if (jogador->x - inimigo->infos->x > 100) {
+		if (distancia(inimigo, jogador) > 100) {
 			inimigo->estado = ESTADO_AGUARDANDO;
 			inimigo->tempo_estado = 0;
 			inimigo->direcao *= -1;
+		}
 
-			if (distancia(inimigo, jogador) <= 15) {
-				inimigo->estado = ESTADO_ATACANDO;
-				inimigo->tempo_estado = 0;
-			}
-			break;
+		if (distancia(inimigo, jogador) <= 40) {
+			inimigo->estado = ESTADO_ATACANDO;
+			inimigo->tempo_estado = 0;
+		}
+
+		break;
 
 	case ESTADO_ATACANDO:
 		mudar_acao(inimigo->infos, ATACANDO);
-		if (distancia(inimigo, jogador) > 20) {
+		if (distancia(inimigo, jogador) > 40) {
 			inimigo->estado = ESTADO_BUSCANDO;
 			inimigo->tempo_estado = 0;
 		}
@@ -87,7 +88,7 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 		}
 
 	}
-}
+
 
 void desenhar_inimigo(Inimigo* inimigo, int escalonamento) {
 	desenhar_entidade(inimigo->infos, escalonamento);
@@ -107,5 +108,10 @@ static void mudar_acao(Entidade* entidade, Acao nova_acao) {
 }
 
 static float distancia(Inimigo* inimigo, Entidade* jogador) {
-	return sqrt(pow((inimigo->infos->x - jogador->x), 2) + pow((inimigo->infos->y - jogador->y), 2));
+	float dx = inimigo->infos->x - jogador->x;
+	float dy = inimigo->infos->y - jogador->y;
+	float dist2 = dx * dx + dy * dy;
+	printf("distancia: %f", sqrt(dist2));
+	return sqrtf(dist2);
 }
+
