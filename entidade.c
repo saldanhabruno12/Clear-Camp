@@ -39,6 +39,15 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 	return entidade;
 }
 
+void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita) {
+	entidade->offset_cima = offset_cima;
+	entidade->offset_baixo = offset_baixo;
+	entidade->offset_direita = offset_direita;
+	entidade->offset_esquerda = offset_esquerda;
+	atualizar_hitbox(entidade);
+}
+
+
 static Animacao* criar_animacao(const char* caminho, int linhas, int colunas) {
 	Animacao* anima = malloc(sizeof(Animacao));
 	if (!anima) return NULL;
@@ -75,8 +84,47 @@ static void mudar_acao(Entidade* entidade, Acao nova_acao) {
 	}
 }
 
+void atualizar_hitbox(Entidade* entidade) {
+	Animacao* animacao = entidade->animacoes[entidade->acao_atual];
+
+	if (!animacao) {
+		animacao = entidade->animacoes[PARADO];
+		if (!animacao) return;
+	}
+	
+	entidade->box.x = entidade->x + entidade->offset_esquerda * 2;
+	entidade->box.y = entidade->y + entidade->offset_cima * 2;
+	entidade->box.w = (entidade->animacoes[entidade->acao_atual]->frame_largura - (entidade->offset_esquerda + entidade->offset_direita)) * 2;
+	entidade->box.h = (entidade->animacoes[entidade->acao_atual]->frame_altura - (entidade->offset_cima + entidade->offset_baixo)) * 2;
+
+}
+
+void desenhar_hitbox(Entidade* entidade) {
+	float x1, x2, y1, y2;
+
+	/*if (entidade->flip == 1) {
+		x1 = entidade->x + entidade->hitbox.hitbox_offset_x;
+	}
+	else {
+		x1 = entidade->x + (entidade->hitbox.largura_sprite - entidade->hitbox.hitbox_offset_x - entidade->hitbox.hitbox_largura);
+	}*/
+
+	x1 = entidade->box.x;
+	y1 = entidade->box.y;
+	x2 = x1 + entidade->box.w;
+	y2 = y1 + entidade->box.h;
+
+	/*x2 = x1 + entidade->hitbox.hitbox_largura;
+	y1 = entidade->y + entidade->hitbox.hitbox_offset_y;
+	y2 = y1 + entidade->hitbox.hitbox_altura;*/
+
+	al_draw_rectangle(x1, y1, x2, y2, al_map_rgb(255, 0, 0), 1.0);
+}
+
+
 void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_width, int display_height, int altura_personagem) {
 	bool movendo = false;
+	atualizar_hitbox(entidade);
 
 	if (key[ALLEGRO_KEY_D] || key[ALLEGRO_KEY_RIGHT]) {
 		entidade->x += 2;

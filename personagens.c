@@ -1,4 +1,4 @@
-#include "entidade.h"
+#include "personagens.h"
 
 DadosAnimacoes cavaleiro = {
     .caminhos = {
@@ -14,6 +14,15 @@ DadosAnimacoes cavaleiro = {
     .frames = { 8, 8, 5, 6, 12, 7 }
 };
 
+DadosHitbox cavaleiro_hitbox = {
+    .largura_sprite = 64,
+    .altura_sprite = 64,
+    .hitbox_offset_x = 40,
+    .hitbox_offset_y = 40,
+    .hitbox_largura = 44,
+    .hitbox_altura = 59
+};
+
 DadosAnimacoes boss = {
     .caminhos = {
         [ANDANDO] = "images/boss/corrida.png",
@@ -26,4 +35,13 @@ DadosAnimacoes boss = {
     .colunas = {2, 2, 2, 8, 2, 2},
     .linhas = {4, 4, 4, 1, 2, 4},
     .frames = {8, 8, 8, 8, 4, 8}
+};
+
+DadosHitbox boss_hitbox = {
+    .largura_sprite = 128,
+    .altura_sprite = 128,
+    .hitbox_offset_x = 20,
+    .hitbox_offset_y = 10,
+    .hitbox_largura = 88,
+    .hitbox_altura = 110
 };

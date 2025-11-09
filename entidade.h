@@ -1,9 +1,9 @@
 #ifndef ENTIDADE_H
 #define ENTIDADE_H
-
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 #include <stdbool.h>
+#include "colisao.h"
 
 #define KEY_SEEN 1
 #define KEY_DOWN 2
@@ -27,11 +27,22 @@ typedef struct {
 } Animacao;
 
 typedef struct {
+	int largura_sprite;
+	int altura_sprite;
+	int hitbox_offset_x;
+	int hitbox_offset_y;
+	int hitbox_largura;
+	int hitbox_altura;
+} DadosHitbox; 
+
+typedef struct {
 	Animacao* animacoes[NUM_ACOES];
 	Acao acao_atual;
+	Hitbox box;
 	int frame_atual;
 	int cont;
 	float x, y;
+	float offset_cima, offset_baixo, offset_esquerda, offset_direita;
 	float vel_x, vel_y;
 	bool no_chao;
 	int flip;
@@ -44,9 +55,14 @@ typedef struct {
 	int frames[NUM_ACOES];
 } DadosAnimacoes;
 
+
 Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
+void atualizar_hitbox(Entidade* entidade);
+void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita);
 void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_width, int display_height, int altura_personagem);
 void desenhar_entidade(Entidade* entidade, int escalonamento);
 void destruir_entidade(Entidade* entidade);
+void desenhar_hitbox(Entidade* entidade);
+
 
 #endif

@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cenario.c" />
+    <ClCompile Include="colisao.c" />
     <ClCompile Include="entidade.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="inimigo.c" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cenario.h" />
+    <ClInclude Include="colisao.h" />
     <ClInclude Include="entidade.h" />
     <ClInclude Include="estado.h" />
     <ClInclude Include="game.h" />
@@ -161,7 +163,6 @@
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
-    <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />
     <Image Include="mapa_porto.png" />

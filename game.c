@@ -30,6 +30,12 @@ bool game_init(Game* game) {
     al_register_event_source(game->queue, al_get_keyboard_event_source());
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
 
+    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
+    definir_hitbox(game->cavaleiro, 25, 22, 30, 30);
+    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
+    definir_hitbox(game->boss->infos, 12, 0, 42, 42);
+
+
     game->running = true;
     game->redraw = true;
 
@@ -90,8 +96,6 @@ void game_loop(Game* game) {
     //posição inicial player
     //player_init(&player, SCREEN_WIDTH / 2, 700);
 
-    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
-    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
 
 
     //define array com todas teclas existentes
@@ -116,6 +120,7 @@ void game_loop(Game* game) {
                 case JOGANDO:
                     atualizar_inimigo(game->boss, game->cavaleiro);
                     atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+                    atualizar_hitbox(game->boss->infos);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
                     break;
@@ -151,9 +156,10 @@ void game_loop(Game* game) {
                     break;
                 case JOGANDO:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    desenhar_entidade(game->cavaleiro, 2);//cavaleiro
+                    desenhar_entidade(game->cavaleiro, 2);
                     desenhar_inimigo(game->boss, 2.5);
-                    break;
+                    desenhar_hitbox(game->cavaleiro);
+                    desenhar_hitbox(game->boss->infos);
             }
             
             al_flip_display();

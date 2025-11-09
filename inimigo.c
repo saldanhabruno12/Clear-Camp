@@ -18,6 +18,8 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 	inimigo->tempo_estado++;
+	bool movendo = false;
+
 	switch (inimigo->estado) {
 	case ESTADO_AGUARDANDO:
 		mudar_acao(inimigo->infos, PARADO);
