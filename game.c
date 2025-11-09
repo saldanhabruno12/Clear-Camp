@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
-#include "ato1.h"
+#include "ato.h"
 
 bool game_init(Game* game) {
     if (!al_init()) return false;
@@ -21,18 +21,25 @@ bool game_init(Game* game) {
     game->display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     game->timer = al_create_timer(1.0 / 60.0);
     game->queue = al_create_event_queue();
-	game->etapa.etapa_atual = ETAPA_0;
+    game->ato = ATO1;
+	game->etapa_ato1 = ETAPA_ATO1_0;
+    game->etapa_ato2 = ETAPA_ATO2_0;
+    game->etapa_ato3 = ETAPA_ATO3_0;
 
     game->estado_game = MENU;
     game->cenario = al_load_bitmap("images/menu.jpeg");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
 
-    
+
     game->pergaminho = al_load_bitmap("dialogo_ato1.png");
     game->fonte_dialogo = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 32, 0);
+    game->fonte_contexto = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 28, 0);
+    game->fonte_pular = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 26, 0);
+
+    game->contexto = al_load_bitmap("narrador.png");
 
     if (!game->pergaminho || !game->fonte_dialogo) {
-        printf("Erro ao carregar recursos de diálogo.\n");
+        printf("Erro ao carregar recursos de di logo.\n");
         return false;
     }
 
@@ -49,8 +56,8 @@ bool game_init(Game* game) {
     // carregar cenario
 
     game->mapa_atual = 1;
-   
- 
+
+
 
     al_start_timer(game->timer);
     return true;
@@ -61,12 +68,10 @@ void mudanca_estado(Game* game, Estado_game estado_game) {
 void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
     switch (game->estado_game) {
     case MENU:
-        
-      
+
+    case CONTEXTO:
 
     case DIALOGO:
-       
-        
 
     case JOGANDO:
         if (key[ALLEGRO_KEY_ESCAPE]) {
@@ -96,9 +101,24 @@ void desenhar_menu(Game* game, int largura, int altura) {
 
 }
 
+void desenhar_contexto(Game* game, int largura, int altura) {
+    desenhar_cenario(game->contexto, largura, altura);
+    if (!game->fonte_menu) {
+        printf("Erro ao carregar fonte");
+        return -1;
+    }
+    al_draw_text(game->fonte_contexto, al_map_rgb(0, 0, 0), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 170, ALLEGRO_ALIGN_CENTER, "Na cidade de Esparta, celebrava-se o casamento entre Menelau, rei de Esparta,");
+    al_draw_text(game->fonte_contexto, al_map_rgb(0, 0, 0), 615, SCREEN_HEIGHT / 2 + 200, ALLEGRO_ALIGN_CENTER, "e Helena, filha de Zeus. Durante a cerimonia, Helena foi raptada por Paris,");
+    al_draw_text(game->fonte_contexto, al_map_rgb(0, 0, 0), 615, SCREEN_HEIGHT / 2 + 230, ALLEGRO_ALIGN_CENTER, "principe de Troia, que a levou para sua cidade. Tomado pela furia, Menelau");
+    al_draw_text(game->fonte_contexto, al_map_rgb(0, 0, 0), 620, SCREEN_HEIGHT / 2 + 260, ALLEGRO_ALIGN_CENTER, "convocou os reis e Aquiles, o mais forte guerreiro, para resgatar sua esposa.");
+
+    al_draw_text(game->fonte_pular, al_map_rgb(255, 255, 255),
+        960, SCREEN_HEIGHT / 2 + 290,
+        ALLEGRO_ALIGN_CENTER, "Pressione ENTER para continuar");
+}
+
 void desenhar_dialogo(Game* game) {
     static bool iniciou = false;
-    static int ato_atual = 1;
     static bool dialogo_concluido = false;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -114,16 +134,21 @@ void desenhar_dialogo(Game* game) {
         0
     );
 
-    switch (ato_atual) {
-    case 1:
-        iniciar_ato1(game->fonte_dialogo, game->etapa.etapa_atual);
+    switch (game->ato) {
+    case ATO1:
+        iniciar_ato1(game->fonte_dialogo, game->etapa_ato1);
+        break;
+    case ATO2:
+        iniciar_ato2(game->fonte_dialogo, game->etapa_ato2);
+        break;
+    case ATO3:
+        iniciar_ato3(game->fonte_dialogo, game->etapa_ato3);
         break;
     default:
-        
+
         break;
     }
 
-    // Texto de instrução
     al_draw_text(game->fonte_dialogo, al_map_rgb(255, 255, 255),
         SCREEN_WIDTH / 2, SCREEN_HEIGHT - 40,
         ALLEGRO_ALIGN_CENTER, "Pressione ENTER para continuar");
@@ -131,8 +156,6 @@ void desenhar_dialogo(Game* game) {
     al_flip_display();
 
 }
-
-
 
 void game_loop(Game* game) {
     // Inicializa entidades e sprites
@@ -155,11 +178,12 @@ void game_loop(Game* game) {
 
             switch (game->estado_game) {
             case MENU:
-             
+                break;
+
+            case CONTEXTO:
                 break;
 
             case DIALOGO:
-               
                 break;
 
             case JOGANDO:
@@ -180,17 +204,28 @@ void game_loop(Game* game) {
         case ALLEGRO_EVENT_KEY_DOWN:
             key[event.keyboard.keycode] = KEY_SEEN | KEY_DOWN;
 
-            if(game->estado_game == DIALOGO) { 
-                if(event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
-                    // Avança para o próximo ato ou conclui o diálogo
-                    if (game->etapa.etapa_atual == ETAPA_0) {
-                        game->etapa.etapa_atual = ETAPA_1;
-                    } else {
-                        // Diálogo concluído, muda para o estado JOGANDO
-                        mudar_cenario(game, "images/mapa_grecia.png");
-                        mudanca_estado(game, JOGANDO);
+            if (game->estado_game == DIALOGO) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                    switch (game->ato) {
+                    case ATO1:
+                        game->etapa_ato1++;
+                        if (game->etapa_ato1 == NEXT_ATO1) {
+							mudar_cenario(game, "mapa_grecia.png");
+                            mudanca_estado(game, JOGANDO);
+                        }
+                        break;
+                    case ATO2:
+                        game->etapa_ato2++;
+                        if (game->etapa_ato2 == NEXT_ATO2) {
+                            mudar_cenario(game, "mapa_grecia.png");
+                            mudanca_estado(game, JOGANDO);
+                        }
+                        break;
+                    default:
+                        break;
                     }
-				}
+
+                }
             }
 
             // ESC fecha o jogo no menu
@@ -198,8 +233,12 @@ void game_loop(Game* game) {
                 game->running = false;
             }
 
-            // ENTER no MENU ? vai para o diálogo
             else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == MENU) {
+                mudanca_estado(game, CONTEXTO);
+            }
+
+            
+            else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && game->estado_game == CONTEXTO) {
                 mudanca_estado(game, DIALOGO);
             }
 
@@ -227,6 +266,10 @@ void game_loop(Game* game) {
             switch (game->estado_game) {
             case MENU:
                 desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                break;
+
+            case CONTEXTO:
+                desenhar_contexto(game, SCREEN_WIDTH, SCREEN_HEIGHT);
                 break;
 
             case DIALOGO:
@@ -282,7 +325,7 @@ void trocar_mapa(Game* game, int direcao) {
     if (game->mapa_atual >= total_mapas)
         game->mapa_atual = total_mapas - 1;
 
-    // Destrói o cenário atual
+    // Destr i o cen rio atual
     if (game->cenario) {
         destruir_cenario(game->cenario);
         game->cenario = NULL;

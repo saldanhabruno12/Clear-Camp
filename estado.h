@@ -8,6 +8,7 @@ typedef enum {
 	MENU,
 	JOGANDO,
 	DIALOGO,
+	CONTEXTO,
 	GAME_OVER
 } Estado_game;	
 
