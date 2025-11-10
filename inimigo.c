@@ -57,7 +57,7 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 			inimigo->direcao *= -1;
 		}
 
-		if (distancia(inimigo, jogador) <= 40) {
+		if (colidiu(inimigo->infos, jogador)) {
 			inimigo->estado = ESTADO_ATACANDO;
 			inimigo->tempo_estado = 0;
 		}
@@ -65,8 +65,12 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 		break;
 
 	case ESTADO_ATACANDO:
-		mudar_acao(inimigo->infos, ATACANDO);
-		if (distancia(inimigo, jogador) > 40) {
+		if (jogador->hp > 0) {
+			mudar_acao(inimigo->infos, ATACANDO);
+			atualizar_ataque(inimigo->infos, jogador);
+		}
+		else mudar_acao(inimigo->infos, PARADO);
+		if (!colidiu(inimigo->infos, jogador)) {
 			inimigo->estado = ESTADO_BUSCANDO;
 			inimigo->tempo_estado = 0;
 		}
@@ -113,7 +117,6 @@ static float distancia(Inimigo* inimigo, Entidade* jogador) {
 	float dx = inimigo->infos->x - jogador->x;
 	float dy = inimigo->infos->y - jogador->y;
 	float dist2 = dx * dx + dy * dy;
-	printf("distancia: %f", sqrt(dist2));
 	return sqrtf(dist2);
 }
 

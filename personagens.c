@@ -11,7 +11,7 @@ DadosAnimacoes cavaleiro = {
 },
     .colunas = {8, 8, 5, 6, 12, 7},
     .linhas = {1, 1, 1, 1, 1, 1},
-    .frames = { 8, 8, 5, 6, 12, 7 }
+    .frames = {8, 8, 5, 6, 12, 7}
 };
 
 DadosHitbox cavaleiro_hitbox = {
