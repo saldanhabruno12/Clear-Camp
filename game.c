@@ -12,6 +12,7 @@
 bool game_init(Game* game) {
     if (!al_init()) return false;
     if (!al_install_keyboard()) return false;
+    if (!al_install_mouse()) return false;
     if (!al_init_primitives_addon()) return false;
     if (!al_init_font_addon()) return false;
     if (!al_init_image_addon()) return false;
@@ -21,14 +22,18 @@ bool game_init(Game* game) {
     game->timer = al_create_timer(1.0 / 60.0);
     game->queue = al_create_event_queue();
     game->estado_game = MENU;
-    game->cenario = al_load_bitmap("images/menu.jpeg");
-    game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
+    game->cenario = al_load_bitmap("images/menu/menu.png");
+    game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 35, 0);
+    
 
     if (!game->display || !game->timer || !game->queue) return false;
 
     al_register_event_source(game->queue, al_get_display_event_source(game->display));
     al_register_event_source(game->queue, al_get_keyboard_event_source());
+    al_register_event_source(game->queue, al_get_mouse_event_source());
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
+    
+    float mouse_x = 0 , mouse_y = 0;
 
     game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
@@ -43,8 +48,6 @@ bool game_init(Game* game) {
 
     game->mapa_atual = 1;
    
- 
-
     al_start_timer(game->timer);
     return true;
 }
@@ -58,10 +61,11 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
                 mudar_cenario(game, "images/mapa_grecia.png");
                 mudanca_estado(game, JOGANDO);
             }
+
             break;
         case JOGANDO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu.jpeg");
+                mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
             }
             break;
@@ -73,6 +77,11 @@ void mudar_cenario(Game* game, const char* caminho) {
         al_destroy_bitmap(game->cenario);
     }
     game->cenario = al_load_bitmap(caminho);
+    if (caminho == "images/menu/menu.png") {
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
+    }
     if (!game->cenario)
         printf("Erro ao carregar novo cenario: %s\n", caminho);
 }
@@ -83,7 +92,9 @@ void desenhar_menu(Game* game, int largura, int altura) {
         printf("Erro ao carregar fonte");
         return -1;
     }
-    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200, ALLEGRO_ALIGN_CENTER, "PRESSIONE ENTER PARA INICIAR");
+    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
+    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
+    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
 
 }
 
@@ -134,6 +145,12 @@ void game_loop(Game* game) {
         case ALLEGRO_EVENT_KEY_UP:
             key[event.keyboard.keycode] &= ~KEY_DOWN;
             break;
+
+        case ALLEGRO_EVENT_MOUSE_AXES:
+            
+
+            break;
+
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             game->running = false;

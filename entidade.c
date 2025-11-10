@@ -145,16 +145,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 	}
 	else if (entidade->hp <= 0 && entidade->acao_atual != MORRENDO) {
 		entidade->hp = 0;
-		if (entidade->acao_atual != MORRENDO && entidade->acao_atual != MORTO) {
-			mudar_acao(entidade, MORRENDO);
-		}
-		// Quando a animação de morte terminar, muda para MORTO
-		if (entidade->acao_atual == MORRENDO &&
-			entidade->frame_atual >= entidade->animacoes[MORRENDO]->num_frames - 1) {
-
-			mudar_acao(entidade, MORTO);
-			entidade->frame_atual = entidade->animacoes[MORRENDO]->num_frames - 1; // trava no último frame
-		}
+		mudar_acao(entidade, MORRENDO);
 	}
 
 	entidade->vel_y += 1;

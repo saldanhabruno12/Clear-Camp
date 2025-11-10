@@ -11,6 +11,7 @@
 #include "entidade.h"
 #include "personagens.h"
 #include "inimigo.h"
+#include "click.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -28,6 +29,7 @@ typedef struct Game{
     int mapa_atual;
     Entidade* cavaleiro;
     Inimigo* boss;
+    float mouse_x, mouse_y;
 } Game;
 
 bool game_init(Game* game);

@@ -28,6 +28,7 @@
     <ClCompile Include="colisao.c">
       <Filter>source\core</Filter>
     </ClCompile>
+    <ClCompile Include="click.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cenario.h">
@@ -57,6 +58,8 @@
     <ClInclude Include="colisao.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="dialogo.h" />
+    <ClInclude Include="click.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png">
