@@ -146,7 +146,6 @@
     <ClCompile Include="PI_Marajo.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="recursos.c" />
-    <ClCompile Include="ui.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -162,7 +161,6 @@
     <ClInclude Include="personagens.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="recursos.h" />
-    <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />

@@ -1,5 +1,4 @@
 #include "ato.h"
-#include "ui.h"
 #include <allegro5/allegro.h>
 #include "game.h"
 #include "recursos.h"
@@ -11,6 +10,7 @@
 #include <stdbool.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
+#include "ato.h"
 
 void iniciar_ato1(ALLEGRO_FONT* font, EtapaAto1 etapa) {
     switch (etapa) {
