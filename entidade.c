@@ -30,11 +30,13 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 	entidade->frame_atual = 0;
 	entidade->cont = 0;
 	entidade->x = pos_x;
-	entidade->y = display_height - altura_personagem * 2;
+	entidade->y = display_height - altura_personagem * 1.5;
 	entidade->vel_x = 0;
 	entidade->vel_y = 0;
 	entidade->no_chao = true;
 	entidade->flip = flip;
+	entidade->hp_max = 100;
+	entidade->hp = entidade->hp_max;
 
 	return entidade;
 }
@@ -102,61 +104,55 @@ void atualizar_hitbox(Entidade* entidade) {
 void desenhar_hitbox(Entidade* entidade) {
 	float x1, x2, y1, y2;
 
-	/*if (entidade->flip == 1) {
-		x1 = entidade->x + entidade->hitbox.hitbox_offset_x;
-	}
-	else {
-		x1 = entidade->x + (entidade->hitbox.largura_sprite - entidade->hitbox.hitbox_offset_x - entidade->hitbox.hitbox_largura);
-	}*/
-
 	x1 = entidade->box.x;
 	y1 = entidade->box.y;
 	x2 = x1 + entidade->box.w;
 	y2 = y1 + entidade->box.h;
 
-	/*x2 = x1 + entidade->hitbox.hitbox_largura;
-	y1 = entidade->y + entidade->hitbox.hitbox_offset_y;
-	y2 = y1 + entidade->hitbox.hitbox_altura;*/
-
 	al_draw_rectangle(x1, y1, x2, y2, al_map_rgb(255, 0, 0), 1.0);
 }
 
 
-void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_width, int display_height, int altura_personagem) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
-
-	if (key[ALLEGRO_KEY_D] || key[ALLEGRO_KEY_RIGHT]) {
-		entidade->x += 2;
+	entidade->vel_x = 2;
+	if (key[ALLEGRO_KEY_D] && entidade->hp > 0 || key[ALLEGRO_KEY_RIGHT] && entidade->hp > 0) {
+		entidade->x += entidade->vel_x;
 		entidade->flip = 0;
 		movendo = true;
 	}
-	if (key[ALLEGRO_KEY_A] || key[ALLEGRO_KEY_LEFT]) {
-		entidade->x -= 2;
+	if (key[ALLEGRO_KEY_A] && entidade->hp > 0 || key[ALLEGRO_KEY_LEFT] && entidade->hp > 0) {
+		entidade->x -= entidade->vel_x;
 		entidade->flip = ALLEGRO_FLIP_HORIZONTAL;
 		movendo = true;
 	}
 
-	if (key[ALLEGRO_KEY_SPACE]) {
+	if (key[ALLEGRO_KEY_SPACE] && entidade->hp > 0) {
 		mudar_acao(entidade, ATACANDO);
+		atualizar_ataque(entidade, inimigo);
 	}
-	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao || key[ALLEGRO_KEY_UP]) && entidade->no_chao) {
+	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao && entidade->hp > 0 || key[ALLEGRO_KEY_UP]) && entidade->no_chao && entidade->hp > 0) {
 		entidade->vel_y = -15;
 		entidade->no_chao = false;
 		mudar_acao(entidade, PULANDO);
 	}
-	else if (movendo && entidade->no_chao) {
+	else if (movendo && entidade->no_chao && entidade->hp > 0) {
 		mudar_acao(entidade, CORRENDO);
 	}
-	else if (entidade->no_chao && entidade->acao_atual != ATACANDO) {
+	else if (entidade->no_chao && entidade->acao_atual != ATACANDO && entidade->hp > 0) {
 		mudar_acao(entidade, PARADO);
+	}
+	else if (entidade->hp <= 0 && entidade->acao_atual != MORRENDO) {
+		entidade->hp = 0;
+		mudar_acao(entidade, MORRENDO);
 	}
 
 	entidade->vel_y += 1;
 	entidade->y += entidade->vel_y;
 
-	if (entidade->y >= display_height - altura_personagem * 2) {
-		entidade->y = display_height - altura_personagem * 2;
+	if (entidade->y >= display_height - altura_personagem * 1.5) {
+		entidade->y = display_height - altura_personagem * 1.5;
 		entidade->vel_y = 0;
 		entidade->no_chao = true;
 		if (entidade->acao_atual == PULANDO) {
@@ -173,6 +169,7 @@ void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_wid
 	case CORRENDO: velocidade_animacao = 4; break; // Mais rápido
 	case ATACANDO: velocidade_animacao = 6; break; // Mais lento
 	case PULANDO: velocidade_animacao = 8; break;  // Mais lento ainda
+	case MORRENDO: velocidade_animacao = 10; break;
 	default: velocidade_animacao = 10; break;      // PARADO - mais lento
 	}
 
@@ -186,6 +183,84 @@ void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_wid
 		}
 	}
 }
+
+void aplicar_dano(Entidade* entidade, int dano) {
+	entidade->hp -= dano;
+	if (entidade->hp <= 0) {
+		entidade->hp = 0;
+	}
+}
+
+void atualizar_ataque(Entidade* atacante, Entidade* alvo) {
+	if (atacante->acao_atual == ATACANDO) {
+		int frame_final = atacante->animacoes[ATACANDO]->num_frames - 1;
+
+		if (atacante->frame_atual == frame_final && !atacante->dano_aplicado) {
+			if (colidiu(atacante, alvo)) {
+				aplicar_dano(alvo, 10);
+				atacante->dano_aplicado = true;
+			}
+		}
+		if (atacante->frame_atual == 0) {
+			atacante->dano_aplicado = false;
+		}
+	}
+}
+
+void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida) {
+	float barra_largura = 400.0;
+	float barra_altura = 20.0;
+
+	float hp_porcentagem = (float)entidade->hp / entidade->hp_max;
+	float hp_barra = barra_largura * hp_porcentagem;
+	printf("resultado invertida: %d\n", tela_x + (barra_largura - hp_barra));
+
+
+	if (invertida) {
+		al_draw_filled_rectangle(
+			tela_x, tela_y,
+			tela_x + barra_largura, tela_y + barra_altura,
+			al_map_rgb(0, 200, 0)
+		);
+		int r = 200;
+		int g = 0;
+		al_draw_filled_rectangle(
+			tela_x + (barra_largura - hp_barra), tela_y,
+			tela_x + barra_largura , tela_y + barra_altura,
+			al_map_rgb(r, g, 0)
+		);
+	}
+	else {
+		al_draw_filled_rectangle(
+			tela_x, tela_y,
+			tela_x + barra_largura, tela_y + barra_altura,
+			al_map_rgb(120, 0, 0)
+		);
+		al_draw_filled_rectangle(
+			tela_x, tela_y,
+			tela_x + hp_barra, tela_y + barra_altura,
+			al_map_rgb(0, 200, 0)
+		);
+	}
+
+	al_draw_rectangle(
+		tela_x, tela_y,
+		tela_x + barra_largura, tela_y + barra_altura,
+		al_map_rgb(0, 0, 0),
+		2.0
+	);
+}
+
+
+bool colidiu(Entidade* a, Entidade* b) {
+	return (
+		a->box.x < b->box.x + b->box.w &&
+		a->box.x + a->box.w > b->box.x &&
+		a->box.y < b->box.y + b->box.h &&
+		a->box.y + a->box.h > b->box.y 
+		);
+}
+
 
 void desenhar_entidade(Entidade* entidade, int escalonamento) {
 	if (!entidade || !entidade->animacoes[entidade->acao_atual]) return;

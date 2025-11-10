@@ -15,6 +15,7 @@ typedef enum {
 	ATACANDO,
 	MORRENDO,
 	PARADO,
+	MORTO,
 	NUM_ACOES
 } Acao;
 
@@ -45,7 +46,9 @@ typedef struct {
 	float offset_cima, offset_baixo, offset_esquerda, offset_direita;
 	float vel_x, vel_y;
 	bool no_chao;
+	bool ataque_ativo, dano_aplicado;
 	int flip;
+	int hp, hp_max;
 } Entidade;
 
 typedef struct {
@@ -59,10 +62,15 @@ typedef struct {
 Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
 void atualizar_hitbox(Entidade* entidade);
 void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita);
-void atualizar_entidade(Entidade* entidade, unsigned char key[], int display_width, int display_height, int altura_personagem);
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem);
 void desenhar_entidade(Entidade* entidade, int escalonamento);
 void destruir_entidade(Entidade* entidade);
 void desenhar_hitbox(Entidade* entidade);
+void aplicar_dano(Entidade* entidade, int dano);
+void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida);
+void atualizar_ataque(Entidade* atacante, Entidade* alvo);
+bool colidiu(Entidade* a, Entidade* b);
+
 
 
 #endif

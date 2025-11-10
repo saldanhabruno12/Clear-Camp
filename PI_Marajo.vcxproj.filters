@@ -1,22 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="cenario.c" />
-    <ClCompile Include="game.c" />
-    <ClCompile Include="PI_Marajo.c" />
-    <ClCompile Include="player.c" />
-    <ClCompile Include="recursos.c" />
-    <ClCompile Include="entidade.c" />
-    <ClCompile Include="personagens.c" />
+    <ClCompile Include="cenario.c">
+      <Filter>cenario</Filter>
+    </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>source\core</Filter>
+    </ClCompile>
+    <ClCompile Include="entidade.c">
+      <Filter>source\entidades</Filter>
+    </ClCompile>
+    <ClCompile Include="inimigo.c">
+      <Filter>source\entidades</Filter>
+    </ClCompile>
+    <ClCompile Include="personagens.c">
+      <Filter>source\entidades</Filter>
+    </ClCompile>
+    <ClCompile Include="PI_Marajo.c">
+      <Filter>source\main</Filter>
+    </ClCompile>
+    <ClCompile Include="player.c">
+      <Filter>escopo</Filter>
+    </ClCompile>
+    <ClCompile Include="recursos.c">
+      <Filter>escopo</Filter>
+    </ClCompile>
+    <ClCompile Include="colisao.c">
+      <Filter>source\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cenario.h" />
-    <ClInclude Include="estado.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="recursos.h" />
-    <ClInclude Include="entidade.h" />
-    <ClInclude Include="personagens.h" />
+    <ClInclude Include="cenario.h">
+      <Filter>cenario</Filter>
+    </ClInclude>
+    <ClInclude Include="estado.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="entidade.h">
+      <Filter>include\entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="inimigo.h">
+      <Filter>include\entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="personagens.h">
+      <Filter>include\entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>escopo</Filter>
+    </ClInclude>
+    <ClInclude Include="recursos.h">
+      <Filter>escopo</Filter>
+    </ClInclude>
+    <ClInclude Include="colisao.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
