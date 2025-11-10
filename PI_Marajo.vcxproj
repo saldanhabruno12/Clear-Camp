@@ -138,8 +138,10 @@
   <ItemGroup>
     <ClCompile Include="ato.c" />
     <ClCompile Include="cenario.c" />
+    <ClCompile Include="colisao.c" />
     <ClCompile Include="entidade.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="inimigo.c" />
     <ClCompile Include="personagens.c" />
     <ClCompile Include="PI_Marajo.c" />
     <ClCompile Include="player.c" />
@@ -152,9 +154,11 @@
   <ItemGroup>
     <ClInclude Include="ato.h" />
     <ClInclude Include="cenario.h" />
+    <ClInclude Include="colisao.h" />
     <ClInclude Include="entidade.h" />
     <ClInclude Include="estado.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="inimigo.h" />
     <ClInclude Include="personagens.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="recursos.h" />
@@ -163,9 +167,6 @@
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
-    <Image Include="..\..\..\Downloads\caixa_de_dialogo.png" />
-    <Image Include="..\..\..\Downloads\dialogo_ato1.png" />
-    <Image Include="..\..\..\Downloads\narrador.png" />
     <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />

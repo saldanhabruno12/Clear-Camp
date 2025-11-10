@@ -1,6 +1,6 @@
 #include "recursos.h"
 #include <stdlib.h>
-
+/*
 Sprite* criar_sprite(const char* caminho, int num_frames, int display_width, int display_height, int height_sprite) {
 	Sprite* guerreiro = malloc(sizeof(Sprite));
 	if (!guerreiro) return NULL;
@@ -80,7 +80,7 @@ void desenha_sprite(Sprite* guerreiro, int dx, int dy, int flip) {
 
 	al_draw_scaled_bitmap(guerreiro->sheet, sx, sy, guerreiro->frame_largura, guerreiro->frame_altura, guerreiro->x, guerreiro->y, dw, dh, flip);
 }
-
+*/
 void destruir_sprite(Sprite* sprite) {
 	if (sprite) {
 		for (int i = 0; i < sprite->num_frames; i++) {

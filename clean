@@ -1,0 +1,31 @@
+[33m57c6a47[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32minimigo[m[33m, [m[1;31morigin/mapas[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m57c6a47[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32minimigo[m[33m, [m[1;31morigin/mapas[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: reset: moving to origin/main
+[33m4144fe3[m[33m ([m[1;31morigin/inimigo[m[33m)[m HEAD@{2}: commit: Movimentação automática do inimigo
+[33m3886727[m[33m ([m[1;31morigin/entidade[m[33m, [m[1;31morigin/cenario[m[33m, [m[1;32mentidade[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33m3886727[m[33m ([m[1;31morigin/entidade[m[33m, [m[1;31morigin/cenario[m[33m, [m[1;32mentidade[m[33m)[m HEAD@{4}: checkout: moving from entidade to inimigo
+[33m3886727[m[33m ([m[1;31morigin/entidade[m[33m, [m[1;31morigin/cenario[m[33m, [m[1;32mentidade[m[33m)[m HEAD@{5}: commit: Novos parâmetros para criação de entidades
+[33ma8fcb5e[m HEAD@{6}: commit: Criação de entidades
+[33mb325b90[m[33m ([m[1;31morigin/feature/pulo-gravidade[m[33m, [m[1;32mfeature/pulo-gravidade[m[33m)[m HEAD@{7}: checkout: moving from feature/pulo-gravidade to entidade
+[33mb325b90[m[33m ([m[1;31morigin/feature/pulo-gravidade[m[33m, [m[1;32mfeature/pulo-gravidade[m[33m)[m HEAD@{8}: commit (merge): Nova fonte e merge cenários adicionais com menu
+[33m3886963[m HEAD@{9}: checkout: moving from feature/pulo-gravidade to feature/pulo-gravidade
+[33m3886963[m HEAD@{10}: commit: Inserção do Menu e lógica de estado de jogo
+[33mcbb7804[m HEAD@{11}: reset: moving to HEAD
+[33mcbb7804[m HEAD@{12}: commit (merge): Merge cenários e sprites
+[33m15eb049[m HEAD@{13}: checkout: moving from feature/pulo-gravidade to feature/pulo-gravidade
+[33m15eb049[m HEAD@{14}: checkout: moving from feature/pulo-gravidade to feature/pulo-gravidade
+[33m15eb049[m HEAD@{15}: commit: Nova sprite
+[33me2634a3[m HEAD@{16}: commit: variável global para posição do personagem
+[33m279889c[m HEAD@{17}: checkout: moving from cenario to feature/pulo-gravidade
+[33mbe468d4[m[33m ([m[1;32mcenarios[m[33m)[m HEAD@{18}: checkout: moving from feature/pulo-gravidade to cenario
+[33m279889c[m HEAD@{19}: commit: Movimentação Sprite
+[33m5c4dd6a[m HEAD@{20}: checkout: moving from cenarios to feature/pulo-gravidade
+[33mbe468d4[m[33m ([m[1;32mcenarios[m[33m)[m HEAD@{21}: checkout: moving from feature/pulo-gravidade to cenarios
+[33m5c4dd6a[m HEAD@{22}: checkout: moving from cenarios to feature/pulo-gravidade
+[33mbe468d4[m[33m ([m[1;32mcenarios[m[33m)[m HEAD@{23}: reset: moving to HEAD
+[33mbe468d4[m[33m ([m[1;32mcenarios[m[33m)[m HEAD@{24}: checkout: moving from feature/pulo-gravidade to cenarios
+[33m5c4dd6a[m HEAD@{25}: checkout: moving from 5c4dd6a10543bbe70f09e65b6db0937646c6e6b1 to feature/pulo-gravidade
+[33m5c4dd6a[m HEAD@{26}: checkout: moving from mapas to origin/feature/pulo-gravidade
+[33m57c6a47[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32minimigo[m[33m, [m[1;31morigin/mapas[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{27}: checkout: moving from feature/pulo-gravidade to mapas
+[33m5c4dd6a[m HEAD@{28}: commit: Inserção primeira sprite
+[33m9b058fc[m HEAD@{29}: reset: moving to origin/feature/pulo-gravidade
+[33m9b058fc[m HEAD@{30}: commit (initial): Modularização do código

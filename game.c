@@ -50,6 +50,12 @@ bool game_init(Game* game) {
     al_register_event_source(game->queue, al_get_keyboard_event_source());
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
 
+    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
+    definir_hitbox(game->cavaleiro, 25, 22, 30, 30);
+    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
+    definir_hitbox(game->boss->infos, 12, 0, 42, 42);
+
+
     game->running = true;
     game->redraw = true;
 
@@ -158,12 +164,15 @@ void desenhar_dialogo(Game* game) {
 }
 
 void game_loop(Game* game) {
-    // Inicializa entidades e sprites
-    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
-    game->boss = criar_entidade(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
-    game->guerreiro = criar_sprite("images/guerreiro.png", 2, SCREEN_WIDTH, SCREEN_HEIGHT, 51);
+    //define player
+    //Player player;
+    //posição inicial player
+    //player_init(&player, SCREEN_WIDTH / 2, 700);
 
-    // Array de teclas
+    
+
+    //define array com todas teclas existentes
+
     unsigned char key[ALLEGRO_KEY_MAX];
     memset(key, 0, sizeof(key));
 
@@ -176,23 +185,26 @@ void game_loop(Game* game) {
         case ALLEGRO_EVENT_TIMER:
             check_input(game, key, event);
 
+            //atualize a tecla que foi pressionada
+            //atualizar_sprite(game->guerreiro, unsigned char key[]);
             switch (game->estado_game) {
-            case MENU:
-                break;
+                case MENU:
+					break;
 
-            case CONTEXTO:
-                break;
+				case CONTEXTO:
+                    break;
 
-            case DIALOGO:
-                break;
+				case DIALOGO:
+                    break;
 
-            case JOGANDO:
-                atualizar_entidade(game->boss, key, SCREEN_WIDTH, SCREEN_HEIGHT, 64);
-                atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
-                atualizar_sprite(game->guerreiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 54);
-                if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
-                break;
+                case JOGANDO:
+                    atualizar_inimigo(game->boss, game->cavaleiro);
+                    atualizar_entidade(game->cavaleiro, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+                    atualizar_hitbox(game->boss->infos);
+                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+                    break;
+                    
             }
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -264,24 +276,25 @@ void game_loop(Game* game) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
             switch (game->estado_game) {
-            case MENU:
-                desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
-                break;
+                case MENU:
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    break;
 
-            case CONTEXTO:
-                desenhar_contexto(game, SCREEN_WIDTH, SCREEN_HEIGHT);
-                break;
+                case CONTEXTO:
+                    desenhar_contexto(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
 
-            case DIALOGO:
-                desenhar_dialogo(game);
-                break;
-
-            case JOGANDO:
-                desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
-                desenha_sprite(game->guerreiro, SCREEN_WIDTH / 2, 500, game->guerreiro->flip);
-                desenhar_entidade(game->cavaleiro, 2);
-                desenhar_entidade(game->boss, 2);
-                break;
+                    case DIALOGO:
+                    desenhar_dialogo(game);
+					break;
+    
+                case JOGANDO:
+                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_inimigo(game->boss, 2.5);
+                    desenhar_hitbox(game->cavaleiro);
+                    desenhar_entidade(game->cavaleiro, 2);//cavaleiro
+                    desenhar_hitbox(game->boss->infos);
+                    break;
             }
 
             al_flip_display();
@@ -292,9 +305,6 @@ void game_loop(Game* game) {
 
 
 void game_shutdown(Game* game) {
-    if (game->guerreiro) {
-        destruir_sprite(game->guerreiro);
-    }
     if (game->cenario) {
         destruir_cenario(game->cenario);
     }
@@ -304,7 +314,7 @@ void game_shutdown(Game* game) {
     al_destroy_timer(game->timer);
     al_destroy_event_queue(game->queue);
     destruir_entidade(game->cavaleiro);
-    destruir_entidade(game->boss);
+    destruir_inimigo(game->boss);
 }
 
 void trocar_mapa(Game* game, int direcao) {
@@ -345,8 +355,7 @@ void trocar_mapa(Game* game, int direcao) {
     // Reposiciona o cavaleiro
     if (direcao > 0) {
         game->cavaleiro->x = 0;
-        game->boss->x = 0;
-        game->guerreiro->x = 0;
+        //game->boss->x = 0;
     }
     else
         game->cavaleiro->x = 1280 - 100;

@@ -8,10 +8,6 @@
     <ClCompile Include="recursos.c" />
     <ClCompile Include="entidade.c" />
     <ClCompile Include="personagens.c" />
-    <ClCompile Include="ato.c">
-      <Filter>Atos</Filter>
-    </ClCompile>
-    <ClCompile Include="ui.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cenario.h" />
@@ -21,8 +17,6 @@
     <ClInclude Include="recursos.h" />
     <ClInclude Include="entidade.h" />
     <ClInclude Include="personagens.h" />
-    <ClInclude Include="ato.h" />
-    <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
@@ -31,16 +25,8 @@
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />
     <Image Include="mapa_porto.png" />
-    <Image Include="..\..\..\Downloads\caixa_de_dialogo.png" />
-    <Image Include="..\..\..\Downloads\dialogo_ato1.png" />
-    <Image Include="..\..\..\Downloads\narrador.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Atos">
-      <UniqueIdentifier>{af0b91cc-8ab7-4866-b713-741ff6c8ff57}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

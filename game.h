@@ -10,6 +10,7 @@
 #include "estado.h"
 #include "entidade.h"
 #include "personagens.h"
+#include "inimigo.h"
 #include "ato.h"
 
 #define SCREEN_WIDTH 1280
@@ -33,12 +34,16 @@ typedef struct Game {
     int mapa_atual;
     bool aguardando_enter;
     Entidade* cavaleiro;
+    #include "ato.h"
     Entidade* boss;
 
     Ato ato;
     EtapaAto1 etapa_ato1;
     EtapaAto2 etapa_ato2;
     EtapaAto3 etapa_ato3;
+    Inimigo* boss;
+    Entidade* boss;
+
 } Game;
 
 bool game_init(Game* game);
