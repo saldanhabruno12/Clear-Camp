@@ -82,6 +82,9 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
         case DIALOGO:
             break;
 
+        case JOGANDO2:
+            break;
+
         case JOGANDO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
                 mudar_cenario(game, "images/menu.jpeg");
@@ -293,6 +296,17 @@ void game_loop(Game* game) {
 
                 case DIALOGO2:
                     break;
+
+                case JOGANDO2:
+                    atualizar_inimigo(game->boss, game->cavaleiro);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
+                    //printf("HP = %d / %d\n", game->boss->infos->hp, game->boss->infos->hp_max);
+                    atualizar_hitbox(game->boss->infos);
+                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+                    if (game->cavaleiro->hp <= 0) {
+                    }
+                    break;
                     
             }
 
@@ -339,7 +353,8 @@ void game_loop(Game* game) {
                     case ATO3:
                         game->etapa_ato3++;
                         if (game->etapa_ato3 == NEXT_ATO3) {
-                            
+                            mudar_cenario(game, "mapa__esparta.png");
+                            mudanca_estado(game, JOGANDO2);
                         }
                         break;
                     }

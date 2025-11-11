@@ -11,6 +11,7 @@ typedef enum {
 	CONTEXTO,
 	NARRADOR,
 	DIALOGO2,
+	JOGANDO2,
 	GAME_OVER
 } Estado_game;	
 
