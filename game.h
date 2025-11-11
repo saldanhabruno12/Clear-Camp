@@ -36,6 +36,7 @@ typedef struct Game {
     bool aguardando_enter;
     Entidade* cavaleiro;
     Inimigo* boss;
+    Entidade* cavalo;
     Ato ato;
     EtapaAto1 etapa_ato1;
     EtapaAto2 etapa_ato2;

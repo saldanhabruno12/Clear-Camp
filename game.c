@@ -52,9 +52,10 @@ bool game_init(Game* game) {
     
     float mouse_x = 0 , mouse_y = 0;
 
-    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
+    game->cavalo = criar_entidade(cavalo, SCREEN_WIDTH, SCREEN_HEIGHT, 300, SCREEN_WIDTH / 2 - 300, 594, 0);
+    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 594, 0);
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
-    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
+    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 624, 1);
     definir_hitbox(game->boss->infos, 12, 0, 47, 47);
 
 
@@ -83,6 +84,10 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
             break;
 
         case JOGANDO2:
+            if (key[ALLEGRO_KEY_ESCAPE]) {
+                mudar_cenario(game, "images/menu.jpeg");
+                mudanca_estado(game, MENU);
+            }
             break;
 
         case JOGANDO:
@@ -287,6 +292,8 @@ void game_loop(Game* game) {
                         printf("Jogador morreu! Avançando para o Ato 2...\n");
                         game->ato = ATO2;                
                         mudanca_estado(game, NARRADOR);
+                        reiniciar_entidade(game->cavaleiro);
+                        reiniciar_entidade(game->boss->infos);
                     }
                     break;
 
@@ -298,6 +305,7 @@ void game_loop(Game* game) {
                     break;
 
                 case JOGANDO2:
+                    atualizar_entidade(game->cavalo, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 300);
                     atualizar_inimigo(game->boss, game->cavaleiro);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
                     //printf("HP = %d / %d\n", game->boss->infos->hp, game->boss->infos->hp_max);
@@ -305,6 +313,8 @@ void game_loop(Game* game) {
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
                     if (game->cavaleiro->hp <= 0) {
+                        mudar_cenario(game, "images/menu.jpeg");
+                        mudanca_estado(game, MENU);
                     }
                     break;
                     
@@ -329,6 +339,12 @@ void game_loop(Game* game) {
                             mudanca_estado(game, JOGANDO);
                         }
                         break;
+                    case ATO2:
+                        game->etapa_ato2++;
+                        if (game->etapa_ato2 == NEXT_ATO2) {
+                            mudar_cenario(game, "mapa_grecia.png");
+                            mudanca_estado(game, NARRADOR);
+                        }
                     }
                 }
             }
@@ -425,7 +441,7 @@ void game_loop(Game* game) {
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
                     desenhar_hitbox(game->cavaleiro);
-                    desenhar_entidade(game->cavaleiro, 2);//cavaleiro
+                    desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
                     desenhar_hitbox(game->boss->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
@@ -433,6 +449,16 @@ void game_loop(Game* game) {
 
                 case DIALOGO2:
                     desenhar_dialogo_ulisses(game);
+                    break;
+                case JOGANDO2:
+                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_inimigo(game->boss, 2.5);
+                    desenhar_hitbox(game->cavaleiro);
+                    desenhar_entidade(game->cavalo, 0.5);
+                    desenhar_entidade(game->cavaleiro, 2.0);
+                    desenhar_hitbox(game->boss->infos);
+                    desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
+                    desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
                     break;
             }
 

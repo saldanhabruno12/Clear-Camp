@@ -79,7 +79,7 @@ void iniciar_ato3(ALLEGRO_FONT* font, EtapaAto2 etapa) {
     case ETAPA_ATO3_3:
         al_draw_text(font, al_map_rgb(255, 255, 255),
             SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-            ALLEGRO_ALIGN_CENTER, "O plebeu falou2");
+            ALLEGRO_ALIGN_CENTER, "O plebeu falou");
     }
 }
 

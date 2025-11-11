@@ -1,5 +1,19 @@
 #include "personagens.h"
 
+DadosAnimacoes cavalo = {
+    .caminhos = {
+    [ANDANDO] = "images/cavalo/cavalo(prop).png",
+    [CORRENDO] = "images/cavalo/cavalo(prop).png",
+    [PULANDO] = "images/cavalo/cavalo(prop).png",
+    [ATACANDO] = "images/cavalo/cavalo(prop).png",
+    [MORRENDO] = "images/cavalo/cavalo(prop).png",
+    [PARADO] = "images/cavalo/cavalo(prop).png"
+},
+    .colunas = {1, 1, 1, 1, 1, 1},
+    .linhas = {1, 1, 1, 1, 1, 1},
+    .frames = {1, 1, 1, 1, 1, 1}
+};
+
 DadosAnimacoes cavaleiro = {
     .caminhos = {
     [ANDANDO] = "images/cavaleiro/caminhar.png",

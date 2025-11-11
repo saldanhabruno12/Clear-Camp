@@ -59,16 +59,17 @@ typedef struct {
 } DadosAnimacoes;
 
 
-Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
+Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int pos_y, int flip);
 void atualizar_hitbox(Entidade* entidade);
 void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita);
 void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem);
-void desenhar_entidade(Entidade* entidade, int escalonamento);
+void desenhar_entidade(Entidade* entidade, float escalonamento);
 void destruir_entidade(Entidade* entidade);
 void desenhar_hitbox(Entidade* entidade);
 void aplicar_dano(Entidade* entidade, int dano);
 void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida);
-void atualizar_ataque(Entidade* atacante, Entidade* alvo);
+void atualizar_ataque(Entidade* atacante, Entidade* alvo, int dano);
+void reiniciar_entidade(Entidade* entidade);
 bool colidiu(Entidade* a, Entidade* b);
 
 
