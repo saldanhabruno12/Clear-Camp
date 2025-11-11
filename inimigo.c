@@ -17,65 +17,62 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 }
 
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
-	inimigo->tempo_estado++;
 	bool movendo = false;
 
 	switch (inimigo->estado) {
-	case ESTADO_AGUARDANDO:
-		mudar_acao(inimigo->infos, PARADO);
+    case ESTADO_AGUARDANDO:
+        mudar_acao(inimigo->infos, PARADO);
+        // Se o jogador estiver perto o suficiente, começa a se mover
+        if (distancia(inimigo, jogador) <= 120) {
+            inimigo->estado = ESTADO_BUSCANDO;
 
-		if (distancia(inimigo, jogador) <= 50) {//zona de captacao
-			inimigo->estado = ESTADO_BUSCANDO;
-			inimigo->tempo_estado = 0;
+            // Define direção com base na posição do jogador
+            if (jogador->x > inimigo->infos->x) {
+                inimigo->direcao = 1;
+                inimigo->infos->flip = 0;
+            }
+            else {
+                inimigo->direcao = -1;
+                inimigo->infos->flip = 1;
+            }
+        }
+        break;
 
-			if (jogador->x > inimigo->infos->x) {
-				inimigo->direcao = 1;
-				inimigo->infos->flip = 0;
-			}
-			else {
-				inimigo->direcao = -1;
-				inimigo->infos->flip = 1;
-			}
-		}
-		break;
+    case ESTADO_BUSCANDO:
+        
+        mudar_acao(inimigo->infos, CORRENDO);
 
+        float nova_pos = inimigo->infos->x + inimigo->direcao * 1.5;
 
-	case ESTADO_BUSCANDO:
-		mudar_acao(inimigo->infos, CORRENDO);
+        if (nova_pos >= 640 && nova_pos <= 1280) {
+            inimigo->infos->x = nova_pos;
+        }
 
-		inimigo->infos->x += inimigo->direcao * 2;
+        if (distancia(inimigo, jogador) > 150) {
+            inimigo->estado = ESTADO_AGUARDANDO;
+        }
 
-		//verifica direcao errada
-		if ((jogador->x > inimigo->infos->x && inimigo->direcao == -1) || (jogador->x < inimigo->infos->x && inimigo->direcao == 1)) {
-			inimigo->direcao *= -1;
-			inimigo->infos->flip = !inimigo->infos->flip;
-		}
+        if (colidiu(inimigo->infos, jogador)) {
+            inimigo->estado = ESTADO_ATACANDO;
+        }
 
-		if (distancia(inimigo, jogador) > 100) {
-			inimigo->estado = ESTADO_AGUARDANDO;
-			inimigo->tempo_estado = 0;
-			inimigo->direcao *= -1;
-		}
+        break;
 
-		if (colidiu(inimigo->infos, jogador)) {
-			inimigo->estado = ESTADO_ATACANDO;
-			inimigo->tempo_estado = 0;
-		}
+    case ESTADO_ATACANDO:
+        if (jogador->hp > 0) {
+            mudar_acao(inimigo->infos, ATACANDO);
+            atualizar_ataque(inimigo->infos, jogador);
+        }
+        else {
+            mudar_acao(inimigo->infos, PARADO);
+        }
 
-		break;
+        if (!colidiu(inimigo->infos, jogador)) {
+            inimigo->estado = ESTADO_AGUARDANDO;
+        }
+        break;
+}
 
-	case ESTADO_ATACANDO:
-		if (jogador->hp > 0) {
-			mudar_acao(inimigo->infos, ATACANDO);
-			atualizar_ataque(inimigo->infos, jogador);
-		}
-		else mudar_acao(inimigo->infos, PARADO);
-		if (!colidiu(inimigo->infos, jogador)) {
-			inimigo->estado = ESTADO_BUSCANDO;
-			inimigo->tempo_estado = 0;
-		}
-		break;
-		}
 
 		inimigo->infos->vel_y += 1;
 		inimigo->infos->y += inimigo->infos->vel_y;
@@ -92,6 +89,7 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 			inimigo->infos->frame_atual = (inimigo->infos->frame_atual + 1) % anim->num_frames;
 			inimigo->infos->cont = 0;
 		}
+
 
 	}
 

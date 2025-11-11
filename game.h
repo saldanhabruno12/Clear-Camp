@@ -30,7 +30,8 @@ typedef struct Game{
     Entidade* cavaleiro;
     Inimigo* boss;
     float mouse_x, mouse_y;
-} Game;
+    Retangulo iniciar, opcoes, como_jogar;
+ } Game;
 
 bool game_init(Game* game);
 

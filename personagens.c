@@ -7,11 +7,12 @@ DadosAnimacoes cavaleiro = {
     [PULANDO] = "images/cavaleiro/pulo.png",
     [ATACANDO] = "images/cavaleiro/ataque1.png",
     [MORRENDO] = "images/cavaleiro/morte.png",
-    [PARADO] = "images/cavaleiro/parado.png"
+    [PARADO] = "images/cavaleiro/parado.png",
+    [MORTO] = "images/cavaleiro/morto.png"
 },
-    .colunas = {8, 8, 5, 6, 12, 7},
-    .linhas = {1, 1, 1, 1, 1, 1},
-    .frames = {8, 8, 5, 6, 12, 7}
+    .colunas = {8, 8, 5, 6, 12, 7, 1},
+    .linhas = {1, 1, 1, 1, 1, 1, 1},
+    .frames = {8, 8, 5, 6, 12, 7, 1}
 };
 
 DadosHitbox cavaleiro_hitbox = {

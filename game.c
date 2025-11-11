@@ -24,6 +24,7 @@ bool game_init(Game* game) {
     game->estado_game = MENU;
     game->cenario = al_load_bitmap("images/menu/menu.png");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 35, 0);
+
     
 
     if (!game->display || !game->timer || !game->queue) return false;
@@ -33,11 +34,10 @@ bool game_init(Game* game) {
     al_register_event_source(game->queue, al_get_mouse_event_source());
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
     
-    float mouse_x = 0 , mouse_y = 0;
 
     game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
-    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, SCREEN_WIDTH / 2, 1);
+    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, 720, 1);
     definir_hitbox(game->boss->infos, 12, 0, 47, 47);
 
 
@@ -62,6 +62,13 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
                 mudanca_estado(game, JOGANDO);
             }
 
+            /*if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+                printf("Clique ativado\n");
+                if (area_clicavel(game->mouse_x, game->mouse_y, game->iniciar)) {
+                    mudar_cenario(game, "images/mapa_grecia.png");
+                    mudanca_estado(game, JOGANDO);
+                }
+            }*/
             break;
         case JOGANDO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
@@ -105,6 +112,10 @@ void game_loop(Game* game) {
     unsigned char key[ALLEGRO_KEY_MAX];
     memset(key, 0, sizeof(key));
 
+    game->iniciar = (Retangulo){ 420, 850, 309, 409 };
+    game->opcoes = (Retangulo){ 420, 850, 432, 532 };
+    game->como_jogar = (Retangulo){ 420, 850, 555, 655 };
+
     ALLEGRO_EVENT event;
 
     while (game->running) {
@@ -122,7 +133,6 @@ void game_loop(Game* game) {
                 case JOGANDO:
                     atualizar_inimigo(game->boss, game->cavaleiro);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84);
-                    //printf("HP = %d / %d\n", game->boss->infos->hp, game->boss->infos->hp_max);
                     atualizar_hitbox(game->boss->infos);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
@@ -147,8 +157,15 @@ void game_loop(Game* game) {
             break;
 
         case ALLEGRO_EVENT_MOUSE_AXES:
-            
+            game->mouse_x = event.mouse.x;
+            game->mouse_y = event.mouse.y;
+            break;
 
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            if (area_clicavel(game->mouse_x, game->mouse_y, game->iniciar)) {
+                mudar_cenario(game, "images/mapa_grecia.png");
+                mudanca_estado(game, JOGANDO);
+            }
             break;
 
 

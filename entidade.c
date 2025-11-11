@@ -144,6 +144,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 		mudar_acao(entidade, PARADO);
 	}
 	else if (entidade->hp <= 0 && entidade->acao_atual != MORRENDO) {
+		int frame_final = entidade->animacoes[MORRENDO]->num_frames - 1;
 		entidade->hp = 0;
 		mudar_acao(entidade, MORRENDO);
 	}
@@ -172,6 +173,8 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 	case MORRENDO: velocidade_animacao = 10; break;
 	default: velocidade_animacao = 10; break;      // PARADO - mais lento
 	}
+	
+	if (entidade->acao_atual == MORRENDO && entidade->frame_atual == entidade->animacoes[MORRENDO]->num_frames - 1) return;
 
 	if (entidade->cont >= velocidade_animacao) {
 		entidade->frame_atual = (entidade->frame_atual + 1) % anim_atual->num_frames;
@@ -213,7 +216,6 @@ void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida
 
 	float hp_porcentagem = (float)entidade->hp / entidade->hp_max;
 	float hp_barra = barra_largura * hp_porcentagem;
-	printf("resultado invertida: %d\n", tela_x + (barra_largura - hp_barra));
 
 
 	if (invertida) {
