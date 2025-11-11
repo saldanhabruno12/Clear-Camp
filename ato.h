@@ -8,6 +8,7 @@ typedef enum {
 	ATO3
 } Ato;
 
+
 typedef enum {
 	ETAPA_ATO1_0,
 	ETAPA_ATO1_1,
