@@ -139,15 +139,17 @@ void mudar_cenario(Game* game, const char* caminho) {
         printf("Erro ao carregar novo cenario: %s\n", caminho);
 }
 
-void desenhar_menu(Game* game, int largura, int altura) {
+void desenhar_menu(Game* game, int largura, int altura, const char* caminho) {
     desenhar_cenario(game->cenario, largura, altura);
     if (!game->fonte_menu) {
         printf("Erro ao carregar fonte");
         return -1;
     }
-    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
-    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
-    al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
+    if (caminho == "images/menu/menu.png") {
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
+    }
 
 }
 
@@ -472,11 +474,11 @@ void game_loop(Game* game) {
 
             switch (game->estado_game) {
                 case MENU:
-                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT, "images/menu/menu.png");
                     break;
 
                 case COMO_JOGAR:
-                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT, "images/menu/como_jogar.png");
                     break;
 
                 case CONTEXTO:
