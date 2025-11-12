@@ -292,20 +292,40 @@ void game_loop(Game* game) {
 				case DIALOGO:
                     break;
 
-                case JOGANDO:
+                case JOGANDO: {
+                    static double tempo_morte = 0; // guarda quando o jogador morreu
+
                     atualizar_inimigo(game->boss, game->cavaleiro, 25);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
                     atualizar_hitbox(game->boss->infos);
+
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+
+                    // Verifica morte
                     if (game->cavaleiro->hp <= 0) {
-                        printf("Jogador morreu! Avançando para o Ato 2...\n");
-                        game->ato = ATO2;                
-                        mudanca_estado(game, NARRADOR);
-                        reiniciar_entidade(game->cavaleiro);
-                        reiniciar_entidade(game->boss->infos);
+                        if (tempo_morte == 0) {
+                            tempo_morte = al_get_time(); // salva o tempo da morte
+                            printf("Jogador morreu! Esperando 5 segundos...\n");
+                        }
+
+                        // Espera 5 segundos antes de trocar o estado
+                        if (al_get_time() - tempo_morte >= 5.0) {
+                            printf("Avançando para o Ato 2...\n");
+                            game->ato = ATO2;
+                            mudanca_estado(game, NARRADOR);
+                            reiniciar_entidade(game->cavaleiro);
+                            reiniciar_entidade(game->boss->infos);
+                            tempo_morte = 0; // reseta o contador
+                        }
                     }
+                    else {
+                        // Se estiver vivo, zera o tempo de morte
+                        tempo_morte = 0;
+                    }
+
                     break;
+                }
 
                 case NARRADOR:
                     break;
