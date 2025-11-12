@@ -170,7 +170,9 @@
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
+    <Image Include="..\..\..\Downloads\dialogo_final.png" />
     <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\dialogo_ato2.png" />
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_final.png" />
     <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />
