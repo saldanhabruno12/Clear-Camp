@@ -112,7 +112,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -129,7 +129,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 
 	if (key[ALLEGRO_KEY_SPACE] && entidade->hp > 0) {
 		mudar_acao(entidade, ATACANDO);
-		atualizar_ataque(entidade, inimigo, 10);
+		atualizar_ataque(entidade, inimigo, dano);
 	}
 	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao && entidade->hp > 0 || key[ALLEGRO_KEY_UP]) && entidade->no_chao && entidade->hp > 0) {
 		entidade->vel_y = -15;

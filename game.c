@@ -80,6 +80,13 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
                 mudanca_estado(game, JOGANDO);
             }
             break;
+        
+        case COMO_JOGAR:
+            if(key[ALLEGRO_KEY_ESCAPE]) {
+                mudar_cenario(game, "images/menu/menu.png");
+                mudanca_estado(game, MENU);
+            }
+            break;
 
         case CONTEXTO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
@@ -286,6 +293,9 @@ void game_loop(Game* game) {
                 case MENU:
 					break;
 
+                case COMO_JOGAR:
+                    break;
+
 				case CONTEXTO:
                     break;
 
@@ -296,14 +306,22 @@ void game_loop(Game* game) {
                     atualizar_inimigo(game->boss, game->cavaleiro, 25);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
                     atualizar_hitbox(game->boss->infos);
-                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+                    //if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    //if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
                     if (game->cavaleiro->hp <= 0) {
                         printf("Jogador morreu! Avançando para o Ato 2...\n");
                         game->ato = ATO2;                
                         mudanca_estado(game, NARRADOR);
                         reiniciar_entidade(game->cavaleiro);
                         reiniciar_entidade(game->boss->infos);
+                    }
+                    break;
+
+                case TRANSICAO:
+                    atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
+                    if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
+                        mudanca_estado(game, JOGANDO2);
                     }
                     break;
 
@@ -315,10 +333,9 @@ void game_loop(Game* game) {
                     break;
 
                 case JOGANDO2:
-                    atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    game->cavalo->infos->x = 150;
                     atualizar_inimigo(game->boss, game->cavaleiro, 10);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
-                    //printf("HP = %d / %d\n", game->boss->infos->hp, game->boss->infos->hp_max);
                     atualizar_hitbox(game->boss->infos);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
@@ -379,11 +396,22 @@ void game_loop(Game* game) {
                     case ATO3:
                         game->etapa_ato3++;
                         if (game->etapa_ato3 == NEXT_ATO3) {
+                            game->cavaleiro->x = 200;
+                            game->cavalo->infos->x = 150;
                             mudar_cenario(game, "mapa__esparta.png");
-                            mudanca_estado(game, JOGANDO2);
+                            mudanca_estado(game, TRANSICAO);
                         }
                         break;
                     }
+                }
+            }
+            if (game->estado_game == TRANSICAO) {
+                if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
+                    mudar_cenario(game, "mapa__esparta.png");
+                    mudanca_estado(game, JOGANDO2);
+                    game->cavaleiro->x = 200;
+                    game->cavalo->infos->x = 150;
+
                 }
             }
             
@@ -403,7 +431,7 @@ void game_loop(Game* game) {
 
             // ESC no jogo ? volta ao menu
             else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == JOGANDO) {
-                mudar_cenario(game, "images/menu.jpeg");
+                mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
             }
 
@@ -426,6 +454,10 @@ void game_loop(Game* game) {
             if (area_clicavel(game->mouse_x, game->mouse_y, game->iniciar) && game->estado_game == MENU) {
                 mudanca_estado(game, CONTEXTO);
             }
+            else if (area_clicavel(game->mouse_x, game->mouse_y, game->como_jogar) && game->estado_game == MENU) {
+                mudar_cenario(game, "images/menu/como_jogar.png");
+                mudanca_estado(game, COMO_JOGAR);
+            }
             break;
 
 
@@ -440,6 +472,10 @@ void game_loop(Game* game) {
 
             switch (game->estado_game) {
                 case MENU:
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    break;
+
+                case COMO_JOGAR:
                     desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT);
                     break;
 
@@ -464,6 +500,14 @@ void game_loop(Game* game) {
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
 					break;
+
+                case TRANSICAO:
+                    mudar_cenario(game, "images/mapa_castelo.png");
+                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_cavalo(game->cavalo, 1);
+                    desenhar_entidade(game->cavaleiro, 2.0);
+                    break;
+
 
                 case DIALOGO2:
                     desenhar_dialogo_ulisses(game);
