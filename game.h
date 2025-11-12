@@ -13,6 +13,7 @@
 #include "inimigo.h"
 #include "ato.h"
 #include "click.h"
+#include "cavalo.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -39,7 +40,7 @@ typedef struct Game {
     Inimigo* boss;
     float mouse_x, mouse_y;
     Retangulo iniciar, opcoes, como_jogar;
-    Entidade* cavalo;
+    Cavalo* cavalo;
     Ato ato;
     EtapaAto1 etapa_ato1;
     EtapaAto2 etapa_ato2;

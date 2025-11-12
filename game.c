@@ -52,7 +52,7 @@ bool game_init(Game* game) {
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
     
 
-    game->cavalo = criar_entidade(cavalo, SCREEN_WIDTH, SCREEN_HEIGHT, 300, SCREEN_WIDTH / 2 - 300, 0);
+    game->cavalo = criar_cavalo(cavalo, SCREEN_WIDTH, SCREEN_HEIGHT, 300, SCREEN_WIDTH / 2 - 200, 0);
     game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
     game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, 720, 1);
@@ -315,7 +315,7 @@ void game_loop(Game* game) {
                     break;
 
                 case JOGANDO2:
-                    atualizar_entidade(game->cavalo, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 300, 0);
+                    atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
                     atualizar_inimigo(game->boss, game->cavaleiro, 10);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
                     //printf("HP = %d / %d\n", game->boss->infos->hp, game->boss->infos->hp_max);
@@ -472,7 +472,7 @@ void game_loop(Game* game) {
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
                     desenhar_hitbox(game->cavaleiro);
-                    desenhar_entidade(game->cavalo, 0.5);
+                    desenhar_cavalo(game->cavalo, 1);
                     desenhar_entidade(game->cavaleiro, 2.0);
                     desenhar_hitbox(game->boss->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);

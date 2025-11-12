@@ -59,6 +59,7 @@ typedef struct {
 } DadosAnimacoes;
 
 
+Animacao* criar_animacao(const char* caminho, int linhas, int colunas);
 Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
 void atualizar_hitbox(Entidade* entidade);
 void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita);

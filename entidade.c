@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static Animacao* criar_animacao(const char* caminho, int linhas, int colunas);
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
 
 Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
@@ -113,7 +112,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -130,7 +129,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 
 	if (key[ALLEGRO_KEY_SPACE] && entidade->hp > 0) {
 		mudar_acao(entidade, ATACANDO);
-		atualizar_ataque(entidade, inimigo, dano);
+		atualizar_ataque(entidade, inimigo, 10);
 	}
 	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao && entidade->hp > 0 || key[ALLEGRO_KEY_UP]) && entidade->no_chao && entidade->hp > 0) {
 		entidade->vel_y = -15;

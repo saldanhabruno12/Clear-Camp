@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ato.c" />
+    <ClCompile Include="cavalo.c" />
     <ClCompile Include="cenario.c" />
     <ClCompile Include="click.c" />
     <ClCompile Include="colisao.c" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ato.h" />
+    <ClInclude Include="cavalo.h" />
     <ClInclude Include="cenario.h" />
     <ClInclude Include="click.h" />
     <ClInclude Include="colisao.h" />
