@@ -64,23 +64,125 @@ void iniciar_ato3(ALLEGRO_FONT* font, EtapaAto2 etapa) {
     case ETAPA_ATO3_0:
         al_draw_text(font, al_map_rgb(255, 255, 255),
             200, SCREEN_HEIGHT / 2 - 170,
-            ALLEGRO_ALIGN_CENTER, "Ulisses avise Aquiles que Patroclo morreu.");
+            ALLEGRO_ALIGN_CENTER, "");
         break;
     case ETAPA_ATO3_1:
-        al_draw_text(font, al_map_rgb(255, 255, 255),
-            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 170,
-            ALLEGRO_ALIGN_CENTER, "Precisamos que ele volte a guerra.");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 100,
+            ALLEGRO_ALIGN_CENTER, "Ulisses avise Aquiles");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 140,
+            ALLEGRO_ALIGN_CENTER, "que Patroclo morreu");
         break;
     case ETAPA_ATO3_2:
-        al_draw_text(font, al_map_rgb(255, 255, 255),
-            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 170,
-            ALLEGRO_ALIGN_CENTER, "E traga-me um plano para invadir a cidade de Troia.");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 100,
+            ALLEGRO_ALIGN_CENTER, "Precisamos que ele");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 140,
+            ALLEGRO_ALIGN_CENTER, "volte a guerra");
         break;
     case ETAPA_ATO3_3:
-        al_draw_text(font, al_map_rgb(255, 255, 255),
-            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-            ALLEGRO_ALIGN_CENTER, "O plebeu falou");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 100,
+            ALLEGRO_ALIGN_CENTER, "E traga-me um plano");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            360, 140,
+            ALLEGRO_ALIGN_CENTER, "para invadirmos Troia");
+        break;
+    case ETAPA_ATO3_4:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 100,
+            ALLEGRO_ALIGN_CENTER, "Eu tenho um plano Agamemon");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 140,
+            ALLEGRO_ALIGN_CENTER, "e Aquiles vai liderar");
+        break;
+    case ETAPA_ATO3_5:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 100,
+            ALLEGRO_ALIGN_CENTER, "Oferecer um enorme cavalo");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 140,
+            ALLEGRO_ALIGN_CENTER, "de madeira em forma de paz...");
+        break;
+    case ETAPA_ATO3_6:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 100,
+            ALLEGRO_ALIGN_CENTER, "nossos guerreiros estarao");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 140,
+            ALLEGRO_ALIGN_CENTER, "escondidos dentro do cavalo");
+        break;
+    case ETAPA_ATO3_7:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 100,
+            ALLEGRO_ALIGN_CENTER, "invadiremos Troia de");
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            920, 140,
+            ALLEGRO_ALIGN_CENTER, "dentro para fora");
+        break;
     }
+}
+
+void iniciar_ato4(ALLEGRO_FONT* font, EtapaAto2 etapa) {
+    switch (etapa) {
+    case ETAPA_ATO4_0:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
+            ALLEGRO_ALIGN_CENTER, "O plano do Cavalo de Troia de Ulisses foi um sucessso");
+        break;
+    case ETAPA_ATO4_1:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
+            ALLEGRO_ALIGN_CENTER, "Os gregos sairam de dentro do cavalo");
+        break;
+    case ETAPA_ATO4_2:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
+            ALLEGRO_ALIGN_CENTER, "e venceram a guerra. Aquiles vingou seu amigo");
+        break;
+    case ETAPA_ATO4_3:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
+            ALLEGRO_ALIGN_CENTER, "A princessa Helena foi enfim resgatda");
+    }
+}
+
+
+void iniciar_ato5(ALLEGRO_FONT* font, EtapaAto1 etapa) {
+    switch (etapa) {
+    case ETAPA_ATO5_0:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "Esstou feliz em te-la de volta");
+        break;
+    case ETAPA_ATO5_1:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "Aquiles conseguiu se vingar");
+        break;
+    case ETAPA_ATO5_2:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "Troia caiu diante o plano de Ulisses");
+        break;
+    case ETAPA_ATO5_3:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "Eu declaria guerra ao mundo");
+        break;
+    case ETAPA_ATO5_4:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "para te ter novamente...");
+        break;
+    case ETAPA_ATO5_5:
+        al_draw_text(font, al_map_rgb(0, 0, 0),
+            SCREEN_WIDTH / 2, 120,
+            ALLEGRO_ALIGN_CENTER, "e foi isso que eu fiz!");
+    }
+
 }
 
 
