@@ -113,7 +113,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -130,7 +130,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 
 	if (key[ALLEGRO_KEY_SPACE] && entidade->hp > 0) {
 		mudar_acao(entidade, ATACANDO);
-		atualizar_ataque(entidade, inimigo);
+		atualizar_ataque(entidade, inimigo, dano);
 	}
 	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao && entidade->hp > 0 || key[ALLEGRO_KEY_UP]) && entidade->no_chao && entidade->hp > 0) {
 		entidade->vel_y = -15;
@@ -194,13 +194,13 @@ void aplicar_dano(Entidade* entidade, int dano) {
 	}
 }
 
-void atualizar_ataque(Entidade* atacante, Entidade* alvo) {
+void atualizar_ataque(Entidade* atacante, Entidade* alvo, int dano) {
 	if (atacante->acao_atual == ATACANDO) {
 		int frame_final = atacante->animacoes[ATACANDO]->num_frames - 1;
 
 		if (atacante->frame_atual == frame_final && !atacante->dano_aplicado) {
 			if (colidiu(atacante, alvo)) {
-				aplicar_dano(alvo, 10);
+				aplicar_dano(alvo, dano);
 				atacante->dano_aplicado = true;
 			}
 		}
@@ -253,6 +253,11 @@ void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida
 	);
 }
 
+void reiniciar_entidade(Entidade* entidade) {
+	entidade->hp = 100;
+}
+
+
 
 bool colidiu(Entidade* a, Entidade* b) {
 	return (
@@ -264,7 +269,7 @@ bool colidiu(Entidade* a, Entidade* b) {
 }
 
 
-void desenhar_entidade(Entidade* entidade, int escalonamento) {
+void desenhar_entidade(Entidade* entidade, float escalonamento) {
 	if (!entidade || !entidade->animacoes[entidade->acao_atual]) return;
 	
 	Animacao* anima = entidade->animacoes[entidade->acao_atual];

@@ -28,7 +28,6 @@
     <ClCompile Include="colisao.c">
       <Filter>source\core</Filter>
     </ClCompile>
-    <ClCompile Include="click.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cenario.h">
@@ -58,59 +57,16 @@
     <ClInclude Include="colisao.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="dialogo.h" />
-    <ClInclude Include="click.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png">
-      <Filter>cenario\images</Filter>
-    </Image>
-    <Image Include="images\mapa_acampamento.png">
-      <Filter>cenario\images</Filter>
-    </Image>
-    <Image Include="mapa_castelo.png">
-      <Filter>cenario\images</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png">
-      <Filter>cenario\images</Filter>
-    </Image>
-    <Image Include="mapa_porto.png">
-      <Filter>cenario\images</Filter>
-    </Image>
+    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
+    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
+    <Image Include="images\guerreiro.png" />
+    <Image Include="images\mapa_acampamento.png" />
+    <Image Include="mapa_castelo.png" />
+    <Image Include="mapa_porto.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="cenario">
-      <UniqueIdentifier>{9e07d8eb-5e6f-4e51-8bc9-c2efa9636306}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cenario\images">
-      <UniqueIdentifier>{6f4d8bf9-f450-42cc-980e-cf5929d2ee6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source">
-      <UniqueIdentifier>{17d9e1bf-1f78-49d7-900a-dff93e1ebf76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\core">
-      <UniqueIdentifier>{194a1cbb-bb2b-4428-bbae-55746cfa10fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\entidades">
-      <UniqueIdentifier>{08c64f40-d3b0-43d2-b089-aac43a18da9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\main">
-      <UniqueIdentifier>{e7904ee9-247a-4592-9599-b2d8d253b6ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{8f98b7fb-46e7-45d4-affa-092ed3ee897d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\core">
-      <UniqueIdentifier>{13efbfac-ce98-4385-89b3-69ef1ba62c77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\entidades">
-      <UniqueIdentifier>{29b9b38c-e62b-4c4c-84fc-84e725688642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="escopo">
-      <UniqueIdentifier>{0bff73fd-a422-4915-b95a-a71300ce68b5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

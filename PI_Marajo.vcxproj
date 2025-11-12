@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ato.c" />
     <ClCompile Include="cenario.c" />
     <ClCompile Include="click.c" />
     <ClCompile Include="colisao.c" />
@@ -151,6 +152,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ato.h" />
     <ClInclude Include="cenario.h" />
     <ClInclude Include="click.h" />
     <ClInclude Include="colisao.h" />
@@ -166,6 +168,8 @@
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
     <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\dialogo_ato2.png" />
+    <Image Include="images\guerreiro.png" />
     <Image Include="images\mapa_acampamento.png" />
     <Image Include="mapa_castelo.png" />
     <Image Include="mapa_porto.png" />

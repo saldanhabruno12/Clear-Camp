@@ -15,5 +15,7 @@ extern DadosHitbox cavaleiro_hitbox;
 extern DadosAnimacoes boss;
 extern DadosHitbox boss_hitbox;
 
+extern DadosAnimacoes cavalo;
+
 #endif
 

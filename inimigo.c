@@ -16,7 +16,7 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 	return inimigo;
 }
 
-void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
+void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano) {
 	bool movendo = false;
 
 	switch (inimigo->estado) {
@@ -61,7 +61,7 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
     case ESTADO_ATACANDO:
         if (jogador->hp > 0) {
             mudar_acao(inimigo->infos, ATACANDO);
-            atualizar_ataque(inimigo->infos, jogador);
+            atualizar_ataque(inimigo->infos, jogador, dano);
         }
         else {
             mudar_acao(inimigo->infos, PARADO);
@@ -70,9 +70,16 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
         if (!colidiu(inimigo->infos, jogador)) {
             inimigo->estado = ESTADO_AGUARDANDO;
         }
+        if (inimigo->infos->hp <= 0) {
+            inimigo->infos->hp = 0;
+            inimigo->estado = ESTADO_MORRENDO;
+        }
+        break;
+
+    case ESTADO_MORRENDO:
+        mudar_acao(inimigo->infos, MORRENDO);
         break;
 }
-
 
 		inimigo->infos->vel_y += 1;
 		inimigo->infos->y += inimigo->infos->vel_y;
@@ -85,6 +92,8 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador) {
 
 		Animacao* anim = inimigo->infos->animacoes[inimigo->infos->acao_atual];
 		inimigo->infos->cont++;
+        if (inimigo->infos->acao_atual == MORRENDO && inimigo->infos->frame_atual == inimigo->infos->animacoes[MORRENDO]->num_frames - 1) return;
+
 		if (inimigo->infos->cont >= 6) {
 			inimigo->infos->frame_atual = (inimigo->infos->frame_atual + 1) % anim->num_frames;
 			inimigo->infos->cont = 0;
