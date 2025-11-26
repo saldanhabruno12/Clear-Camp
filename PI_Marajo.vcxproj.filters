@@ -13,6 +13,7 @@
     <ClCompile Include="PI_Marajo.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="recursos.c" />
+    <ClCompile Include="capanga.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ato.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="personagens.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="recursos.h" />
+    <ClInclude Include="capanga.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />

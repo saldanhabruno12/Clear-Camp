@@ -9,6 +9,10 @@ typedef struct {
 } PersonagemDados;
 
 
+extern DadosAnimacoes capanga;
+extern DadosHitbox capanga_hitbox;
+
+
 extern DadosAnimacoes cavaleiro;
 extern DadosHitbox cavaleiro_hitbox;
 

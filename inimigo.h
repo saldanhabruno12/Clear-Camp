@@ -26,5 +26,7 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano);
 void desenhar_inimigo(Inimigo* inimigo, int escalonamento);
 void destruir_inimigo(Inimigo* inimigo);
+float distancia(Inimigo* inimigo, Entidade* jogador);
+
 
 #endif
