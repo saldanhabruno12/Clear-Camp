@@ -111,7 +111,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano, float escala) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -151,8 +151,8 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga
 	entidade->vel_y += 1;
 	entidade->y += entidade->vel_y;
 
-	if (entidade->y >= display_height - altura_personagem * 1.5) {
-		entidade->y = display_height - altura_personagem * 1.5;
+	if (entidade->y >= display_height - altura_personagem * escala) {
+		entidade->y = display_height - altura_personagem * escala;
 		entidade->vel_y = 0;
 		entidade->no_chao = true;
 		if (entidade->acao_atual == PULANDO) {
@@ -253,7 +253,7 @@ void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida
 }
 
 void reiniciar_entidade(Entidade* entidade) {
-	entidade->hp = 100;
+	entidade->hp = entidade->hp_max;
 }
 
 

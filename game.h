@@ -39,9 +39,11 @@ typedef struct Game {
 	ALLEGRO_BITMAP* imagem_final;
     int mapa_atual;
     bool aguardando_enter;
+    Entidade* patroclo;
     Entidade* cavaleiro;
     Inimigo* boss;
     Inimigo* capanga;
+    Inimigo* menelau;
     float mouse_x, mouse_y;
     Retangulo iniciar, opcoes, como_jogar;
     Cavalo* cavalo;

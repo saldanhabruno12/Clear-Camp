@@ -48,7 +48,7 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
     case ESTADO_AGUARDANDO:
         mudar_acao(inimigo->infos, PARADO);
         // Sempre se move
-        if (distancia(inimigo, jogador) <= 1200) {
+        if (distancia(inimigo, jogador) <= 1500) {
             inimigo->estado = ESTADO_BUSCANDO;
 
             // Define direção com base na posição do jogador
@@ -65,7 +65,6 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
 
     case ESTADO_BUSCANDO:
         mudar_acao(inimigo->infos, CORRENDO);
-        printf("%f\n", inimigo->infos->y);
 
         float nova_pos = inimigo->infos->x + inimigo->direcao * 1.5;
         if(!colidiu(inimigo->infos, jogador)) inimigo->infos->x = nova_pos;
@@ -76,9 +75,12 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
         break;
 
     case ESTADO_ATACANDO:
-        mudar_acao(inimigo->infos, ATACANDO);
-        atualizar_ataque(inimigo->infos, jogador, dano);
-        printf("%d\n", inimigo->infos->hp);
+        if (jogador->hp > 0) {
+            mudar_acao(inimigo->infos, ATACANDO);
+            atualizar_ataque(inimigo->infos, jogador, dano);
+        }
+        else mudar_acao(inimigo->infos, PARADO);
+
         if (distancia(inimigo, jogador) >= 100) inimigo->estado = ESTADO_AGUARDANDO;
 
         if (inimigo->infos->hp <= 0) {
