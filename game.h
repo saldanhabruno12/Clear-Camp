@@ -29,11 +29,13 @@ typedef struct Game {
     Estado_game estado_game;
     ALLEGRO_FONT* fonte_menu;
     ALLEGRO_BITMAP* pergaminho;
+	ALLEGRO_BITMAP* dialogofinal;
 	ALLEGRO_BITMAP* contexto;    
     ALLEGRO_FONT* fonte_dialogo;
     ALLEGRO_FONT* fonte_contexto;
     ALLEGRO_FONT* fonte_pular;
 	ALLEGRO_BITMAP* planotroia;
+	ALLEGRO_BITMAP* imagem_final;
     int mapa_atual;
     bool aguardando_enter;
     Entidade* cavaleiro;
@@ -45,6 +47,8 @@ typedef struct Game {
     EtapaAto1 etapa_ato1;
     EtapaAto2 etapa_ato2;
     EtapaAto3 etapa_ato3;
+    EtapaAto4 etapa_ato4;
+    EtapaAto4 etapa_ato5;
 } Game;
 
 
