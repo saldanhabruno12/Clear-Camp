@@ -15,8 +15,8 @@ typedef enum {
 	JOGANDO2,
 	GAME_OVER,
 	COMO_JOGAR,
-	FINAL,
-	TRANSICAO
+	TRANSICAO,
+	FINAL
 } Estado_game;	
 
 

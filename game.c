@@ -32,7 +32,6 @@ bool game_init(Game* game) {
     game->estado_game = MENU;
     game->cenario = al_load_bitmap("images/menu/menu.png");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 35, 0);
-    //game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 60, 0);
     game->pergaminho = al_load_bitmap("dialogo_ato1.png");
     game->dialogofinal = al_load_bitmap("dialogo_final.png");
     game->planotroia = al_load_bitmap("dialogo_ato2.png");
@@ -61,6 +60,8 @@ bool game_init(Game* game) {
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
     game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, 720, 1);
     definir_hitbox(game->boss->infos, 12, 0, 47, 47);
+    game->capanga = criar_inimigo(capanga, SCREEN_WIDTH, SCREEN_HEIGHT, 42, 800, 1);
+    definir_hitbox(game->capanga->infos, 5, 3, 30, 30);
 
 
     game->running = true;
@@ -371,10 +372,13 @@ void game_loop(Game* game) {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
 
                     atualizar_inimigo(game->boss, game->cavaleiro, 25);
+                    atualizar_capanga(game->capanga, game->cavaleiro, 0);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
-                    atualizar_hitbox(game->boss->infos);
-                    //if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    //if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+
+                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+
+                    // Verifica morte
                     if (game->cavaleiro->hp <= 0) {
                         if (tempo_morte == 0) {
                             tempo_morte = al_get_time(); // salva o tempo da morte
@@ -414,10 +418,11 @@ void game_loop(Game* game) {
                 case DIALOGO2:
                     break;
 
+
                 case JOGANDO2: {
                     static double tempo_morte2 = 0; // guarda quando o jogador morreu
-
-                    atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    game->cavalo->infos->x = 150;
+                    //atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
                     atualizar_inimigo(game->boss, game->cavaleiro, 10);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
                     atualizar_hitbox(game->boss->infos);
@@ -616,9 +621,11 @@ void game_loop(Game* game) {
                 case JOGANDO:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
+                    desenhar_capanga(game->capanga->infos, 2.0);
                     desenhar_hitbox(game->cavaleiro);
                     desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
                     desenhar_hitbox(game->boss->infos);
+                    desenhar_hitbox(game->capanga->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
 					break;
@@ -673,6 +680,7 @@ void game_shutdown(Game* game) {
     al_destroy_event_queue(game->queue);
     destruir_entidade(game->cavaleiro);
     destruir_inimigo(game->boss);
+    destruir_inimigo(game->capanga);
 }
 
 void trocar_mapa(Game* game, int direcao) {

@@ -4,7 +4,6 @@
 #include <math.h>
 
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
-static float distancia(Inimigo* inimigo, Entidade* jogador);
 
 Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
 	Inimigo* inimigo = malloc(sizeof(Inimigo));
@@ -18,7 +17,7 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano) {
 	bool movendo = false;
-
+    atualizar_hitbox(inimigo->infos);
 	switch (inimigo->estado) {
     case ESTADO_AGUARDANDO:
         mudar_acao(inimigo->infos, PARADO);
@@ -112,7 +111,7 @@ void destruir_inimigo(Inimigo* inimigo) {
 	free(inimigo);
 }
 
-static void mudar_acao(Entidade* entidade, Acao nova_acao) {
+void mudar_acao(Entidade* entidade, Acao nova_acao) {
 	if (entidade->acao_atual != nova_acao) {
 		entidade->acao_atual = nova_acao;
 		entidade->frame_atual = 0;
@@ -120,7 +119,7 @@ static void mudar_acao(Entidade* entidade, Acao nova_acao) {
 	}
 }
 
-static float distancia(Inimigo* inimigo, Entidade* jogador) {
+float distancia(Inimigo* inimigo, Entidade* jogador) {
 	float dx = inimigo->infos->x - jogador->x;
 	float dy = inimigo->infos->y - jogador->y;
 	float dist2 = dx * dx + dy * dy;

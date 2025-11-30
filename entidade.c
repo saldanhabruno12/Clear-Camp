@@ -77,7 +77,7 @@ static Animacao* criar_animacao(const char* caminho, int linhas, int colunas) {
 	return anima;
 }
 
-static void mudar_acao(Entidade* entidade, Acao nova_acao) {
+void mudar_acao(Entidade* entidade, Acao nova_acao) {
 	if (entidade->acao_atual != nova_acao) {
 		entidade->acao_atual = nova_acao;
 		entidade->frame_atual = 0;
@@ -167,8 +167,8 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 	int velocidade_animacao;
 	switch (entidade->acao_atual) {
 	case CORRENDO: velocidade_animacao = 4; break; // Mais rápido
-	case ATACANDO: velocidade_animacao = 6; break; // Mais lento
-	case PULANDO: velocidade_animacao = 8; break;  // Mais lento ainda
+	case ATACANDO: velocidade_animacao = 8; break; // Mais lento
+	case PULANDO: velocidade_animacao = 8; break;  // Mais lento
 	case MORRENDO: velocidade_animacao = 10; break;
 	default: velocidade_animacao = 10; break;      // PARADO - mais lento
 	}

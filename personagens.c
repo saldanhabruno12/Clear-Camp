@@ -38,6 +38,31 @@ DadosHitbox cavaleiro_hitbox = {
     .hitbox_altura = 59
 };
 
+DadosAnimacoes capanga = {
+    .caminhos = {
+    [ANDANDO] = "images/capanga/andando.png",
+    [CORRENDO] = "images/capanga/andando.png",
+    [PULANDO] = "images/capanga/andando.png",
+    [ATACANDO] = "images/capanga/ataque.png",
+    [MORRENDO] = "images/capanga/morte.png",
+    [PARADO] = "images/capanga/respirando.png",
+    [MORTO] = "images/capanga/morte.png"
+},
+    .colunas = {8, 8, 8, 10, 9, 4, 9},
+    .linhas = {1, 1, 1, 1, 1, 1, 1},
+    .frames = {8, 8, 8, 10, 9, 4, 9}
+};
+
+DadosHitbox capanga_hitbox = {
+    .largura_sprite = 42,
+    .altura_sprite = 42,
+    .hitbox_offset_x = 18,
+    .hitbox_offset_y = 18,
+    .hitbox_largura = 22,
+    .hitbox_altura = 37
+};
+
+
 DadosAnimacoes boss = {
     .caminhos = {
         [ANDANDO] = "images/boss/corrida.png",
