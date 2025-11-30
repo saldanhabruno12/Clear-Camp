@@ -16,7 +16,7 @@ typedef struct {
 } Cavalo;
 
 
-Cavalo* criar_cavalo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
+Cavalo* criar_cavalo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp);
 void atualizar_cavalo(Cavalo* cavalo, unsigned char key[], int display_width, int display_height);
 void desenhar_cavalo(Cavalo* cavalo, int escalonamento);
 void destruir_cavalo(Cavalo* cavalo);

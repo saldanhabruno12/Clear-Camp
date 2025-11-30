@@ -55,13 +55,13 @@ bool game_init(Game* game) {
     al_register_event_source(game->queue, al_get_timer_event_source(game->timer));
     
 
-    game->cavalo = criar_cavalo(cavalo, SCREEN_WIDTH, SCREEN_HEIGHT, 300, SCREEN_WIDTH / 2 - 200, 0);
-    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0);
+    game->cavalo = criar_cavalo(cavalo, SCREEN_WIDTH, SCREEN_HEIGHT, 300, SCREEN_WIDTH / 2 - 200, 0, 10);
+    game->cavaleiro = criar_entidade(cavaleiro, SCREEN_WIDTH, SCREEN_HEIGHT, 84, SCREEN_WIDTH / 2 - 300, 0, 100);
     definir_hitbox(game->cavaleiro, 25, 22, 32, 32);
-    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, 720, 1);
+    game->boss = criar_inimigo(boss, SCREEN_WIDTH, SCREEN_HEIGHT, 64, 720, 1, 100);
     definir_hitbox(game->boss->infos, 12, 0, 47, 47);
-    game->capanga = criar_inimigo(capanga, SCREEN_WIDTH, SCREEN_HEIGHT, 42, 800, 1);
-    definir_hitbox(game->capanga->infos, 5, 3, 30, 30);
+    game->capanga = criar_inimigo(capanga, SCREEN_WIDTH, SCREEN_HEIGHT, 42, 800, 1, 30);
+    definir_hitbox(game->capanga->infos, 5, 3, -20, -20);
 
 
     game->running = true;
@@ -372,8 +372,8 @@ void game_loop(Game* game) {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
 
                     atualizar_inimigo(game->boss, game->cavaleiro, 25);
-                    atualizar_capanga(game->capanga, game->cavaleiro, 0);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
+                    atualizar_capanga(game->capanga, game->cavaleiro, 10);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
 
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
@@ -405,7 +405,7 @@ void game_loop(Game* game) {
 
                 case TRANSICAO:
                     atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
                     if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
                         mudanca_estado(game, JOGANDO2);
                     }
@@ -424,7 +424,7 @@ void game_loop(Game* game) {
                     game->cavalo->infos->x = 150;
                     //atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
                     atualizar_inimigo(game->boss, game->cavaleiro, 10);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
                     atualizar_hitbox(game->boss->infos);
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
                     if (game->cavaleiro->x < -50) trocar_mapa(game, -1);

@@ -23,8 +23,14 @@ void desenhar_capanga(Entidade* entidade, float escalonamento) {
     int offset_x = 0, offset_y = 0;
 
     if (entidade->acao_atual == ATACANDO) {
-        offset_x = -35;
-        offset_y = -70;
+        if (entidade->flip == 1) {
+            offset_x = -75;
+            offset_y = -70;
+        }
+        else {
+            offset_x = 30;
+            offset_y = -70;
+        }
     }
 
     al_draw_scaled_bitmap(frame, 0, 0, anima->frame_largura, anima->frame_altura,
@@ -71,9 +77,18 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
 
     case ESTADO_ATACANDO:
         mudar_acao(inimigo->infos, ATACANDO);
-        printf("%f\n", inimigo->infos->y);
+        atualizar_ataque(inimigo->infos, jogador, dano);
+        printf("%d\n", inimigo->infos->hp);
         if (distancia(inimigo, jogador) >= 100) inimigo->estado = ESTADO_AGUARDANDO;
 
+        if (inimigo->infos->hp <= 0) {
+            inimigo->infos->hp = 0;
+            inimigo->estado = ESTADO_MORRENDO;
+        }
+        break;
+
+    case ESTADO_MORRENDO:
+        mudar_acao(inimigo->infos, MORRENDO);
         break;
     }
 
@@ -88,6 +103,8 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
 
     Animacao* anim = inimigo->infos->animacoes[inimigo->infos->acao_atual];
     inimigo->infos->cont++;
+    if (inimigo->infos->acao_atual == MORRENDO && inimigo->infos->frame_atual == inimigo->infos->animacoes[MORRENDO]->num_frames - 1) return;
+
  
     if (inimigo->infos->cont >= 6) {
         inimigo->infos->frame_atual = (inimigo->infos->frame_atual + 1) % anim->num_frames;

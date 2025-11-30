@@ -1,11 +1,11 @@
 #include "cavalo.h"
 
 
-Cavalo* criar_cavalo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
+Cavalo* criar_cavalo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp) {
 	Cavalo* cavalo = malloc(sizeof(Cavalo));
 	if (!cavalo) return NULL;
 
-	cavalo->infos = criar_entidade(dados, display_width, display_height, altura_personagem, pos_x, flip);
+	cavalo->infos = criar_entidade(dados, display_width, display_height, altura_personagem, pos_x, flip, hp);
 	cavalo->infos->y = 450;
 
 	return cavalo;

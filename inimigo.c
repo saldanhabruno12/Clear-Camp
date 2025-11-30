@@ -5,10 +5,10 @@
 
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
 
-Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
+Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp) {
 	Inimigo* inimigo = malloc(sizeof(Inimigo));
 	if (!inimigo) return NULL;
-	inimigo->infos = criar_entidade(dados, display_width, display_height, altura_personagem, pos_x, flip);
+	inimigo->infos = criar_entidade(dados, display_width, display_height, altura_personagem, pos_x, flip, hp);
 	inimigo->estado = ESTADO_AGUARDANDO;
 	inimigo->direcao = -1;
 	inimigo->tempo_estado = 0;
@@ -97,8 +97,6 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano) {
 			inimigo->infos->frame_atual = (inimigo->infos->frame_atual + 1) % anim->num_frames;
 			inimigo->infos->cont = 0;
 		}
-
-
 	}
 
 
