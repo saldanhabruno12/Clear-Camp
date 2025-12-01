@@ -48,6 +48,7 @@ typedef struct Game {
     Retangulo iniciar, opcoes, como_jogar;
     Cavalo* cavalo;
     Ato ato;
+    EtapaAto1 etapa_ato0;
     EtapaAto1 etapa_ato1;
     EtapaAto2 etapa_ato2;
     EtapaAto3 etapa_ato3;

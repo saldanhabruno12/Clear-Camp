@@ -3,6 +3,7 @@
 #include <allegro5/allegro_font.h>
 
 typedef enum {
+	ATO0,
 	ATO1,
 	ATO2,
 	ATO3,
@@ -10,6 +11,15 @@ typedef enum {
 	ATO5
 } Ato;
 
+typedef enum {
+	ETAPA_ATO0_0,
+	ETAPA_ATO0_1,
+	ETAPA_ATO0_2,
+	ETAPA_ATO0_3,
+	ETAPA_ATO0_4,
+	ETAPA_ATO0_5,
+	NEXT_ATO0
+} EtapaAto0;
 
 typedef enum {
 	ETAPA_ATO1_0,
@@ -41,6 +51,8 @@ typedef enum {
 	ETAPA_ATO4_2,
 	ETAPA_ATO4_3,
 	ETAPA_ATO4_4,
+	ETAPA_ATO4_5,
+	ETAPA_ATO4_6,
 	NEXT_ATO4
 } EtapaAto4;
 
@@ -54,6 +66,7 @@ typedef enum {
 	NEXT_ATO5
 } EtapaAto5;
 
+void iniciar_ato0(ALLEGRO_FONT* font, EtapaAto0 etapa);
 void iniciar_ato1(ALLEGRO_FONT* font, EtapaAto1 etapa);
 void iniciar_ato2(ALLEGRO_FONT* font, EtapaAto2 etapa);
 void iniciar_ato3(ALLEGRO_FONT* font, EtapaAto3 etapa);
