@@ -436,8 +436,8 @@ void game_loop(Game* game) {
 
                         // Espera 5 segundos antes de trocar o estado
                         if (al_get_time() - tempo_morte2 >= 5.0) {
-                            printf("Avançando para o Ato 4...\n");
-                            game->ato = ATO4;
+                            printf("Avançando para o Ato 3...\n");
+                            game->ato = ATO3;
                             mudanca_estado(game, NARRADOR);
                             reiniciar_entidade(game->cavaleiro);
                             reiniciar_entidade(game->boss->infos);
@@ -452,6 +452,42 @@ void game_loop(Game* game) {
                     break;
 
                 }
+
+                case JOGANDO3: {
+                    static double tempo_morte = 0; // guarda quando o jogador morreu
+
+                    atualizar_inimigo(game->boss, game->cavaleiro, 25);
+                    atualizar_capanga(game->capanga, game->cavaleiro, 0);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10);
+
+                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+
+                    // Verifica morte
+                    if (game->cavaleiro->hp <= 0) {
+                        if (tempo_morte == 0) {
+                            tempo_morte = al_get_time(); // salva o tempo da morte
+                            printf("Jogador morreu! Esperando 5 segundos...\n");
+                        }
+
+                        // Espera 5 segundos antes de trocar o estado
+                        if (al_get_time() - tempo_morte >= 5.0) {
+                            printf("Avançando para o Ato 4...\n");
+                            game->ato = ATO4;
+                            mudanca_estado(game, NARRADOR);
+                            reiniciar_entidade(game->cavaleiro);
+                            reiniciar_entidade(game->boss->infos);
+                            tempo_morte = 0; // reseta o contador
+                        }
+                    }
+                    else {
+                        // Se estiver vivo, zera o tempo de morte
+                        tempo_morte = 0;
+                    }
+
+                    break;
+                }
+
             }
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -489,8 +525,7 @@ void game_loop(Game* game) {
                     case ATO2:
                         game->etapa_ato2++;
                         if (game->etapa_ato2 == NEXT_ATO2) {
-                            mudanca_estado(game, DIALOGO2);
-                            game->ato = ATO3;
+                            mudanca_estado(game, JOGANDO2);
                         }
                         break;
                     case ATO4:
@@ -517,21 +552,20 @@ void game_loop(Game* game) {
                 }
             }
 
-            if (game->estado_game == DIALOGO2) {
+            if (game->estado_game == NARRADOR) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                     switch (game->ato) {
                     case ATO3:
                         game->etapa_ato3++;
                         if (game->etapa_ato3 == NEXT_ATO3) {
-                            game->cavaleiro->x = 200;
-                            game->cavalo->infos->x = 150;
-                            mudar_cenario(game, "mapa__esparta.png");
-                            mudanca_estado(game, TRANSICAO);
+							game->ato = ATO4;
+                            mudanca_estado(game, JOGANDO3);
                         }
                         break;
                     }
                 }
             }
+
             if (game->estado_game == TRANSICAO) {
                 if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
                     mudar_cenario(game, "mapa__esparta.png");
@@ -582,7 +616,7 @@ void game_loop(Game* game) {
                 mudanca_estado(game, CONTEXTO);
             }
             else if (area_clicavel(game->mouse_x, game->mouse_y, game->como_jogar) && game->estado_game == MENU) {
-                mudar_cenario(game, "images/menu/como_jogar.png");
+                mudar_cenario(game, "imagem_menu.png");
                 mudanca_estado(game, COMO_JOGAR);
             }
             break;
@@ -631,7 +665,7 @@ void game_loop(Game* game) {
 					break;
 
                 case TRANSICAO:
-                    mudar_cenario(game, "images/mapa_castelo.png");
+                    mudar_cenario(game, "cidade_troia.png");
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_cavalo(game->cavalo, 1);
                     desenhar_entidade(game->cavaleiro, 2.0);
@@ -641,6 +675,7 @@ void game_loop(Game* game) {
                 case DIALOGO2:
                     desenhar_dialogo_ulisses(game);
                     break;
+
                 case JOGANDO2:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
@@ -648,6 +683,18 @@ void game_loop(Game* game) {
                     desenhar_cavalo(game->cavalo, 1);
                     desenhar_entidade(game->cavaleiro, 2.0);
                     desenhar_hitbox(game->boss->infos);
+                    desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
+                    desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
+                    break;
+
+                case JOGANDO3:
+                    desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    desenhar_inimigo(game->boss, 2.5);
+                    desenhar_capanga(game->capanga->infos, 2.0);
+                    desenhar_hitbox(game->cavaleiro);
+                    desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
+                    desenhar_hitbox(game->boss->infos);
+                    desenhar_hitbox(game->capanga->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
                     break;
@@ -667,7 +714,6 @@ void game_loop(Game* game) {
         }
     }
 }
-
 
 void game_shutdown(Game* game) {
     if (game->cenario) {
