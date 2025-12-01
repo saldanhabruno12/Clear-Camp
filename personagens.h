@@ -12,6 +12,11 @@ typedef struct {
 extern DadosAnimacoes capanga;
 extern DadosHitbox capanga_hitbox;
 
+extern DadosAnimacoes patroclo;
+extern DadosHitbox patroclo_hitbox;
+
+extern DadosAnimacoes menelau;
+extern DadosHitbox menelau_hitbox;
 
 extern DadosAnimacoes cavaleiro;
 extern DadosHitbox cavaleiro_hitbox;

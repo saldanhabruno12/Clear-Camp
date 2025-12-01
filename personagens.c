@@ -38,6 +38,37 @@ DadosHitbox cavaleiro_hitbox = {
     .hitbox_altura = 59
 };
 
+DadosAnimacoes patroclo = {
+    .caminhos = {
+        [ANDANDO] = "images/patroclo/corrida.png",
+        [CORRENDO] = "images/patroclo/corrida.png",
+        [PULANDO] = "images/patroclo/pulo.png",
+        [ATACANDO] = "images/patroclo/ataque.png",
+        [MORRENDO] = "images/patroclo/morte.png",
+        [PARADO] = "images/patroclo/parado.png",
+        [MORTO] = "images/patroclo/morte.png"
+},
+    .colunas = {6, 6, 2, 4, 9, 10, 1},
+    .linhas = {1, 1, 1, 1, 1, 1, 1},
+    .frames = {6, 6, 2, 4, 9, 10, 1}
+};
+
+DadosAnimacoes menelau = {
+    .caminhos = {
+        [ANDANDO] = "images/menelau/corrida.png",
+        [CORRENDO] = "images/menelau/corrida.png",
+        [PULANDO] = "images/menelau/pulo.png",
+        [ATACANDO] = "images/menelau/ataque.png",
+        [MORRENDO] = "images/menelau/morte.png",
+        [PARADO] = "images/menelau/parado.png",
+        [MORTO] = "images/menelau/morte.png"
+},
+    .colunas = {8, 8, 4, 6, 9, 11, 1},
+    .linhas = {1, 1, 1, 1, 1, 1, 1},
+    .frames = {8, 8, 4, 6, 9, 11, 1}
+};
+
+
 DadosAnimacoes capanga = {
     .caminhos = {
     [ANDANDO] = "images/capanga/andando.png",

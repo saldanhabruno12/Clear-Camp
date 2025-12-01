@@ -22,7 +22,7 @@ typedef struct {
 	int tempo_estado;
 } Inimigo;
 
-Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
+Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp);
 void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano);
 void desenhar_inimigo(Inimigo* inimigo, int escalonamento);
 void destruir_inimigo(Inimigo* inimigo);

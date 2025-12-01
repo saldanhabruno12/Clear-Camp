@@ -6,6 +6,7 @@
 
 typedef enum {
 	MENU,
+	FASE1,
 	FASE2,
 	DIALOGO,
 	CONTEXTO,
@@ -13,9 +14,9 @@ typedef enum {
 	DIALOGO2,
 	DIALOGO3,
 	FASE4,
-	JOGANDO3,
 	GAME_OVER,
 	COMO_JOGAR,
+	JOGANDO3,
 	TRANSICAO,
 	FINAL
 } Estado_game;	

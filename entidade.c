@@ -6,7 +6,7 @@
 
 static void mudar_acao(Entidade* entidade, Acao nova_acao);
 
-Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip) {
+Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp) {
 	Entidade* entidade = malloc(sizeof(Entidade));
 	if (!entidade) return NULL;
 
@@ -34,7 +34,7 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 	entidade->vel_y = 0;
 	entidade->no_chao = true;
 	entidade->flip = flip;
-	entidade->hp_max = 100;
+	entidade->hp_max = hp;
 	entidade->hp = entidade->hp_max;
 
 	return entidade;
@@ -92,12 +92,11 @@ void atualizar_hitbox(Entidade* entidade) {
 		animacao = entidade->animacoes[PARADO];
 		if (!animacao) return;
 	}
-	
-	entidade->box.x = entidade->x + entidade->offset_esquerda * 2;
-	entidade->box.y = entidade->y + entidade->offset_cima * 2;
-	entidade->box.w = (entidade->animacoes[entidade->acao_atual]->frame_largura - (entidade->offset_esquerda + entidade->offset_direita)) * 2;
-	entidade->box.h = (entidade->animacoes[entidade->acao_atual]->frame_altura - (entidade->offset_cima + entidade->offset_baixo)) * 2;
 
+	entidade->box.x = entidade->x + entidade->offset_esquerda;
+	entidade->box.y = entidade->y + entidade->offset_cima;
+	entidade->box.w = (entidade->animacoes[entidade->acao_atual]->frame_largura - (entidade->offset_esquerda + entidade->offset_direita));
+	entidade->box.h = (entidade->animacoes[entidade->acao_atual]->frame_altura - (entidade->offset_cima + entidade->offset_baixo));
 }
 
 void desenhar_hitbox(Entidade* entidade) {
@@ -112,7 +111,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano, float escala) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -130,6 +129,7 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 	if (key[ALLEGRO_KEY_SPACE] && entidade->hp > 0) {
 		mudar_acao(entidade, ATACANDO);
 		atualizar_ataque(entidade, inimigo, dano);
+		atualizar_ataque(entidade, capanga, dano);
 	}
 	else if ((key[ALLEGRO_KEY_W] && entidade->no_chao && entidade->hp > 0 || key[ALLEGRO_KEY_UP]) && entidade->no_chao && entidade->hp > 0) {
 		entidade->vel_y = -15;
@@ -151,8 +151,8 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key
 	entidade->vel_y += 1;
 	entidade->y += entidade->vel_y;
 
-	if (entidade->y >= display_height - altura_personagem * 1.5) {
-		entidade->y = display_height - altura_personagem * 1.5;
+	if (entidade->y >= display_height - altura_personagem * escala) {
+		entidade->y = display_height - altura_personagem * escala;
 		entidade->vel_y = 0;
 		entidade->no_chao = true;
 		if (entidade->acao_atual == PULANDO) {
@@ -253,7 +253,7 @@ void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida
 }
 
 void reiniciar_entidade(Entidade* entidade) {
-	entidade->hp = 100;
+	entidade->hp = entidade->hp_max;
 }
 
 

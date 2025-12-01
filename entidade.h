@@ -60,10 +60,10 @@ typedef struct {
 
 
 Animacao* criar_animacao(const char* caminho, int linhas, int colunas);
-Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip);
+Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_height, int altura_personagem, int pos_x, int flip, int hp);
 void atualizar_hitbox(Entidade* entidade);
 void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita);
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano);
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano, float escala);
 void desenhar_entidade(Entidade* entidade, float escalonamento);
 void destruir_entidade(Entidade* entidade);
 void desenhar_hitbox(Entidade* entidade);
