@@ -82,7 +82,7 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
         case MENU:
             if (key[ALLEGRO_KEY_ENTER]) {
                 mudar_cenario(game, "images/mapa_grecia.png");
-                mudanca_estado(game, JOGANDO);
+                mudanca_estado(game, FASE2);
             }
             break;
         
@@ -107,14 +107,14 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
             }
             break;
 
-        case JOGANDO2:
+        case FASE4:
             if (key[ALLEGRO_KEY_ESCAPE]) {
                 mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
-        case JOGANDO:
+        case FASE2:
             if (key[ALLEGRO_KEY_ESCAPE]) {
                 mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
@@ -368,7 +368,7 @@ void game_loop(Game* game) {
 				case DIALOGO:
                     break;
 
-                case JOGANDO: {
+                case FASE2: {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
 
                     atualizar_inimigo(game->boss, game->cavaleiro, 25);
@@ -407,7 +407,7 @@ void game_loop(Game* game) {
                     atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 25);
                     if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
-                        mudanca_estado(game, JOGANDO2);
+                        mudanca_estado(game, FASE4);
                     }
                     break;
 
@@ -419,7 +419,7 @@ void game_loop(Game* game) {
                     break;
 
 
-                case JOGANDO2: {
+                case FASE4: {
                     static double tempo_morte2 = 0; // guarda quando o jogador morreu
                     game->cavalo->infos->x = 150;
                     //atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -506,7 +506,7 @@ void game_loop(Game* game) {
                         game->etapa_ato1++;
                         if (game->etapa_ato1 == NEXT_ATO1) {
 							mudar_cenario(game, "mapa_grecia.png");
-                            mudanca_estado(game, JOGANDO);
+                            mudanca_estado(game, FASE2);
                         }
                         break;
                     case ATO2:
@@ -525,7 +525,7 @@ void game_loop(Game* game) {
                     case ATO2:
                         game->etapa_ato2++;
                         if (game->etapa_ato2 == NEXT_ATO2) {
-                            mudanca_estado(game, JOGANDO2);
+                            mudanca_estado(game, FASE4);
                         }
                         break;
                     case ATO4:
@@ -569,7 +569,7 @@ void game_loop(Game* game) {
             if (game->estado_game == TRANSICAO) {
                 if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
                     mudar_cenario(game, "mapa__esparta.png");
-                    mudanca_estado(game, JOGANDO2);
+                    mudanca_estado(game, FASE4);
                     game->cavaleiro->x = 200;
                     game->cavalo->infos->x = 150;
 
@@ -591,7 +591,7 @@ void game_loop(Game* game) {
             }
 
             // ESC no jogo ? volta ao menu
-            else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == JOGANDO) {
+            else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == FASE2) {
                 mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
             }
@@ -652,7 +652,7 @@ void game_loop(Game* game) {
                     desenhar_dialogo(game);
 					break;
     
-                case JOGANDO:
+                case FASE2:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
                     desenhar_capanga(game->capanga->infos, 2.0);
@@ -676,7 +676,7 @@ void game_loop(Game* game) {
                     desenhar_dialogo_ulisses(game);
                     break;
 
-                case JOGANDO2:
+                case FASE4:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
                     desenhar_hitbox(game->cavaleiro);
