@@ -15,7 +15,7 @@ Inimigo* criar_inimigo(DadosAnimacoes dados, int display_width, int display_heig
 	return inimigo;
 }
 
-void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano) {
+void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano, int y) {
 	bool movendo = false;
     atualizar_hitbox(inimigo->infos);
 	switch (inimigo->estado) {
@@ -83,8 +83,8 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano) {
 		inimigo->infos->vel_y += 1;
 		inimigo->infos->y += inimigo->infos->vel_y;
 
-		if (inimigo->infos->y >= 590) {
-			inimigo->infos->y = 590;
+		if (inimigo->infos->y >= y) {
+			inimigo->infos->y = y;
 			inimigo->infos->vel_y = 0;
 			inimigo->infos->no_chao = true;
 		}

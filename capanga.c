@@ -14,7 +14,7 @@ void mudar_acao(Entidade* entidade, Acao nova_acao) {
     }
 }
 
-void desenhar_capanga(Entidade* entidade, float escalonamento) {
+void desenhar_capanga(Entidade* entidade, float escalonamento, int fase) {
     if (!entidade || !entidade->animacoes[entidade->acao_atual]) return;
 
     Animacao* anima = entidade->animacoes[entidade->acao_atual];
@@ -32,7 +32,6 @@ void desenhar_capanga(Entidade* entidade, float escalonamento) {
             offset_y = -70;
         }
     }
-
     al_draw_scaled_bitmap(frame, 0, 0, anima->frame_largura, anima->frame_altura,
         entidade->x + offset_x, entidade->y + offset_y, anima->frame_largura * escalonamento,
         anima->frame_altura * escalonamento, entidade->flip);

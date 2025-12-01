@@ -16,7 +16,7 @@ typedef enum {
 	FASE4,
 	GAME_OVER,
 	COMO_JOGAR,
-	JOGANDO3,
+	FASE3,
 	TRANSICAO,
 	FINAL
 } Estado_game;	

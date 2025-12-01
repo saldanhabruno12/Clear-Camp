@@ -40,14 +40,6 @@ Entidade* criar_entidade(DadosAnimacoes dados, int display_width, int display_he
 	return entidade;
 }
 
-void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita) {
-	entidade->offset_cima = offset_cima;
-	entidade->offset_baixo = offset_baixo;
-	entidade->offset_direita = offset_direita;
-	entidade->offset_esquerda = offset_esquerda;
-	atualizar_hitbox(entidade);
-}
-
 
 static Animacao* criar_animacao(const char* caminho, int linhas, int colunas) {
 	Animacao* anima = malloc(sizeof(Animacao));
@@ -83,6 +75,14 @@ void mudar_acao(Entidade* entidade, Acao nova_acao) {
 		entidade->frame_atual = 0;
 		entidade->cont = 0;
 	}
+}
+
+void definir_hitbox(Entidade* entidade, float offset_cima, float offset_baixo, float offset_esquerda, float offset_direita) {
+	entidade->offset_cima = offset_cima;
+	entidade->offset_baixo = offset_baixo;
+	entidade->offset_direita = offset_direita;
+	entidade->offset_esquerda = offset_esquerda;
+	atualizar_hitbox(entidade);
 }
 
 void atualizar_hitbox(Entidade* entidade) {

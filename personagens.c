@@ -53,6 +53,15 @@ DadosAnimacoes patroclo = {
     .frames = {6, 6, 2, 4, 9, 10, 1}
 };
 
+DadosHitbox patroclo_hitbox = {
+    .largura_sprite = 135,
+    .altura_sprite = 135,
+    .hitbox_offset_x = 111,
+    .hitbox_offset_y = 111,
+    .hitbox_largura = 115,
+    .hitbox_altura = 130
+};
+
 DadosAnimacoes menelau = {
     .caminhos = {
         [ANDANDO] = "images/menelau/corrida.png",
@@ -66,6 +75,15 @@ DadosAnimacoes menelau = {
     .colunas = {8, 8, 4, 6, 9, 11, 1},
     .linhas = {1, 1, 1, 1, 1, 1, 1},
     .frames = {8, 8, 4, 6, 9, 11, 1}
+};
+
+DadosHitbox menelau_hitbox = {
+    .largura_sprite = 140,
+    .altura_sprite = 140,
+    .hitbox_offset_x = 116,
+    .hitbox_offset_y = 116,
+    .hitbox_largura = 121,
+    .hitbox_altura = 135
 };
 
 
