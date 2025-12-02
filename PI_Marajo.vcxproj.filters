@@ -14,6 +14,7 @@
     <ClCompile Include="player.c" />
     <ClCompile Include="recursos.c" />
     <ClCompile Include="capanga.c" />
+    <ClCompile Include="desenhos.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ato.h" />
@@ -41,6 +42,8 @@
     <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\dialogo_ato2.png" />
     <Image Include="..\..\..\Downloads\dialogo_final.png" />
     <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_final.png" />
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\cidade_troia.png" />
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_menu.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
