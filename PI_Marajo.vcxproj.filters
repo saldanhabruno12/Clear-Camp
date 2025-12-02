@@ -10,9 +10,8 @@
     <ClCompile Include="game.c" />
     <ClCompile Include="inimigo.c" />
     <ClCompile Include="personagens.c" />
-    <ClCompile Include="PI_Marajo.c" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="player.c" />
-    <ClCompile Include="recursos.c" />
     <ClCompile Include="capanga.c" />
     <ClCompile Include="desenhos.c" />
   </ItemGroup>
