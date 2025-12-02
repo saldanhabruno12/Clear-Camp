@@ -53,7 +53,8 @@ typedef struct Game {
     EtapaAto2 etapa_ato2;
     EtapaAto3 etapa_ato3;
     EtapaAto4 etapa_ato4;
-    EtapaAto4 etapa_ato5;
+    EtapaAto5 etapa_ato5;
+    EtapaAto6 etapa_ato6;
 } Game;
 
 
