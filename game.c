@@ -32,7 +32,7 @@ bool game_init(Game* game) {
     game->etapa_ato5 = ETAPA_ATO5_0;
     game->etapa_ato6 = ETAPA_ATO6_0;
     game->estado_game = MENU;
-    game->cenario = al_load_bitmap("images/menu/menu.png");
+    game->cenario = al_load_bitmap("images/menu/menu_correto.png");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 35, 0);
     game->pergaminho = al_load_bitmap("dialogo_ato1.png");
     game->dialogofinal = al_load_bitmap("dialogo_final.png");
