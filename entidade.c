@@ -160,6 +160,9 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga
 		}
 	}
 
+	if (entidade->x >= 1120) entidade->x = 1120;
+	if (entidade->x <= -80) entidade->x = -80;
+
 	entidade->cont++;
 	Animacao* anim_atual = entidade->animacoes[entidade->acao_atual];
 

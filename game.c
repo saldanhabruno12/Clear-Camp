@@ -416,6 +416,7 @@ void game_loop(Game* game) {
                         //tempo_morte_cavaleiro = 0; // reseta o contador
 						mudanca_estado(game, NARRADOR);
                         reiniciar_entidade(game->cavaleiro);
+                        reiniciar_entidade(game->boss->infos);
                         game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
 						game->ato = ATO2;
                     }
@@ -430,10 +431,12 @@ void game_loop(Game* game) {
                         if (al_get_time() - tempo_morte_cavaleiro >= 5.0) {
                             printf("Avançando para o Ato 2...\n");
                             //game->ato = ATO2;
-                            mudanca_estado(game, FASE2);
                             game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
                             reiniciar_entidade(game->cavaleiro);
+                            reiniciar_entidade(game->capanga->infos);
+                            game->capanga->infos->x = 800;
                             reiniciar_entidade(game->boss->infos);
+                            contador = 0;
                             tempo_morte_cavaleiro = 0; // reseta o contador
                         }
                     }
@@ -451,7 +454,6 @@ void game_loop(Game* game) {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
                     
                     atualizar_inimigo(game->boss, game->cavaleiro, 25, 590);
-                    atualizar_capanga(game->capanga, game->cavaleiro, 10);
                     atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5);
 
                     if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
@@ -734,11 +736,9 @@ void game_loop(Game* game) {
                 case FASE2:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
-                    desenhar_capanga(game->capanga->infos, 2.0, 2);
                     desenhar_hitbox(game->cavaleiro);
                     desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
                     desenhar_hitbox(game->boss->infos);
-                    desenhar_hitbox(game->capanga->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
 					break;

@@ -41,11 +41,11 @@ void atualizar_inimigo(Inimigo* inimigo, Entidade* jogador, int dano, int y) {
         
         mudar_acao(inimigo->infos, CORRENDO);
 
-        float nova_pos = inimigo->infos->x + inimigo->direcao * 1.5;
+        float nova_pos = inimigo->infos->x + inimigo->direcao * 1.2;
 
-        if (nova_pos >= 640 && nova_pos <= 1280) {
+       /* if (nova_pos >= 640 && nova_pos <= 1280) {*/
             inimigo->infos->x = nova_pos;
-        }
+        /*}*/
 
         if (distancia(inimigo, jogador) > 150) {
             inimigo->estado = ESTADO_AGUARDANDO;

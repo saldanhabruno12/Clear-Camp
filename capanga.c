@@ -80,7 +80,7 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
         }
         else mudar_acao(inimigo->infos, PARADO);
 
-        if (distancia(inimigo, jogador) >= 100) inimigo->estado = ESTADO_AGUARDANDO;
+        if (!colidiu(inimigo->infos, jogador)) inimigo->estado = ESTADO_AGUARDANDO;
 
         if (inimigo->infos->hp <= 0) {
             inimigo->infos->hp = 0;
