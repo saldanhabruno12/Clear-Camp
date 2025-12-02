@@ -32,7 +32,7 @@ void desenhar_narrador(Game* game, int largura, int altura) {
         return -1;
     }
 
-    al_draw_text(game->fonte_pular, al_map_rgb(255, 255, 255),
+    al_draw_text(game->fonte_pular, al_map_rgb(0, 0, 0),
         960, SCREEN_HEIGHT / 2 + 290,
         ALLEGRO_ALIGN_CENTER, "Pressione ENTER para continuar");
 

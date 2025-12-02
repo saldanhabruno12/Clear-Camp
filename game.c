@@ -185,7 +185,7 @@ void game_loop(Game* game) {
                     static int contador = 0;
 
                     atualizar_capanga(game->capanga, game->cavaleiro, 10);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 0);
 
                     if (game->capanga->infos->hp <= 0) {
                         if (tempo_morte_capanga == 0) {
@@ -252,10 +252,10 @@ void game_loop(Game* game) {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
                     
                     atualizar_inimigo(game->boss, game->cavaleiro, 25, 590);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 0);
 
-                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
+                    /*if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);*/
 
                     // Verifica morte
                     if (game->cavaleiro->hp <= 0) {
@@ -285,7 +285,7 @@ void game_loop(Game* game) {
 				case FASE3: {
                     static double tempo_morte = 0;
 
-                    atualizar_entidade(game->patroclo, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.7);
+                    atualizar_entidade(game->patroclo, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.7, 0);
                     atualizar_inimigo(game->menelau, game->patroclo, 25, 550);
                     atualizar_capanga(game->capanga, game->patroclo, 10);
 
@@ -301,7 +301,7 @@ void game_loop(Game* game) {
                             mudanca_estado(game, DIALOGO2);
                             reiniciar_entidade(game->cavaleiro);
                             reiniciar_entidade(game->capanga->infos);
-                            reiniciar_entidade(game->boss->infos);
+                            reiniciar_entidade(game->menelau->infos);
                             game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
                             tempo_morte = 0; // reseta o contador
                         }
@@ -318,9 +318,11 @@ void game_loop(Game* game) {
                 case TRANSICAO:
                     reiniciar_entidade(game->cavaleiro);
                     atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 1);
                     if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
+                        mudar_cenario(game, "mapa__esparta.png");
                         mudanca_estado(game, FASE4);
+                        game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
                     }
                     break;
 
@@ -334,36 +336,48 @@ void game_loop(Game* game) {
 
                 case FASE4: {
                     static double tempo_morte2 = 0; // guarda quando o jogador morreu
+                    static double tempo_morte1 = 0;
+
                     game->cavalo->infos->x = 150;
-                    //atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    atualizar_inimigo(game->boss, game->cavaleiro, 25, 590);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5);
+                    atualizar_inimigo(game->menelau, game->cavaleiro, 15, 550);
+                    atualizar_entidade(game->cavaleiro, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 15, 1.5, 0);
                     atualizar_hitbox(game->boss->infos);
-                    if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);
-                    if (game->cavaleiro->hp <= 0 || game->boss->infos->hp <= 0) {
-                        if (tempo_morte2 == 0) {
-                            tempo_morte2 = al_get_time(); // salva o tempo da morte
-                            printf("Jogador morreu! Esperando 5 segundos...\n");
+
+                    /*if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
+                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);*/
+
+                    if (game->menelau->infos->hp <= 0) {
+                        if (tempo_morte1 == 0) {
+                            tempo_morte1 = al_get_time(); // salva o tempo da morte
+                            printf("Boss morreu! Esperando 5 segundos...\n"); 
+                        }
+                        if (al_get_time() - tempo_morte1 >= 5.0) {
                             mudanca_estado(game, NARRADOR);
                             game->ato = ATO5;
+                        }
+                    }
+
+                    if (game->cavaleiro->hp <= 0) {
+                        if (tempo_morte2 == 0) {
+                            tempo_morte2 = al_get_time(); // salva o tempo da morte
                         }
 
                         // Espera 5 segundos antes de trocar o estado
                         if (al_get_time() - tempo_morte2 >= 5.0) {
-                            mudanca_estado(game, NARRADOR);
-                            game->ato = ATO5;
+                            printf("Avançando para o Ato 2...\n");
+                            //game->ato = ATO2;
+                            game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
+                            game->menelau->infos->x = 800;
+                            reiniciar_entidade(game->cavaleiro);
+                            reiniciar_entidade(game->menelau->infos);
+                            tempo_morte2 = 0; // reseta o contador
                         }
                     }
-                    else {
-                        // Se estiver vivo, zera o tempo de morte
-                        tempo_morte2 = 0;
-                    }
 
-                    break;
 
                 }
 
+            break;
             }
 
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -382,13 +396,13 @@ void game_loop(Game* game) {
                         game->etapa_ato1++;
                         if (game->etapa_ato1 == NEXT_ATO1) {
 							mudar_cenario(game, "mapa_grecia.png");
-                            mudanca_estado(game, FASE1);//mudar para FASE3 para debug
+                            mudanca_estado(game, FASE1);
                         }
                         break;
                     case ATO2:
                         game->etapa_ato2++;
                         if (game->etapa_ato2 == NEXT_ATO2) {
-                            mudar_cenario(game, "mapa_grecia.png");
+                            mudar_cenario(game, "mapa_acampamento.png");
                             mudanca_estado(game, NARRADOR);
                         }
                     }
@@ -401,6 +415,7 @@ void game_loop(Game* game) {
                     case ATO4:
                         game->etapa_ato4++;
                         if (game->etapa_ato4 == NEXT_ATO4) {
+                            mudar_cenario(game, "cidade_troia.png");
 							mudanca_estado(game, TRANSICAO);
                         }
                         break;
@@ -428,12 +443,14 @@ void game_loop(Game* game) {
                     case ATO2:
                         game->etapa_ato2++;
                         if (game->etapa_ato2 == NEXT_ATO2) {
+                            mudar_cenario(game, "mapa_acampamento.png");
                             mudanca_estado(game, FASE2);
                         }
                         break;
                     case ATO3:
                         game->etapa_ato3++;
                         if (game->etapa_ato3 == NEXT_ATO3) {
+                            mudar_cenario(game, "mapa_porto.png");
                             mudanca_estado(game, FASE3);
                         }
                         break;
@@ -549,9 +566,7 @@ void game_loop(Game* game) {
                 case FASE1:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_capanga(game->capanga->infos, 2.0, 1);
-                    desenhar_hitbox(game->cavaleiro);
                     desenhar_entidade(game->cavaleiro, 2.0);
-                    desenhar_hitbox(game->capanga->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->capanga->infos, SCREEN_WIDTH - 400 - 20, 20, true);
                     break;
@@ -559,9 +574,7 @@ void game_loop(Game* game) {
                 case FASE2:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
-                    desenhar_hitbox(game->cavaleiro);
                     desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
-                    desenhar_hitbox(game->boss->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
 					break;
@@ -570,17 +583,14 @@ void game_loop(Game* game) {
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->menelau, 2.5);
                     desenhar_capanga(game->capanga->infos, 2.0, 3);
-                    desenhar_hitbox(game->patroclo);
                     desenhar_entidade(game->patroclo, 1.7);//cavaleiro
-                    desenhar_hitbox(game->menelau->infos);
-                    desenhar_hitbox(game->capanga->infos);
                     desenhar_hp_fixa(game->patroclo, 20, 20, false);
                     desenhar_hp_fixa(game->menelau->infos, SCREEN_WIDTH - 400 - 20, 20, true);
                     
                     break;
 
                 case TRANSICAO:
-                    mudar_cenario(game, "cidade_troia.png");
+                    //mudar_cenario(game, "cidade_troia.png");
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_cavalo(game->cavalo, 1);
                     desenhar_entidade(game->cavaleiro, 2.0);
@@ -593,12 +603,11 @@ void game_loop(Game* game) {
 
                 case FASE4:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    desenhar_inimigo(game->boss, 2.5);
-                    desenhar_hitbox(game->cavaleiro);
+                    desenhar_cavalo(game->cavalo, 1);
+                    desenhar_inimigo(game->menelau, 2.5);
                     desenhar_entidade(game->cavaleiro, 2.0);
-                    desenhar_hitbox(game->boss->infos);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
-                    desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
+                    desenhar_hp_fixa(game->menelau->infos, SCREEN_WIDTH - 400 - 20, 20, true);
                     break;
 
                 case DIALOGO3:
@@ -631,6 +640,21 @@ void game_shutdown(Game* game) {
     destruir_inimigo(game->capanga);
 }
 
+void destruir_sprite(Sprite* sprite) {
+    if (sprite) {
+        for (int i = 0; i < sprite->num_frames; i++) {
+            if (sprite->frames[i]) {
+                al_destroy_bitmap(sprite->frames[i]);
+            }
+        }
+        free(sprite->frames);
+        if (sprite->sheet) {
+            al_destroy_bitmap(sprite->sheet);
+        }
+        free(sprite);
+    }
+}
+
 void trocar_mapa(Game* game, int direcao) {
     const char* mapas[] = {
         "mapa_grecia.png",
@@ -638,7 +662,7 @@ void trocar_mapa(Game* game, int direcao) {
         "mapa_acampamento.png",
         "mapa_porto.png",
         "mapa_castelo.png"
-
+        "cidade_troia.png"
     };
     const int total_mapas = sizeof(mapas) / sizeof(mapas[0]);
 

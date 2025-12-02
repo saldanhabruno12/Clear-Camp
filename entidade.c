@@ -111,7 +111,7 @@ void desenhar_hitbox(Entidade* entidade) {
 }
 
 
-void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano, float escala) {
+void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga, unsigned char key[], int display_width, int display_height, int altura_personagem, int dano, float escala, int fase) {
 	bool movendo = false;
 	atualizar_hitbox(entidade);
 	entidade->vel_x = 2;
@@ -160,8 +160,10 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga
 		}
 	}
 
-	if (entidade->x >= 1120) entidade->x = 1120;
-	if (entidade->x <= -80) entidade->x = -80;
+	if (fase != 1) {
+		if (entidade->x >= 1120) entidade->x = 1120;
+		if (entidade->x <= -80) entidade->x = -80;
+	}
 
 	entidade->cont++;
 	Animacao* anim_atual = entidade->animacoes[entidade->acao_atual];

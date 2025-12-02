@@ -85,7 +85,7 @@ void iniciar_ato2(ALLEGRO_FONT* font, EtapaAto2 etapa) {
     case ETAPA_ATO2_2:
         al_draw_text(font, al_map_rgb(0, 0, 0),
             SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
-            ALLEGRO_ALIGN_CENTER, "Agammenon o lider do exercito grego entra em conflito com Aquiles");
+            ALLEGRO_ALIGN_CENTER, "Agammenon, o lider do exercito grego, entra em conflito com Aquiles");
         break;
     case ETAPA_ATO2_3:
         al_draw_text(font, al_map_rgb(0, 0, 0),
@@ -215,7 +215,7 @@ void iniciar_ato5(ALLEGRO_FONT* font, EtapaAto5 etapa) {
     case ETAPA_ATO5_3:
         al_draw_text(font, al_map_rgb(0, 0, 0),
             SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200,
-            ALLEGRO_ALIGN_CENTER, "A princessa Helena foi enfim resgatda");
+            ALLEGRO_ALIGN_CENTER, "A princessa Helena foi enfim resgatada");
         break;
     }
 }
@@ -225,7 +225,7 @@ void iniciar_ato6(ALLEGRO_FONT* font, EtapaAto6 etapa) {
     case ETAPA_ATO6_0:
         al_draw_text(font, al_map_rgb(0, 0, 0),
             SCREEN_WIDTH / 2, 120,
-            ALLEGRO_ALIGN_CENTER, "Esstou feliz em te-la de volta");
+            ALLEGRO_ALIGN_CENTER, "Estou feliz em te-la de volta");
         break;
     case ETAPA_ATO6_1:
         al_draw_text(font, al_map_rgb(0, 0, 0),
@@ -240,7 +240,7 @@ void iniciar_ato6(ALLEGRO_FONT* font, EtapaAto6 etapa) {
     case ETAPA_ATO6_3:
         al_draw_text(font, al_map_rgb(0, 0, 0),
             SCREEN_WIDTH / 2, 120,
-            ALLEGRO_ALIGN_CENTER, "Eu declaria guerra ao mundo");
+            ALLEGRO_ALIGN_CENTER, "Eu declararia guerra ao mundo");
         break;
     case ETAPA_ATO6_4:
         al_draw_text(font, al_map_rgb(0, 0, 0),

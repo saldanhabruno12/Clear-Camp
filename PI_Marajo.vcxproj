@@ -149,7 +149,6 @@
     <ClCompile Include="personagens.c" />
     <ClCompile Include="PI_Marajo.c" />
     <ClCompile Include="player.c" />
-    <ClCompile Include="recursos.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
