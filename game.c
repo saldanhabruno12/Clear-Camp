@@ -32,7 +32,7 @@ bool game_init(Game* game) {
     game->etapa_ato5 = ETAPA_ATO5_0;
     game->etapa_ato6 = ETAPA_ATO6_0;
     game->estado_game = MENU;
-    game->cenario = al_load_bitmap("images/menu/menu.png");
+    game->cenario = al_load_bitmap("images/menu/menu_correto.png");
     game->fonte_menu = al_load_ttf_font("fonts/menu/MedievalSharp.ttf", 35, 0);
     game->pergaminho = al_load_bitmap("dialogo_ato1.png");
     game->dialogofinal = al_load_bitmap("dialogo_final.png");
@@ -71,9 +71,6 @@ bool game_init(Game* game) {
 
     game->running = true;
     game->redraw = true;
-
-    // carregar cenario
-
     game->mapa_atual = 1;
 
     al_start_timer(game->timer);
@@ -93,56 +90,56 @@ void check_input(Game* game, unsigned char* key, ALLEGRO_EVENT evento) {
         
         case COMO_JOGAR:
             if(key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case CONTEXTO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case DIALOGO:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case FASE1:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case FASE2:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case FASE3:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case FASE4:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
 
         case NARRADOR:
             if (key[ALLEGRO_KEY_ESCAPE]) {
-                mudar_cenario(game, "images/menu/menu.png");
+                mudar_cenario(game, "images/menu/menu_correto.png");
                 mudanca_estado(game, MENU);
             }
             break;
@@ -153,8 +150,7 @@ void game_loop(Game* game) {
     unsigned char key[ALLEGRO_KEY_MAX];
     memset(key, 0, sizeof(key));
 
-    game->iniciar = (Retangulo){ 420, 850, 309, 409 };
-    game->opcoes = (Retangulo){ 420, 850, 432, 532 };
+    game->iniciar = (Retangulo){ 420, 850, 432, 532 };
     game->como_jogar = (Retangulo){ 420, 850, 555, 655 };
 
     ALLEGRO_EVENT event;
@@ -185,7 +181,7 @@ void game_loop(Game* game) {
                     static int contador = 0;
 
                     atualizar_capanga(game->capanga, game->cavaleiro, 10);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 0);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 1);
 
                     if (game->capanga->infos->hp <= 0) {
                         if (tempo_morte_capanga == 0) {
@@ -207,11 +203,6 @@ void game_loop(Game* game) {
 
                     if (contador >= 3) {
                         printf("Avançando para o Ato 2...\n");
-                        //game->ato = ATO2;
-                        //mudanca_estado(game, FASE2);
-                        //reiniciar_entidade(game->cavaleiro);
-                        //reiniciar_entidade(game->boss->infos);
-                        //tempo_morte_cavaleiro = 0; // reseta o contador
 						mudanca_estado(game, NARRADOR);
                         reiniciar_entidade(game->cavaleiro);
                         reiniciar_entidade(game->boss->infos);
@@ -228,7 +219,6 @@ void game_loop(Game* game) {
                         // Espera 5 segundos antes de trocar o estado
                         if (al_get_time() - tempo_morte_cavaleiro >= 5.0) {
                             printf("Avançando para o Ato 2...\n");
-                            //game->ato = ATO2;
                             game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
                             reiniciar_entidade(game->cavaleiro);
                             reiniciar_entidade(game->capanga->infos);
@@ -252,10 +242,7 @@ void game_loop(Game* game) {
                     static double tempo_morte = 0; // guarda quando o jogador morreu
                     
                     atualizar_inimigo(game->boss, game->cavaleiro, 25, 590);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 0);
-
-                    /*if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);*/
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 2);
 
                     // Verifica morte
                     if (game->cavaleiro->hp <= 0) {
@@ -285,7 +272,7 @@ void game_loop(Game* game) {
 				case FASE3: {
                     static double tempo_morte = 0;
 
-                    atualizar_entidade(game->patroclo, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.7, 0);
+                    atualizar_entidade(game->patroclo, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.7, 3);
                     atualizar_inimigo(game->menelau, game->patroclo, 25, 550);
                     atualizar_capanga(game->capanga, game->patroclo, 10);
 
@@ -303,6 +290,7 @@ void game_loop(Game* game) {
                             reiniciar_entidade(game->capanga->infos);
                             reiniciar_entidade(game->menelau->infos);
                             game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
+                            game->menelau->infos->x = 800;
                             tempo_morte = 0; // reseta o contador
                         }
                     }
@@ -318,7 +306,7 @@ void game_loop(Game* game) {
                 case TRANSICAO:
                     reiniciar_entidade(game->cavaleiro);
                     atualizar_cavalo(game->cavalo, key, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 1);
+                    atualizar_entidade(game->cavaleiro, game->boss->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 10, 1.5, 4);
                     if (game->cavaleiro->x > 1280 && game->cavalo->infos->x > 1280) {
                         mudar_cenario(game, "mapa__esparta.png");
                         mudanca_estado(game, FASE4);
@@ -340,11 +328,9 @@ void game_loop(Game* game) {
 
                     game->cavalo->infos->x = 150;
                     atualizar_inimigo(game->menelau, game->cavaleiro, 15, 550);
-                    atualizar_entidade(game->cavaleiro, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 15, 1.5, 0);
+                    atualizar_entidade(game->cavaleiro, game->menelau->infos, game->capanga->infos, key, SCREEN_WIDTH, SCREEN_HEIGHT, 84, 15, 1.5, 5);
                     atualizar_hitbox(game->boss->infos);
 
-                    /*if (game->cavaleiro->x > 1280) trocar_mapa(game, 1);
-                    if (game->cavaleiro->x < -50) trocar_mapa(game, -1);*/
 
                     if (game->menelau->infos->hp <= 0) {
                         if (tempo_morte1 == 0) {
@@ -365,7 +351,6 @@ void game_loop(Game* game) {
                         // Espera 5 segundos antes de trocar o estado
                         if (al_get_time() - tempo_morte2 >= 5.0) {
                             printf("Avançando para o Ato 2...\n");
-                            //game->ato = ATO2;
                             game->cavaleiro->x = SCREEN_WIDTH / 2 - 300;
                             game->menelau->infos->x = 800;
                             reiniciar_entidade(game->cavaleiro);
@@ -498,7 +483,7 @@ void game_loop(Game* game) {
 				game->ato = ATO0;
             }
 
-            // ESC no jogo ? volta ao menu
+            // ESC no jogo volta ao menu
             else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && game->estado_game == FASE2) {
                 mudar_cenario(game, "images/menu/menu.png");
                 mudanca_estado(game, MENU);
@@ -537,13 +522,13 @@ void game_loop(Game* game) {
             break;
         }
 
-        // --- DESENHO ---
+        // desenho
         if (game->redraw && al_is_event_queue_empty(game->queue)) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
             switch (game->estado_game) {
                 case MENU:
-                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT, "images/menu/menu.png");
+                    desenhar_menu(game, SCREEN_WIDTH, SCREEN_HEIGHT, "images/menu/menu_correto.png");
                     break;
 
                 case COMO_JOGAR:
@@ -574,7 +559,7 @@ void game_loop(Game* game) {
                 case FASE2:
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->boss, 2.5);
-                    desenhar_entidade(game->cavaleiro, 2.0);//cavaleiro
+                    desenhar_entidade(game->cavaleiro, 2.0);
                     desenhar_hp_fixa(game->cavaleiro, 20, 20, false);
                     desenhar_hp_fixa(game->boss->infos, SCREEN_WIDTH - 400 - 20, 20, true);
 					break;
@@ -583,14 +568,15 @@ void game_loop(Game* game) {
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_inimigo(game->menelau, 2.5);
                     desenhar_capanga(game->capanga->infos, 2.0, 3);
-                    desenhar_entidade(game->patroclo, 1.7);//cavaleiro
+                    desenhar_entidade(game->patroclo, 1.7);
                     desenhar_hp_fixa(game->patroclo, 20, 20, false);
                     desenhar_hp_fixa(game->menelau->infos, SCREEN_WIDTH - 400 - 20, 20, true);
+                    desenhar_hp_fixa(game->capanga->infos, SCREEN_WIDTH - 400 - 20, 20, true);
+
                     
                     break;
 
                 case TRANSICAO:
-                    //mudar_cenario(game, "cidade_troia.png");
                     desenhar_cenario(game->cenario, SCREEN_WIDTH, SCREEN_HEIGHT);
                     desenhar_cavalo(game->cavalo, 1);
                     desenhar_entidade(game->cavaleiro, 2.0);
@@ -673,7 +659,7 @@ void trocar_mapa(Game* game, int direcao) {
     if (game->mapa_atual >= total_mapas)
         game->mapa_atual = total_mapas - 1;
 
-    // Destr i o cen rio atual
+    // Destroi o cenario atual
     if (game->cenario) {
         destruir_cenario(game->cenario);
         game->cenario = NULL;
@@ -693,7 +679,6 @@ void trocar_mapa(Game* game, int direcao) {
     // Reposiciona o cavaleiro
     if (direcao > 0) {
         game->cavaleiro->x = 0;
-        //game->boss->x = 0;
     }
     else
         game->cavaleiro->x = 1280 - 100;
@@ -706,8 +691,7 @@ void mudar_cenario(Game* game, const char* caminho) {
     game->cenario = al_load_bitmap(caminho);
     if (caminho == "images/menu/menu.png") {
         al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
-        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
-        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "INICIAR");
     }
     if (!game->cenario)
         printf("Erro ao carregar novo cenario: %s\n", caminho);

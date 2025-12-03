@@ -27,6 +27,8 @@ void atualizar_cavalo(Cavalo* cavalo, unsigned char key[], int display_width, in
 		movendo = true;
 	}
 
+	if (cavalo->infos->x <= -80) cavalo->infos->x = -80;
+
 	cavalo->infos->cont++;
 	Animacao* anim_atual = cavalo->infos->animacoes[cavalo->infos->acao_atual];
 

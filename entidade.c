@@ -160,10 +160,11 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga
 		}
 	}
 
-	if (fase != 1) {
+	if (fase != 4) {
 		if (entidade->x >= 1120) entidade->x = 1120;
 		if (entidade->x <= -80) entidade->x = -80;
 	}
+	else if (entidade->x <= -80) entidade->x = -80;
 
 	entidade->cont++;
 	Animacao* anim_atual = entidade->animacoes[entidade->acao_atual];
@@ -172,7 +173,10 @@ void atualizar_entidade(Entidade* entidade, Entidade* inimigo, Entidade* capanga
 	int velocidade_animacao;
 	switch (entidade->acao_atual) {
 	case CORRENDO: velocidade_animacao = 4; break; // Mais rápido
-	case ATACANDO: velocidade_animacao = 8; break; // Mais lento
+	case ATACANDO: 
+		if (fase == 3) velocidade_animacao = 12; 
+		else velocidade_animacao = 8;
+		break; // Mais lento
 	case PULANDO: velocidade_animacao = 8; break;  // Mais lento
 	case MORRENDO: velocidade_animacao = 10; break;
 	default: velocidade_animacao = 10; break;      // PARADO - mais lento

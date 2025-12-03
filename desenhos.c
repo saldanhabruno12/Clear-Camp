@@ -17,10 +17,9 @@ void desenhar_menu(Game* game, int largura, int altura, const char* caminho) {
         printf("Erro ao carregar fonte");
         return -1;
     }
-    if (caminho == "images/menu/menu.png") {
+    if (caminho == "images/menu/menu_correto.png") {
         al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 620, 620, ALLEGRO_ALIGN_CENTER, "COMO JOGAR");
-        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "OPCOES");
-        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 370, ALLEGRO_ALIGN_CENTER, "INICIAR");
+        al_draw_text(game->fonte_menu, al_map_rgb(255, 255, 255), 630, 500, ALLEGRO_ALIGN_CENTER, "INICIAR");
     }
 
 }

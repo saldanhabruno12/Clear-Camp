@@ -71,7 +71,6 @@ void aplicar_dano(Entidade* entidade, int dano);
 void desenhar_hp_fixa(Entidade* entidade, int tela_x, int tela_y, bool invertida);
 void atualizar_ataque(Entidade* atacante, Entidade* alvo, int dano);
 void reiniciar_entidade(Entidade* entidade);
-//void mudar_acao(Entidade* entidade, Acao nova_acao);
 bool colidiu(Entidade* a, Entidade* b);
 
 
