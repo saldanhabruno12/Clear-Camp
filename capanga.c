@@ -68,6 +68,15 @@ void atualizar_capanga(Inimigo* inimigo, Entidade* jogador, int dano) {
         float nova_pos = inimigo->infos->x + inimigo->direcao * 1.5;
         if(!colidiu(inimigo->infos, jogador)) inimigo->infos->x = nova_pos;
 
+        if (inimigo->infos->x >= 1120) {
+            inimigo->infos->flip = 1;
+            inimigo->direcao = -1;
+        }
+        if (inimigo->infos->x <= -40) {
+            inimigo->infos->flip = 0;
+            inimigo->direcao = 1;
+        }
+
         if (colidiu(inimigo->infos, jogador)) {
             inimigo->estado = ESTADO_ATACANDO;
         }

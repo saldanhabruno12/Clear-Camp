@@ -1,50 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ato.c" />
-    <ClCompile Include="cavalo.c" />
-    <ClCompile Include="cenario.c" />
-    <ClCompile Include="click.c" />
-    <ClCompile Include="colisao.c" />
-    <ClCompile Include="entidade.c" />
-    <ClCompile Include="game.c" />
-    <ClCompile Include="inimigo.c" />
-    <ClCompile Include="personagens.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="player.c" />
-    <ClCompile Include="capanga.c" />
-    <ClCompile Include="desenhos.c" />
+    <ClCompile Include="ato.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="capanga.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="cavalo.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="cenario.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="click.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="colisao.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="desenhos.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="entidade.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="inimigo.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="personagens.c">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="player.c">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ato.h" />
-    <ClInclude Include="cavalo.h" />
-    <ClInclude Include="cenario.h" />
-    <ClInclude Include="click.h" />
-    <ClInclude Include="colisao.h" />
-    <ClInclude Include="dialogo.h" />
-    <ClInclude Include="entidade.h" />
-    <ClInclude Include="estado.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="inimigo.h" />
-    <ClInclude Include="personagens.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="recursos.h" />
-    <ClInclude Include="capanga.h" />
+    <ClInclude Include="ato.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="capanga.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="cavalo.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="cenario.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="click.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="colisao.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogo.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="entidade.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="estado.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="inimigo.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="personagens.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="recursos.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png" />
-    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png" />
-    <Image Include="images\guerreiro.png" />
-    <Image Include="images\mapa_acampamento.png" />
-    <Image Include="mapa_castelo.png" />
-    <Image Include="mapa_porto.png" />
-    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\dialogo_ato2.png" />
-    <Image Include="..\..\..\Downloads\dialogo_final.png" />
-    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_final.png" />
-    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\cidade_troia.png" />
-    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_menu.png" />
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\cidade_troia.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\dialogo_ato2.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\dialogo_final.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\guerreiro.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_final.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\OneDrive - SENAC - SP\SENAC\imagem_menu.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Luan\mapa__esparta.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\mapa_acampamento.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="mapa_castelo.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Luan\mapa_grecia.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="mapa_porto.png">
+      <Filter>images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="images">
+      <UniqueIdentifier>{af4657fd-c960-4ff1-886b-3792d8204825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{e02da29a-9118-42c9-8098-636bc7f02fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{c28ddde6-a477-44ab-8866-a18d7365fbc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
